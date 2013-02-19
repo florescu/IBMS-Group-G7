@@ -11,11 +11,11 @@ public class Holiday
   private MutableDateTime endDate;
   
   //Holiday constructor
-  public Holiday(int reqStartDay, int reqStartWeek, int reqStartYear,
-       int reqEndDay, int reqEndWeek, int reqEndYear)
+  public Holiday(int reqStartDay, int reqStartMonth, int reqStartYear,
+       int reqEndDay, int reqEndMonth, int reqEndYear)
   {
-    startDate = new MutableDateTime(reqStartYear, reqStartWeek, reqStartDay,0,0,0,0);
-    endDate = new MutableDateTime(reqEndYear, reqEndWeek, reqEndDay,0,0,0,0);
+    startDate = new MutableDateTime(reqStartYear, reqStartMonth, reqStartDay,0,0,0,0);
+    endDate = new MutableDateTime(reqEndYear, reqEndMonth, reqEndDay,0,0,0,0);
     noOfDays = calcNoDays(startDate, endDate);
   }//constructor
   
@@ -44,17 +44,23 @@ public class Holiday
   }//getEndDate
   
   //Sets the start date and re calculates no of days
-  public void setStartDate(int reqStartDay, int reqStartWeek, int reqStartYear)
+  public void setStartDate(int reqStartDay, int reqStartMonth, int reqStartYear)
   {
-    this.startDate.setDate(reqStartYear, reqStartWeek, reqStartDay);
+    this.startDate.setDate(reqStartYear, reqStartMonth, reqStartDay);
     this.noOfDays = calcNoDays(this.startDate, this.endDate);
   }//setStartDate
   
   //Sets the end date and re calculates no of days
-  public void setEndDate(int reqEndDay, int reqEndWeek, int reqEndYear)
+  public void setEndDate(int reqEndDay, int reqEndMonth, int reqEndYear)
   {
-    this.endDate.setDate(reqEndYear, reqEndWeek, reqEndDay);
+    this.endDate.setDate(reqEndYear, reqEndMonth, reqEndDay);
     this.noOfDays = calcNoDays(this.startDate, this.endDate);
   }//setStartDate
+  
+  //returns the number of days untill the start date
+  public int daysAway()
+  {
+    return Days.daysBetween(MutableDateTime.now(), this.startDate).getDays(); 
+  }//daysAway
   
 }//Holiday
