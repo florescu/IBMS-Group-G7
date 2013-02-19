@@ -60,8 +60,9 @@ public class G7_IBMS_RDH
   }//main
   
   /*
-   * Checks if the requested days there is enogh holiday
+   * Checks that 
    */
+  
   private static boolean hasAvalibleHoliday(int driverID, int requestedDays)
   {
     int avalibleDays = MAX_HOLIDAY - DriverInfo.getHolidaysTaken(driverID);

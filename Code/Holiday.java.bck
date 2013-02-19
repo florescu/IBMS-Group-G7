@@ -1,7 +1,3 @@
-/*
- * Authour: Joshua Abbott feb 2013
- *  A class to represent a Holiday
- */ 
 import java.util.*;
 import static java.util.Calendar.*;
 import org.joda.time.MutableDateTime;
