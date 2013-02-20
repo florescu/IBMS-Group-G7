@@ -5,7 +5,7 @@ import javax.swing.*;
 class DriverHolidayViewNRScreen extends JFrame 
                                 implements ActionListener{
 
-  int availableDays = 34;
+  int availableDays = 25;
 
   // Declare the components
   JLabel jLabelSelectedView, jLabelAvailableDays;

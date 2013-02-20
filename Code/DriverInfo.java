@@ -28,6 +28,17 @@ public class DriverInfo
   {
     return database.busDatabase.select_ids("driver_id", "driver", "name");
   }
+  
+  /**
+  * Return true is the name corresponds to the ID typed by the driver. 
+  */
+  public static boolean isInDatabase(int ID, String name)
+  {
+    if ((name.equals(getName(ID))))
+      return true;
+    else 
+      return false;
+  } //isInDatabase
 
   /**
    * Find the driver with the specified driver number
