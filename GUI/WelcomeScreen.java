@@ -42,7 +42,7 @@ class WelcomeScreen extends JFrame implements ActionListener{
     jBtnDriver.setBackground(this.btnBgClr);
     jBtnDriver.setForeground(this.btnFgClr);
 
-    jBtnPassanger = new JButton("Passanger");
+    jBtnPassanger = new JButton("Passenger");
     jBtnPassanger.setActionCommand("passanger");
     jBtnPassanger.addActionListener(this);
     jBtnPassanger.setBackground(this.btnBgClr);
