@@ -116,8 +116,8 @@ class DriverIdScreen extends JFrame implements ActionListener{
       //Check if the fields are empty or with proper values
       if(jTxtFEnterId.getText() == null || 
          jTxtFEnterName.getText() == null || 
-         Validator.isNumeric(jTxtFEnterId.getText()) ||
-         !Validator.isNumeric(jTxtFEnterName.getText())){
+         !Validator.isNumeric(jTxtFEnterId.getText()) ||
+         Validator.isNumeric(jTxtFEnterName.getText())){
          
         jLabelError.setText("Error: provide valid credentials!");
         jLabelError.setVisible(true);
