@@ -7,7 +7,7 @@ class Main{
     //Run the starting screen
     new WelcomeScreen(title);
 
-    //new DriverHolidayViewNRScreen("G7 - IBMS System | Driver");
+    //new ControllerRequestViewScreen("G7 - IBMS System | Controller");
   
   }//main
 
