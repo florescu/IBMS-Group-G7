@@ -5,10 +5,10 @@ import javax.swing.*;
 class DriverIdScreen extends JFrame implements ActionListener{
 
   //Declare the components
-  JLabel jLabelEnter, jLabelError;
-  JTextField jTxtFEnterId;
+  JLabel jLabelId, jLabelName, jLabelError;
+  JTextField jTxtFEnterId, jTxtFEnterName;
   JButton jBtnIdentify;
-  JPanel contentPanel, jTextFieldPanel, jButtonsPanel;
+  JPanel contentPanel, jTextFieldPanelId,jTextFieldPanelName, jButtonsPanel;
 
   //Declare the colors
   Color layoutBgClr = new Color(255, 255, 255);
@@ -24,24 +24,30 @@ class DriverIdScreen extends JFrame implements ActionListener{
     //Create the content panel
     contentPanel = new JPanel();
     contentPanel.setPreferredSize(new Dimension(360, 200));
-    contentPanel.setLayout(new GridLayout(4, 1));
+    contentPanel.setLayout(new GridLayout(6, 1));
     contentPanel.setBackground(this.layoutBgClr);
  
     //Create the labels
-    jLabelEnter = new JLabel("Enter your ID number below:");
+    jLabelId = new JLabel("Enter your ID number:");
+    jLabelName = new JLabel("Enter your Name: ");
     jLabelError = new JLabel("Error: Please enter a valid ID");
-    jLabelEnter.setForeground(this.lblFgClr);
+    jLabelId.setForeground(this.lblFgClr);
+    jLabelName.setForeground(this.lblFgClr);
     jLabelError.setForeground(this.lblErrorFgClr);
     jLabelError.setVisible(false);
 
     //Align the labels
-    jLabelEnter.setHorizontalAlignment(0);
+    jLabelId.setHorizontalAlignment(0);
+    jLabelName.setHorizontalAlignment(0);
     jLabelError.setHorizontalAlignment(0);
  
-    //Create the text field
+    //Create the text fields
     jTxtFEnterId = new JTextField("Type in ID number", 18);
     jTxtFEnterId.setPreferredSize(new Dimension(80, 30));
  
+    jTxtFEnterName = new JTextField("Type in Name", 18);
+    jTxtFEnterName.setPreferredSize(new Dimension(80, 30));
+    
     //Create the button
     jBtnIdentify = new JButton("Identify");
     jBtnIdentify.setActionCommand("identify");
@@ -50,18 +56,24 @@ class DriverIdScreen extends JFrame implements ActionListener{
     jBtnIdentify.setForeground(this.btnFgClr);
  
     //Create the text field panel
-    jTextFieldPanel = new JPanel(new FlowLayout(0, 80, 10));
-    jTextFieldPanel.setBackground(this.layoutBgClr);
-    jTextFieldPanel.add(this.jTxtFEnterId);
+    jTextFieldPanelId = new JPanel(new FlowLayout(0, 80, 10));
+    jTextFieldPanelId.setBackground(this.layoutBgClr);
+    jTextFieldPanelId.add(this.jTxtFEnterId);
  
+    jTextFieldPanelName = new JPanel(new FlowLayout(0, 80, 10));
+    jTextFieldPanelName.setBackground(this.layoutBgClr);
+    jTextFieldPanelName.add(this.jTxtFEnterName);
+    
     //Create the button panel
     jButtonsPanel = new JPanel(new FlowLayout(10, 135, 0));
     jButtonsPanel.setBackground(this.layoutBgClr); 
     jButtonsPanel.add(this.jBtnIdentify);
  
     //Add the components to the content panel
-    contentPanel.add(this.jLabelEnter);
-    contentPanel.add(this.jTextFieldPanel);
+    contentPanel.add(this.jLabelId);
+    contentPanel.add(this.jTextFieldPanelId);
+    contentPanel.add(this.jLabelName);
+    contentPanel.add(this.jTextFieldPanelName);
     contentPanel.add(this.jLabelError);
     contentPanel.add(this.jButtonsPanel);
  
@@ -100,8 +112,26 @@ class DriverIdScreen extends JFrame implements ActionListener{
     String title = "G7 - IBMS System | Driver";
 
     if ("identify".equals(actionCmd)){
+
+      //Check if the fields are empty or with proper values
+      if(jTxtFEnterId.getText() == null || 
+         jTxtFEnterName.getText() == null || 
+         Validator.isNumeric(jTxtFEnterId.getText()) ||
+         !Validator.isNumeric(jTxtFEnterName.getText())){
+         
+        jLabelError.setText("Error: provide valid credentials!");
+        jLabelError.setVisible(true);
+
+      }else if(!DriverInfo.isInDatabase(Integer.parseInt(jTxtFEnterId.getText()),
+                            jTxtFEnterName.getText())){
+        
+        jLabelError.setText("Error: No such driver in the database!");
+        jLabelError.setVisible(true);
+
+      }else{
        dispose();
        new DriverTimetableViewScreen(title);
+      }//else
     }
 
   }//actionPerformed
