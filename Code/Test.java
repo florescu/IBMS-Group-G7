@@ -19,6 +19,7 @@ public class Test {
         
         for (int i=0; i<driverIDs.length; i++)
           System.out.println("Driver: " + DriverInfo.getName(driverIDs[i]) + " ID: " + driverIDs[i]);   
+        
         int ID = 2052;
         String name = "Wayes Chawdoury";
         System.out.println("This is " + DriverInfo.isInDatabase(ID,name));
@@ -28,9 +29,9 @@ public class Test {
         System.out.println("ID: " + DriverInfo.findDriver(DriverInfo.getNumber(ID)));
         System.out.println("Number: " + DriverInfo.getName(ID));
         
-        ID = 2052;
+        String ID2 = "2052";
         name = "Waud Al-Amri";
-        System.out.println("This is " + DriverInfo.isInDatabase(ID,name));
+        System.out.println("This is " + DriverInfo.isInDatabase(Integer.parseInt(ID2),name));
     }
 
 }

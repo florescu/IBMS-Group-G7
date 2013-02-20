@@ -112,7 +112,7 @@ class DriverIdScreen extends JFrame implements ActionListener{
     String title = "G7 - IBMS System | Driver";
 
     if ("identify".equals(actionCmd)){
-      database.openBusDatabase();   
+         
       int driverID = Integer.parseInt(jTxtFEnterId.getText());
       String name = jTxtFEnterName.getText();
 

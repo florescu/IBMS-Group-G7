@@ -169,42 +169,42 @@ class DriverHolidayViewNRScreen extends JFrame
     jLabelEYear.setHorizontalAlignment(SwingConstants.LEFT);
 
     //Create the dropdowns
-    jCBoxStartDates = new JComboBox<Integer>(dates);
+    jCBoxStartDates = new JComboBox(dates);
     jCBoxStartDates.setSelectedIndex(0);
     jCBoxStartDates.setForeground(lblFgClr);
     jCBoxStartDates.setBackground(layoutBgClr);
     jCBoxStartDates.setActionCommand("sdates");
     jCBoxStartDates.addActionListener(this);
 
-    jCBoxStartMonths = new JComboBox<Integer>(months);
+    jCBoxStartMonths = new JComboBox(months);
     jCBoxStartMonths.setSelectedIndex(0);
     jCBoxStartMonths.setForeground(lblFgClr);
     jCBoxStartMonths.setBackground(layoutBgClr);
     jCBoxStartMonths.setActionCommand("smonths");
     jCBoxStartMonths.addActionListener(this);
 
-    jCBoxStartYears = new JComboBox<Integer>(years);
+    jCBoxStartYears = new JComboBox(years);
     jCBoxStartYears.setSelectedIndex(0);
     jCBoxStartYears.setForeground(lblFgClr);
     jCBoxStartYears.setBackground(layoutBgClr);
     jCBoxStartYears.setActionCommand("syears");
     jCBoxStartYears.addActionListener(this);
 
-    jCBoxEndDates = new JComboBox<Integer>(dates);
+    jCBoxEndDates = new JComboBox(dates);
     jCBoxEndDates.setSelectedIndex(0);
     jCBoxEndDates.setForeground(lblFgClr);
     jCBoxEndDates.setBackground(layoutBgClr);
     jCBoxEndDates.setActionCommand("edates");
     jCBoxEndDates.addActionListener(this);
 
-    jCBoxEndMonths = new JComboBox<Integer>(months);
+    jCBoxEndMonths = new JComboBox(months);
     jCBoxEndMonths.setSelectedIndex(0);
     jCBoxEndMonths.setForeground(lblFgClr);
     jCBoxEndMonths.setBackground(layoutBgClr);
     jCBoxEndMonths.setActionCommand("emonths");
     jCBoxEndMonths.addActionListener(this);
 
-    jCBoxEndYears = new JComboBox<Integer>(years);
+    jCBoxEndYears = new JComboBox(years);
     jCBoxEndYears.setSelectedIndex(0);
     jCBoxEndYears.setForeground(lblFgClr);
     jCBoxEndYears.setBackground(layoutBgClr);
@@ -356,13 +356,13 @@ class DriverHolidayViewNRScreen extends JFrame
              "emonths".equals(actionCmd) || "eyears".equals(actionCmd)){
              
       
-      int startDate = (int)jCBoxStartDates.getSelectedItem();
-      int startMonth = (int)jCBoxStartMonths.getSelectedItem();
-      int startYear = (int)jCBoxStartYears.getSelectedItem();
+      int startDate = (Integer)jCBoxStartDates.getSelectedItem();
+      int startMonth = (Integer)jCBoxStartMonths.getSelectedItem();
+      int startYear = (Integer)jCBoxStartYears.getSelectedItem();
       
-      int endDate = (int)jCBoxEndDates.getSelectedItem();
-      int endMonth = (int)jCBoxEndMonths.getSelectedItem();
-      int endYear = (int)jCBoxEndYears.getSelectedItem();
+      int endDate = (Integer)jCBoxEndDates.getSelectedItem();
+      int endMonth = (Integer)jCBoxEndMonths.getSelectedItem();
+      int endYear = (Integer)jCBoxEndYears.getSelectedItem();
 
       //Validate the date
       if(startDate != 0 && startMonth != 0 && startYear != 0 &&

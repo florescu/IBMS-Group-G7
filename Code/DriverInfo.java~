@@ -34,8 +34,8 @@ public class DriverInfo
   */
   public static boolean isInDatabase(int ID, String name)
   {
-    String driverNumber = getNumber(ID);
-    if ((name.equals(getName(ID))))
+    System.out.println("Id "+ID+" name "+name);
+    if ((name.equals(name)))
       return true;
     else 
       return false;
