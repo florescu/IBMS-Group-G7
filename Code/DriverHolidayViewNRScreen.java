@@ -9,6 +9,7 @@ class DriverHolidayViewNRScreen extends JFrame
 
   // Declare the components
   JLabel jLabelSelectedView, jLabelAvailableDays;
+  JLabel jLabelError; 
   JLabel jLabelStartDate, jLabelEndDate, jLabelDaysInTotal;
   JLabel jLabelSDate, jLabelSMonth, jLabelSYear;
   JLabel jLabelEDate, jLabelEMonth, jLabelEYear;
@@ -356,14 +357,22 @@ class DriverHolidayViewNRScreen extends JFrame
              "emonths".equals(actionCmd) || "eyears".equals(actionCmd)){
              
       
-      int startDate = (Integer)jCBoxStartDates.getSelectedItem();
+      int startDay = (Integer)jCBoxStartDates.getSelectedItem();
       int startMonth = (Integer)jCBoxStartMonths.getSelectedItem();
       int startYear = (Integer)jCBoxStartYears.getSelectedItem();
       
-      int endDate = (Integer)jCBoxEndDates.getSelectedItem();
+      int endDay = (Integer)jCBoxEndDates.getSelectedItem();
       int endMonth = (Integer)jCBoxEndMonths.getSelectedItem();
       int endYear = (Integer)jCBoxEndYears.getSelectedItem();
 
+      Holiday newHoliday = new Holiday(startDay, startMonth, startYear,
+	  			       endDay, endMonth, endYear);
+      
+      if(newHoliday.daysAway() < 7)
+      {
+	
+      }//if
+      /*
       //Validate the date
       if(startDate != 0 && startMonth != 0 && startYear != 0 &&
          endDate != 0 && endMonth != 0 && endYear != 0 &&
@@ -392,6 +401,7 @@ class DriverHolidayViewNRScreen extends JFrame
       }//else
              
     }//else if
+    */
 
     //If the button is enabled and pressed, send the request
     if("sendRequest".equals(actionCmd)){
