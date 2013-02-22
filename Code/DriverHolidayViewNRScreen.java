@@ -37,7 +37,7 @@ class DriverHolidayViewNRScreen extends JFrame
   Color borderClr = new Color(225,225,225);
   Color lblBgClr = new Color(200,200,200);
   Color lblErrorFgClr = new Color(255, 51, 51);
-  Color lblSentFgClr = new Color(51,255,51);
+  Color lblSentFgClr = new Color(26,127,26);
 
   // Declare the lists for the combo boxes
   Integer[] dates = {0, 1, 2, 3, 4, 5, 6, 7,
