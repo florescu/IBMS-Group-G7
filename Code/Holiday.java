@@ -6,6 +6,9 @@ import java.util.*;
 import static java.util.Calendar.*;
 import org.joda.time.MutableDateTime;
 import org.joda.time.Days;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 
 public class Holiday
 {
@@ -18,9 +21,17 @@ public class Holiday
   public Holiday(int reqStartDay, int reqStartMonth, int reqStartYear,
        int reqEndDay, int reqEndMonth, int reqEndYear)
   {
+    try{
     startDate = new MutableDateTime(reqStartYear, reqStartMonth, reqStartDay,0,0,0,0);
     endDate = new MutableDateTime(reqEndYear, reqEndMonth, reqEndDay,0,0,0,0);
     noOfDays = calcNoDays(startDate, endDate);
+    }
+    catch(IllegalFieldValueException e)
+    {
+      JLabel jLabelError = new JLabel("Error: Please enter a valid date!");
+      jLabelError.setText("Error: Please enter a valid date!");
+      jLabelError.setVisible(true);
+    }
   }//constructor
   
   //Calculates the no of days

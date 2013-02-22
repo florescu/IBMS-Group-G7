@@ -32,6 +32,7 @@ class DriverHolidayViewNRScreen extends JFrame
   Color btnBgClr = new Color(245, 245, 245);
   Color borderClr = new Color(225,225,225);
   Color lblBgClr = new Color(200,200,200);
+  Color lblErrorFgClr = new Color(255, 51, 51);
 
   // Declare the lists for the combo boxes
   Integer[] dates = {0, 1, 2, 3, 4, 5, 6, 7,
@@ -129,7 +130,10 @@ class DriverHolidayViewNRScreen extends JFrame
                                       availableDays);
     jLabelAvailableDays.setForeground(lblFgClr);
     jLabelAvailableDays.setHorizontalAlignment(SwingConstants.CENTER);
-
+    jLabelError = new JLabel("Error: Please enter a valid date!"); 
+    jLabelError.setForeground(this.lblErrorFgClr);
+    jLabelError.setVisible(false);
+    jLabelError.setHorizontalAlignment(0);
     jLabelStartDate = new JLabel("Start Date");
     jLabelStartDate.setForeground(lblFgClr);
     jLabelStartDate.setBackground(layoutBgClr);
@@ -276,6 +280,7 @@ class DriverHolidayViewNRScreen extends JFrame
 
     //Add the sendRequest button to the sendButtonPanel
     sendButtonPanel.add(jBtnSendRequest);
+    contentPanel.add(this.jLabelError);
 
     //Add the components to the mainContentPanel
     mainContentPanel.add(jLabelStartDate);
@@ -364,14 +369,26 @@ class DriverHolidayViewNRScreen extends JFrame
       int endDay = (Integer)jCBoxEndDates.getSelectedItem();
       int endMonth = (Integer)jCBoxEndMonths.getSelectedItem();
       int endYear = (Integer)jCBoxEndYears.getSelectedItem();
-
-      Holiday newHoliday = new Holiday(startDay, startMonth, startYear,
-	  			       endDay, endMonth, endYear);
       
-      if(newHoliday.daysAway() < 7)
+      if(startDay == 0 || startMonth == 0 || startYear == 0 ||
+         endDay == 0 || endMonth == 0 || endYear == 0)
       {
-	
-      }//if
+        jBtnSendRequest.setEnabled(false);
+        System.out.println("Choose a proper date!");
+      }
+      else
+      {
+        Holiday newHoliday = new Holiday(startDay, startMonth, startYear,
+	  			                         endDay, endMonth, endYear);
+      
+        if(newHoliday.daysAway() < 7)
+        {
+	      jLabelError.setText("Error: provide a proper date!");
+          jLabelError.setVisible(true);
+        }//if
+        
+      }//else
+      
       /*
       //Validate the date
       if(startDate != 0 && startMonth != 0 && startYear != 0 &&
@@ -402,7 +419,7 @@ class DriverHolidayViewNRScreen extends JFrame
              
     }//else if
     */
-
+    }
     //If the button is enabled and pressed, send the request
     if("sendRequest".equals(actionCmd)){
       System.out.println("Send Request");
