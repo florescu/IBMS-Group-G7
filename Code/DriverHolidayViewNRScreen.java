@@ -13,7 +13,7 @@ class DriverHolidayViewNRScreen extends JFrame
 
   // Declare the components
   JLabel jLabelSelectedView, jLabelAvailableDays;
-  JLabel jLabelError; 
+  JLabel jLabelError, jLabelSent; 
   JLabel jLabelStartDate, jLabelEndDate, jLabelDaysInTotal;
   JLabel jLabelSDate, jLabelSMonth, jLabelSYear;
   JLabel jLabelEDate, jLabelEMonth, jLabelEYear;
@@ -37,6 +37,7 @@ class DriverHolidayViewNRScreen extends JFrame
   Color borderClr = new Color(225,225,225);
   Color lblBgClr = new Color(200,200,200);
   Color lblErrorFgClr = new Color(255, 51, 51);
+  Color lblSentFgClr = new Color(51,255,51);
 
   // Declare the lists for the combo boxes
   Integer[] dates = {0, 1, 2, 3, 4, 5, 6, 7,
@@ -138,6 +139,10 @@ class DriverHolidayViewNRScreen extends JFrame
     jLabelError.setForeground(this.lblErrorFgClr);
     jLabelError.setVisible(false);
     jLabelError.setHorizontalAlignment(0);
+    jLabelSent = new JLabel("Request sent"); 
+    jLabelSent.setForeground(this.lblSentFgClr);
+    jLabelSent.setVisible(false);
+    jLabelSent.setHorizontalAlignment(0);
     jLabelStartDate = new JLabel("Start Date");
     jLabelStartDate.setForeground(lblFgClr);
     jLabelStartDate.setBackground(layoutBgClr);
@@ -242,7 +247,7 @@ class DriverHolidayViewNRScreen extends JFrame
     //Create the mainContent panel
     mainContentPanel = new JPanel();
     mainContentPanel.setPreferredSize(new Dimension(400, 270));
-    mainContentPanel.setLayout(new GridLayout(7,1));
+    mainContentPanel.setLayout(new GridLayout(8,1));
     mainContentPanel.setBackground(layoutBgClr);
 
     //Create the startDate panel
@@ -294,7 +299,8 @@ class DriverHolidayViewNRScreen extends JFrame
     mainContentPanel.add(jLabelDaysInTotal);
     mainContentPanel.add(jLabelError);
     mainContentPanel.add(sendButtonPanel);
-
+    mainContentPanel.add(jLabelSent);
+    
     //Add the components to the componentsPanel
     componentsPanel.add(Box.createHorizontalGlue());
     componentsPanel.add(mainContentPanel);
@@ -395,6 +401,7 @@ class DriverHolidayViewNRScreen extends JFrame
         else
         {
           jBtnSendRequest.setEnabled(true);
+          
         }//else    
       }//else
       
@@ -432,7 +439,8 @@ class DriverHolidayViewNRScreen extends JFrame
     //If the button is enabled and pressed, send the request
     if("sendRequest".equals(actionCmd)){
       System.out.println("Send Request");
-
+      jLabelSent.setText("Request sent.");
+      jLabelSent.setVisible(true);
       //Implement logic for sending a new request
     }
 
