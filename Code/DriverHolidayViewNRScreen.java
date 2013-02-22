@@ -1,6 +1,10 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import static java.util.Calendar.*;
+import org.joda.time.MutableDateTime;
+import org.joda.time.Days;
+import org.joda.time.IllegalFieldValueException;
 
 class DriverHolidayViewNRScreen extends JFrame 
                                 implements ActionListener{
@@ -238,7 +242,7 @@ class DriverHolidayViewNRScreen extends JFrame
     //Create the mainContent panel
     mainContentPanel = new JPanel();
     mainContentPanel.setPreferredSize(new Dimension(400, 270));
-    mainContentPanel.setLayout(new GridLayout(6,1));
+    mainContentPanel.setLayout(new GridLayout(7,1));
     mainContentPanel.setBackground(layoutBgClr);
 
     //Create the startDate panel
@@ -280,7 +284,7 @@ class DriverHolidayViewNRScreen extends JFrame
 
     //Add the sendRequest button to the sendButtonPanel
     sendButtonPanel.add(jBtnSendRequest);
-    contentPanel.add(this.jLabelError);
+    
 
     //Add the components to the mainContentPanel
     mainContentPanel.add(jLabelStartDate);
@@ -288,6 +292,7 @@ class DriverHolidayViewNRScreen extends JFrame
     mainContentPanel.add(jLabelEndDate);
     mainContentPanel.add(endDatePanel);
     mainContentPanel.add(jLabelDaysInTotal);
+    mainContentPanel.add(jLabelError);
     mainContentPanel.add(sendButtonPanel);
 
     //Add the components to the componentsPanel
@@ -380,13 +385,17 @@ class DriverHolidayViewNRScreen extends JFrame
       {
         Holiday newHoliday = new Holiday(startDay, startMonth, startYear,
 	  			                         endDay, endMonth, endYear);
-      
+        
         if(newHoliday.daysAway() < 7)
         {
-	      jLabelError.setText("Error: provide a proper date!");
+	      jLabelError.setText("Error: provide a starting date 7 days from now!");
           jLabelError.setVisible(true);
+          jBtnSendRequest.setEnabled(false);
         }//if
-        
+        else
+        {
+          jBtnSendRequest.setEnabled(true);
+        }//else    
       }//else
       
       /*

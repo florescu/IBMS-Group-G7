@@ -29,9 +29,7 @@ public class Holiday
     }
     catch(IllegalFieldValueException e)
     {
-      JLabel jLabelError = new JLabel("Error: Please enter a valid date!");
-      jLabelError.setText("Error: Please enter a valid date!");
-      jLabelError.setVisible(true);
+      JOptionPane.showMessageDialog(null, "Enter a valid date!", "Date not valid", JOptionPane.WARNING_MESSAGE);
     }
   }//constructor
   
