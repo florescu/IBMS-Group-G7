@@ -180,11 +180,11 @@ class DriverHolidayViewRScreen extends JFrame
     }
     else if ("timetable".equals(actionCmd)){
       this.dispose();
-      new DriverTimetableViewScreen(title, driverID);
+      new DriverTimetableViewScreen(title);
     }
     else if ("holidays".equals(actionCmd)){
       this.dispose();
-      new DriverHolidayViewNRScreen(title, driverID);
+      new DriverHolidayViewNRScreen(title);
     }
     else if ("newRequest".equals(actionCmd)){
       this.dispose();
@@ -192,11 +192,11 @@ class DriverHolidayViewRScreen extends JFrame
     }
     else if ("requests".equals(actionCmd)){
       this.dispose();
-      new DriverHolidayViewRScreen(title, driverID);
+      new DriverHolidayViewRScreen(title);
     }
     else if ("notifications".equals(actionCmd)){
       this.dispose();
-      new DriverHolidayViewNScreen(title, driverID);
+      new DriverHolidayViewNScreen(title);
     }//else if
 
   }//actionPerformed

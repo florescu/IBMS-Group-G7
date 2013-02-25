@@ -1,14 +1,22 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import static java.util.Calendar.*;
+import org.joda.time.MutableDateTime;
+import org.joda.time.Days;
+import org.joda.time.IllegalFieldValueException;
 
 class DriverHolidayViewNRScreen extends JFrame 
                                 implements ActionListener{
 
-  int availableDays = 25;
+  //Declare variable
+  int availableDays;
+  int driverID;
+  Holiday newHoliday = new Holiday();
 
   // Declare the components
   JLabel jLabelSelectedView, jLabelAvailableDays;
+  JLabel jLabelError, jLabelSent; 
   JLabel jLabelStartDate, jLabelEndDate, jLabelDaysInTotal;
   JLabel jLabelSDate, jLabelSMonth, jLabelSYear;
   JLabel jLabelEDate, jLabelEMonth, jLabelEYear;
@@ -31,6 +39,8 @@ class DriverHolidayViewNRScreen extends JFrame
   Color btnBgClr = new Color(245, 245, 245);
   Color borderClr = new Color(225,225,225);
   Color lblBgClr = new Color(200,200,200);
+  Color lblErrorFgClr = new Color(255, 51, 51);
+  Color lblSentFgClr = new Color(26,127,26);
 
   // Declare the lists for the combo boxes
   Integer[] dates = {0, 1, 2, 3, 4, 5, 6, 7,
@@ -43,10 +53,14 @@ class DriverHolidayViewNRScreen extends JFrame
   Integer[] years = {0, 2013, 2014, 2015, 2016};
 
 
-  public DriverHolidayViewNRScreen(String paramString){
+  public DriverHolidayViewNRScreen(String paramString, int requiredDriverID){
 
     setTitle(paramString);
  
+    //Set the driverID and there avalable days
+    driverID = requiredDriverID;
+    availableDays = 25 - DriverInfo.getHolidaysTaken(driverID);
+    
     //Create the menu bar
     mainMenuBar = new JMenuBar();
     mainMenuBar.setBackground(layoutBgClr);
@@ -128,7 +142,14 @@ class DriverHolidayViewNRScreen extends JFrame
                                       availableDays);
     jLabelAvailableDays.setForeground(lblFgClr);
     jLabelAvailableDays.setHorizontalAlignment(SwingConstants.CENTER);
-
+    jLabelError = new JLabel("Error: Please enter a valid date!"); 
+    jLabelError.setForeground(this.lblErrorFgClr);
+    jLabelError.setVisible(false);
+    jLabelError.setHorizontalAlignment(0);
+    jLabelSent = new JLabel("Request sent"); 
+    jLabelSent.setForeground(this.lblSentFgClr);
+    jLabelSent.setVisible(false);
+    jLabelSent.setHorizontalAlignment(0);
     jLabelStartDate = new JLabel("Start Date");
     jLabelStartDate.setForeground(lblFgClr);
     jLabelStartDate.setBackground(layoutBgClr);
@@ -233,7 +254,7 @@ class DriverHolidayViewNRScreen extends JFrame
     //Create the mainContent panel
     mainContentPanel = new JPanel();
     mainContentPanel.setPreferredSize(new Dimension(400, 270));
-    mainContentPanel.setLayout(new GridLayout(6,1));
+    mainContentPanel.setLayout(new GridLayout(8,1));
     mainContentPanel.setBackground(layoutBgClr);
 
     //Create the startDate panel
@@ -275,6 +296,7 @@ class DriverHolidayViewNRScreen extends JFrame
 
     //Add the sendRequest button to the sendButtonPanel
     sendButtonPanel.add(jBtnSendRequest);
+    
 
     //Add the components to the mainContentPanel
     mainContentPanel.add(jLabelStartDate);
@@ -282,8 +304,10 @@ class DriverHolidayViewNRScreen extends JFrame
     mainContentPanel.add(jLabelEndDate);
     mainContentPanel.add(endDatePanel);
     mainContentPanel.add(jLabelDaysInTotal);
+    mainContentPanel.add(jLabelError);
     mainContentPanel.add(sendButtonPanel);
-
+    mainContentPanel.add(jLabelSent);
+    
     //Add the components to the componentsPanel
     componentsPanel.add(Box.createHorizontalGlue());
     componentsPanel.add(mainContentPanel);
@@ -327,77 +351,123 @@ class DriverHolidayViewNRScreen extends JFrame
 
     String actionCmd = paramActionEvent.getActionCommand();
     String title = "G7 - IBMS System | Driver";
+    Boolean valid = false;
+    Boolean reqSent = false;
 
     if ("exit".equals(actionCmd)){
       System.exit(0);
     }
     else if ("timetable".equals(actionCmd)){
       this.dispose();
-      new DriverTimetableViewScreen(title);
+      new DriverTimetableViewScreen(title, driverID);
     }
     else if ("holidays".equals(actionCmd)){
       this.dispose();
-      new DriverHolidayViewNRScreen(title);
+      new DriverHolidayViewNRScreen(title, driverID);
     }
     else if ("newRequest".equals(actionCmd)){
       this.dispose();
-      new DriverHolidayViewNRScreen(title);
+      new DriverHolidayViewNRScreen(title, driverID);
     }
     else if ("requests".equals(actionCmd)){
       this.dispose();
-      new DriverHolidayViewRScreen(title);
+      new DriverHolidayViewRScreen(title, driverID);
     }
     else if ("notifications".equals(actionCmd)){
       this.dispose();
-      new DriverHolidayViewNScreen(title);
+      new DriverHolidayViewNScreen(title, driverID);
     }
     else if ("sdates".equals(actionCmd) || "smonths".equals(actionCmd) ||
              "syears".equals(actionCmd) || "edates".equals(actionCmd) ||
              "emonths".equals(actionCmd) || "eyears".equals(actionCmd)){
              
       
-      int startDate = (int)jCBoxStartDates.getSelectedItem();
-      int startMonth = (int)jCBoxStartMonths.getSelectedItem();
-      int startYear = (int)jCBoxStartYears.getSelectedItem();
+      int startDay = (Integer)jCBoxStartDates.getSelectedItem();
+      int startMonth = (Integer)jCBoxStartMonths.getSelectedItem();
+      int startYear = (Integer)jCBoxStartYears.getSelectedItem();
       
-      int endDate = (int)jCBoxEndDates.getSelectedItem();
-      int endMonth = (int)jCBoxEndMonths.getSelectedItem();
-      int endYear = (int)jCBoxEndYears.getSelectedItem();
-
-      //Validate the date
-      if(startDate != 0 && startMonth != 0 && startYear != 0 &&
-         endDate != 0 && endMonth != 0 && endYear != 0 &&
-         startDate <= endDate && startMonth <= endMonth &&
-         startYear <= endYear){
-        
-        //Calculate the days required fo a holiday
-        int daysInTotal = (endDate - startDate + 1) +
-                          ((endMonth - startMonth) * 31) +
-                          ((endYear - startYear) * 365);
-        
-        jLabelDaysInTotal.setText("Days in total: " + 
-                                     daysInTotal);
-
-        //Calculate if there are sufficient number of days
-        if(daysInTotal <= availableDays){
-          jBtnSendRequest.setEnabled(true);
-        }else{
-          jBtnSendRequest.setEnabled(false);
-          System.out.println("Not enough available days!");
-        }
-
-      }else{
+      int endDay = (Integer)jCBoxEndDates.getSelectedItem();
+      int endMonth = (Integer)jCBoxEndMonths.getSelectedItem();
+      int endYear = (Integer)jCBoxEndYears.getSelectedItem();
+      
+      if(startDay == 0 || startMonth == 0 || startYear == 0 ||
+         endDay == 0 || endMonth == 0 || endYear == 0)
+      {
         jBtnSendRequest.setEnabled(false);
-        System.out.println("Choose a proper date!");
+      }
+      else
+      {
+     	  try
+     	  {
+     	    this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+          newHoliday = new Holiday(startDay, startMonth, startYear,
+	  			                         endDay, endMonth, endYear);
+	  			//If no exceptions are caught, set valid true
+	  		  valid = true;
+	  		}
+	  		catch(HolidayException e)
+	  		{
+	  		  jLabelError.setText("Error: "+ e.getMessage());
+          jLabelError.setVisible(true);
+          jBtnSendRequest.setEnabled(false);
+          valid = false;
+	  		}
+	  		catch(InvalidQueryException e)
+	  		{
+	  		  jLabelError.setText("Error: "+ e.getMessage());
+          jLabelError.setVisible(true);
+          jBtnSendRequest.setEnabled(false);
+          valid = false;
+	  		}
+	  		finally
+	  		{ 
+	  			this.setCursor(Cursor.getDefaultCursor());
+	  		}
+	  		if(valid)
+	  		{
+	  		  jLabelDaysInTotal.setText("Days in total: "+ newHoliday.getNoOfDays());
+          jLabelError.setVisible(false);
+          jBtnSendRequest.setEnabled(true);
+        }
+          
+           
       }//else
-             
-    }//else if
+      
 
+    }
     //If the button is enabled and pressed, send the request
     if("sendRequest".equals(actionCmd)){
-      System.out.println("Send Request");
-
-      //Implement logic for sending a new request
+      try
+      {
+     	  this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        newHoliday.saveToDB(driverID);
+        reqSent = true;
+      }
+      catch(HolidayException e)
+	  	{
+	  	  jLabelError.setText("Error: "+ e.getMessage());
+         jLabelError.setVisible(true);
+         jBtnSendRequest.setEnabled(false);
+         valid = false;
+	  	}
+	  	catch(InvalidQueryException e)
+	  	{
+	  	  jLabelError.setText("Error: "+ e.getMessage());
+        jLabelError.setVisible(true);
+        jBtnSendRequest.setEnabled(false);
+        valid = false;
+	  	}
+	  	finally
+	  	{ 
+	  		this.setCursor(Cursor.getDefaultCursor());
+	  	}
+	  	if(reqSent)
+	  	{
+      	jLabelSent.setText("Request sent.");
+      	jLabelSent.setVisible(true);
+        dispose();
+        new DriverHolidayAckScreen(title, driverID);
+      }
     }
 
 

@@ -2,11 +2,10 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-class DriverHolidayViewRScreen extends JFrame 
+class DriverHolidayViewNScreen extends JFrame 
                                 implements ActionListener{
 
-  int availableDays;
-  int driverID;
+  int availableDays = 34;
 
   // Declare the components
   JLabel jLabelTimetable, jLabelSelectedView, jLabelAvailableDays;
@@ -24,13 +23,9 @@ class DriverHolidayViewRScreen extends JFrame
   Color borderClr = new Color(225,225,225);
   Color lblBgClr = new Color(200,200,200);
  
-  public DriverHolidayViewRScreen(String paramString, int requiredDriverID){
+  public DriverHolidayViewNScreen(String paramString){
 
     setTitle(paramString);
-    
-    //Setting values for driverId and availableDays
-    driverID = requiredDriverID;
-    availableDays = 25 - DriverInfo.getHolidaysTaken(driverID);
  
     //Create the menu bar
     mainMenuBar = new JMenuBar();
@@ -86,7 +81,7 @@ class DriverHolidayViewRScreen extends JFrame
 
     jBtnRequests = new JButton("Requests");
     jBtnRequests.setForeground(btnFgClr);
-    jBtnRequests.setBackground(lblBgClr);
+    jBtnRequests.setBackground(layoutBgClr);
     jBtnRequests.setBorderPainted(false);
     jBtnRequests.setHorizontalAlignment(SwingConstants.CENTER);
     jBtnRequests.setActionCommand("requests");
@@ -94,19 +89,19 @@ class DriverHolidayViewRScreen extends JFrame
 
     jBtnNotifications = new JButton("Notifications");
     jBtnNotifications.setForeground(btnFgClr);
-    jBtnNotifications.setBackground(layoutBgClr);
+    jBtnNotifications.setBackground(lblBgClr);
     jBtnNotifications.setBorderPainted(false);
     jBtnNotifications.setHorizontalAlignment(SwingConstants.CENTER);
     jBtnNotifications.setActionCommand("notifications");
     jBtnNotifications.addActionListener(this);
     
-    jLabelAvailableDays = new JLabel("Available Days: " + 
+    jLabelAvailableDays = new JLabel("Available Days: " +
                                       availableDays);
     jLabelAvailableDays.setForeground(lblFgClr);
     jLabelAvailableDays.setHorizontalAlignment(SwingConstants.CENTER);
 
 
-    jLabelTimetable = new JLabel("Requests");
+    jLabelTimetable = new JLabel("Notifications");
     jLabelTimetable.setForeground(lblFgClr);
  
     //Create the content panel

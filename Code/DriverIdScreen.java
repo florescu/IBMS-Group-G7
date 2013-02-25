@@ -134,7 +134,7 @@ class DriverIdScreen extends JFrame implements ActionListener{
       }
       else{
        dispose();
-       new DriverTimetableViewScreen(title);
+       new DriverTimetableViewScreen(title, driverID);
       }//else
     }
    } //try
@@ -143,6 +143,11 @@ class DriverIdScreen extends JFrame implements ActionListener{
      jLabelError.setText("Error: provide numeric ID!");
      jLabelError.setVisible(true);
    }//catch
+   catch (InvalidQueryException e)
+   {
+     jLabelError.setText("Error: Database access error");
+     jLabelError.setVisible(true);
+   }
    
   }//actionPerformed
 }//class

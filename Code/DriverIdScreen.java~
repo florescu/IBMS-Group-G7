@@ -110,13 +110,14 @@ class DriverIdScreen extends JFrame implements ActionListener{
 
     String actionCmd = paramActionEvent.getActionCommand();
     String title = "G7 - IBMS System | Driver";
-
+    try{
     if ("identify".equals(actionCmd)){
-         
+      database.openBusDatabase();   
       int driverID = Integer.parseInt(jTxtFEnterId.getText());
       String name = jTxtFEnterName.getText();
 
       //Check if the fields are empty or with proper values
+      
       if(jTxtFEnterId.getText() == null || 
          jTxtFEnterName.getText() == null || 
          !Validator.isNumeric(jTxtFEnterId.getText()) ||
@@ -130,12 +131,19 @@ class DriverIdScreen extends JFrame implements ActionListener{
         jLabelError.setText("Error: No such driver in the database!");
         jLabelError.setVisible(true);
 
-      }else{
+      }
+      else{
        dispose();
-       new DriverTimetableViewScreen(title);
+       new DriverTimetableViewScreen(title, driverID);
       }//else
     }
-
+   } //try
+   catch (NumberFormatException e)
+   {
+     jLabelError.setText("Error: provide numeric ID!");
+     jLabelError.setVisible(true);
+   }//catch
+   
   }//actionPerformed
 }//class
 

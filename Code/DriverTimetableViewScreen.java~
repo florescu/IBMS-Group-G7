@@ -117,7 +117,7 @@ class DriverTimetableViewScreen extends JFrame
       System.exit(0);
     else if ("timetable".equals(actionCmd)){
       this.dispose();
-      new DriverTimetableViewScreen(title, driverID);
+      new DriverTimetableViewScreen(title);
     }
     else if ("holidays".equals(actionCmd)){
       this.dispose();

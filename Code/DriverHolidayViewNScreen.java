@@ -5,7 +5,9 @@ import javax.swing.*;
 class DriverHolidayViewNScreen extends JFrame 
                                 implements ActionListener{
 
-  int availableDays = 34;
+  //Declare variables
+  int availableDays;
+  int driverID;
 
   // Declare the components
   JLabel jLabelTimetable, jLabelSelectedView, jLabelAvailableDays;
@@ -23,10 +25,13 @@ class DriverHolidayViewNScreen extends JFrame
   Color borderClr = new Color(225,225,225);
   Color lblBgClr = new Color(200,200,200);
  
-  public DriverHolidayViewNScreen(String paramString){
+  public DriverHolidayViewNScreen(String paramString, int requiredDriverID){
 
     setTitle(paramString);
  
+ 		int driverID = requiredDriverID;
+ 		int availableDays = 25 - DriverInfo.getHolidaysTaken(driverID);
+ 		
     //Create the menu bar
     mainMenuBar = new JMenuBar();
     mainMenuBar.setBackground(layoutBgClr);
@@ -175,23 +180,23 @@ class DriverHolidayViewNScreen extends JFrame
     }
     else if ("timetable".equals(actionCmd)){
       this.dispose();
-      new DriverTimetableViewScreen(title);
+      new DriverTimetableViewScreen(title, driverID);
     }
     else if ("holidays".equals(actionCmd)){
       this.dispose();
-      new DriverHolidayViewNRScreen(title);
+      new DriverHolidayViewNRScreen(title, driverID);
     }
     else if ("newRequest".equals(actionCmd)){
       this.dispose();
-      new DriverHolidayViewNRScreen(title);
+      new DriverHolidayViewNRScreen(title, driverID);
     }
     else if ("requests".equals(actionCmd)){
       this.dispose();
-      new DriverHolidayViewRScreen(title);
+      new DriverHolidayViewRScreen(title, driverID);
     }
     else if ("notifications".equals(actionCmd)){
       this.dispose();
-      new DriverHolidayViewNScreen(title);
+      new DriverHolidayViewNScreen(title, driverID);
     }//else if
 
   }//actionPerformed
