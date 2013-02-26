@@ -1,0 +1,13 @@
+public class HolidayException extends RuntimeException
+{
+  private String message;
+  public HolidayException(String requiredMessage)
+  {
+    message = requiredMessage;
+  }//HolidayException
+  
+  public String getMessage()
+  {
+    return message;
+  }//getMessage
+}//HolidayException

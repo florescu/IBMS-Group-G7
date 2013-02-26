@@ -1,0 +1,11 @@
+Server: ramen.cs.man.ac.uk
+Database: 13_COMP23420_G7
+Password: PyzBwqMnNdtM85Jy
+
+When you run Main.java, if you get a InvalidQueryException you need to download 
+mysql-connector-java-5.1.12-bin.jar from Moodle to your home directory then in
+the and type export CLASSPATH=$CLASSPATH:~/mysql-connector-java-5.1.12-bin.jar
+
+and for Joda Time 
+CLASSPATH=$CLASSPATH:resources/joda-time-2.1/joda-time-2.1.jar
+
