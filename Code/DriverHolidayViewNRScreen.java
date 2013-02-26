@@ -402,6 +402,7 @@ class DriverHolidayViewNRScreen extends JFrame
      	    this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
           newHoliday = new Holiday(startDay, startMonth, startYear,
 	  			                         endDay, endMonth, endYear);
+	  		  newHoliday.checkIfOnHolidayAlready(driverID);
 	  			//If no exceptions are caught, set valid true
 	  		  valid = true;
 	  		}

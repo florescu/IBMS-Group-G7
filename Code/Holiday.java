@@ -124,16 +124,18 @@ public class Holiday extends RuntimeException
   }
   
   //Check if the person is already on holiday during the selected period
-  private void checkIfOnHolidayAlready(int driverID)
+  public void checkIfOnHolidayAlready(int driverID)
   {
     MutableDateTime currentDay = this.startDate;
+    System.out.println(this.startDate);
     //loop over days of holiday
+    Calendar calDay=currentDay.toCalendar(null);
     for(int i = 0; i < this.noOfDays; i++)
     {
       if(!DriverInfo.isAvailable(driverID,currentDay.toDate()))
         {
-      		Calendar calDay = currentDay.toCalendar(Locale.ENGLISH);
-        	throw new HolidayException("You are already off on "+ calDay.get(DAY_OF_MONTH) + "/" + calDay.get(MONTH) + "/" + calDay.get(YEAR));
+      		calDay = currentDay.toCalendar(null);
+        	throw new HolidayException("You are already off on that date");
       }//if
       currentDay.addDays(1);
     }//for
@@ -150,7 +152,7 @@ public class Holiday extends RuntimeException
       //loop over days of holiday
       for(int i = 0; i < this.noOfDays; i++)
       {
-        DriverInfo.setAvailable(driverID,currentDay.toDate(), false);
+        DriverInfo.setAvailable(driverID, currentDay.toDate(), false);
         currentDay.addDays(1);
       }//for
       DriverInfo.setHolidaysTaken(driverID, DriverInfo.getHolidaysTaken(driverID) + this.getNoOfDays());

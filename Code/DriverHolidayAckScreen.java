@@ -6,7 +6,15 @@ class DriverHolidayAckScreen extends JFrame implements ActionListener{
 
 	int driverID;
 
-  //Declare the components
+
+  // Declare the components
+  JLabel jLabelSelectedView, jLabelAvailableDays;
+  JLabel jLabelError, jLabelSent; 
+  JPanel  submenuPanel, componentsPanel, mainContentPanel;
+  JMenuBar mainMenuBar, secondaryMenuBar;
+  JMenu jMenuFile, jMenuView, jMenuNRequest;
+  JMenuItem jMItemSave, jMItemPrint, jMItemExit;
+  JMenuItem jMItemTimetable, jMItemHolidays;
   JLabel jLabel;
   JButton jBtnContinue;
   JPanel contentPanel, jTextFieldPanelId,jTextFieldPanelName, jButtonsPanel;
@@ -23,10 +31,52 @@ class DriverHolidayAckScreen extends JFrame implements ActionListener{
     this.setTitle(paramString);
     
     driverID = requiredDriverID;
+    
+    //Create the menu bar
+    mainMenuBar = new JMenuBar();
+    mainMenuBar.setBackground(layoutBgClr);
+
+    //Create the menus
+    jMenuFile = new JMenu("File");
+    jMenuFile.setMnemonic(70);
+ 
+    jMenuView = new JMenu("View");
+    jMenuView.setMnemonic(86);
+
+    jLabelSelectedView = new JLabel("Selected View: Holidays");
+    jLabelSelectedView.setForeground(lblFgClr);
+    
+    //Add the menus to the menu bar
+    mainMenuBar.add(jMenuFile);
+    mainMenuBar.add(jMenuView);
+    mainMenuBar.add(Box.createHorizontalGlue());
+    mainMenuBar.add(jLabelSelectedView);
+ 
+    //Create the menu items
+    jMItemSave = new JMenuItem("Save");
+    jMItemPrint = new JMenuItem("Print");
+    jMItemExit = new JMenuItem("Exit", 88);
+    jMItemExit.setActionCommand("exit");
+    jMItemExit.addActionListener(this);
+ 
+    jMItemTimetable = new JMenuItem("Timetable", 84);
+    jMItemTimetable.setActionCommand("timetable");
+    jMItemTimetable.addActionListener(this);
+ 
+    jMItemHolidays = new JMenuItem("Holidays", 72);
+    jMItemHolidays.setActionCommand("holidays");
+    jMItemHolidays.addActionListener(this);
+ 
+    //Add the menu items to the menus
+    jMenuFile.add(jMItemSave);
+    jMenuFile.add(jMItemPrint);
+    jMenuFile.add(jMItemExit);
+    jMenuView.add(jMItemTimetable);
+    jMenuView.add(jMItemHolidays);
  
     //Create the content panel
     contentPanel = new JPanel();
-    contentPanel.setPreferredSize(new Dimension(120, 200));
+    contentPanel.setPreferredSize(new Dimension(300, 150));
     contentPanel.setLayout(new GridLayout(2, 1));
     contentPanel.setBackground(this.layoutBgClr);
  
@@ -45,7 +95,7 @@ class DriverHolidayAckScreen extends JFrame implements ActionListener{
     jBtnContinue.setForeground(this.btnFgClr);
     
     //Create the button panel
-    jButtonsPanel = new JPanel(new FlowLayout(10, 135, 0));
+    jButtonsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
     jButtonsPanel.setBackground(this.layoutBgClr); 
     jButtonsPanel.add(this.jBtnContinue);
  
