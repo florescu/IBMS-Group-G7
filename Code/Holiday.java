@@ -153,6 +153,7 @@ public class Holiday extends RuntimeException
       for(int i = 0; i < this.noOfDays; i++)
       {
         DriverInfo.setAvailable(driverID, currentDay.toDate(), false);
+        System.out.println("Driver availability: " + DriverInfo.isAvailable(driverID, currentDay.toDate()));
         currentDay.addDays(1);
       }//for
       DriverInfo.setHolidaysTaken(driverID, DriverInfo.getHolidaysTaken(driverID) + this.getNoOfDays());
