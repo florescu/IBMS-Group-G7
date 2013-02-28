@@ -126,18 +126,15 @@ public class Holiday extends RuntimeException
   //Check if the person is already on holiday during the selected period
   public void checkIfOnHolidayAlready(int driverID)
   {
-    MutableDateTime currentDay = this.startDate;
-    System.out.println(this.startDate);
+    GregorianCalendar currentDate = this.startDate.toGregorianCalendar();
     //loop over days of holiday
-    Calendar calDay=currentDay.toCalendar(null);
     for(int i = 0; i < this.noOfDays; i++)
     {
-      if(!DriverInfo.isAvailable(driverID,currentDay.toDate()))
+      if(!DriverInfo.isAvailable(driverID,currentDate.getTime()))
         {
-      		calDay = currentDay.toCalendar(null);
         	throw new HolidayException("You are already off on that date");
       }//if
-      currentDay.addDays(1);
+      currentDate.add(DAY_OF_YEAR,1);
     }//for
   }//checkIfOnHolidayAlready
   
@@ -148,13 +145,13 @@ public class Holiday extends RuntimeException
     {
       this.hasDaysReachedMax();
       checkIfOnHolidayAlready(driverID);
-      MutableDateTime currentDay = this.startDate;
+      GregorianCalendar currentDate = this.startDate.toGregorianCalendar();
       //loop over days of holiday
       for(int i = 0; i < this.noOfDays; i++)
       {
-        DriverInfo.setAvailable(driverID, currentDay.toDate(), false);
-        System.out.println("Driver availability: " + DriverInfo.isAvailable(driverID, currentDay.toDate()));
-        currentDay.addDays(1);
+        DriverInfo.setAvailable(driverID, currentDate.getTime(), false);
+	currentDate.add(DAY_OF_YEAR,1);
+	System.out.println("Test" +i);
       }//for
       DriverInfo.setHolidaysTaken(driverID, DriverInfo.getHolidaysTaken(driverID) + this.getNoOfDays());
     }
