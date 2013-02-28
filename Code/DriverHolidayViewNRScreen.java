@@ -408,6 +408,7 @@ class DriverHolidayViewNRScreen extends JFrame
           if(newHoliday.getNoOfDays() > availableDays){
               valid = false;
               jBtnSendRequest.setEnabled(false);
+	  		      jLabelDaysInTotal.setText("Days in total: "+ newHoliday.getNoOfDays());
           }else{
               valid = true;
               jBtnSendRequest.setEnabled(true);
