@@ -451,6 +451,7 @@ class DriverHolidayViewNRScreen extends JFrame
       try
       {
      	  this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+     	  System.out.println("start date: "+ newHoliday.getStartDate());
         newHoliday.saveToDB(driverID);
         reqSent = true;
       }

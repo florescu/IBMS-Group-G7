@@ -85,7 +85,7 @@ public class Holiday extends RuntimeException
   {
     this.endDate.setDate(reqEndYear, reqEndMonth, reqEndDay);
     this.noOfDays = calcNoDays(this.startDate, this.endDate);
-  }//setStartDate
+  }//setEndDate
   
   //returns the number of days untill the start date
   public int daysAway()
@@ -101,7 +101,7 @@ public class Holiday extends RuntimeException
   private void hasDaysReachedMax()
   {
     int noNotAvailable;
-    MutableDateTime currentDay = this.startDate;
+    GregorianCalendar currentDay = this.startDate.toGregorianCalendar();
     //loop over days of holiday
     for(int i = 0; i < this.noOfDays; i++)
     {
@@ -109,17 +109,17 @@ public class Holiday extends RuntimeException
       int[] driverIDs = DriverInfo.getDrivers();
       for (int j=0; j<driverIDs.length; j++)
       {
-        if(!DriverInfo.isAvailable(driverIDs[j],currentDay.toDate()))
+        if(!DriverInfo.isAvailable(driverIDs[j],currentDay.getTime()))
         {
           noNotAvailable++;
         }//if
       }//for
       if(noNotAvailable > 10)
       {
-      	Calendar calDay = currentDay.toCalendar(Locale.ENGLISH);
-        throw new HolidayException("Max people on holiday on "+ calDay.get(DAY_OF_MONTH) + "/" + calDay.get(MONTH) + "/" + calDay.get(YEAR));
+      	//Calendar calDay = currentDay.toCalendar(Locale.ENGLISH);
+        throw new HolidayException("Max people on holiday on "+ currentDay.get(DAY_OF_MONTH) + "/" + currentDay.get(MONTH) + "/" + currentDay.get(YEAR));
       }//if
-      currentDay.addDays(1);
+      currentDay.add(DAY_OF_YEAR,1);
     }//for
   }
   
@@ -150,8 +150,8 @@ public class Holiday extends RuntimeException
       for(int i = 0; i < this.noOfDays; i++)
       {
         DriverInfo.setAvailable(driverID, currentDate.getTime(), false);
-	currentDate.add(DAY_OF_YEAR,1);
-	System.out.println("Test" +i);
+	    currentDate.add(DAY_OF_YEAR,1);
+	    System.out.println("Test" +i);
       }//for
       DriverInfo.setHolidaysTaken(driverID, DriverInfo.getHolidaysTaken(driverID) + this.getNoOfDays());
     }
