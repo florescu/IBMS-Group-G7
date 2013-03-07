@@ -402,8 +402,18 @@ class DriverHolidayViewNRScreen extends JFrame
      	    this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
           newHoliday = new Holiday(startDay, startMonth, startYear,
 	  			                         endDay, endMonth, endYear);
-	  			//If no exceptions are caught, set valid true
-	  		  valid = true;
+	  		  newHoliday.checkIfOnHolidayAlready(driverID);
+
+          //Check if the noOFDays > availableDays
+          if(newHoliday.getNoOfDays() > availableDays){
+              valid = false;
+              jBtnSendRequest.setEnabled(false);
+	  		      jLabelDaysInTotal.setText("Days in total: "+ newHoliday.getNoOfDays());
+          }else{
+              valid = true;
+              jBtnSendRequest.setEnabled(true);
+          }//else
+
 	  		}
 	  		catch(HolidayException e)
 	  		{
@@ -423,8 +433,9 @@ class DriverHolidayViewNRScreen extends JFrame
 	  		{ 
 	  			this.setCursor(Cursor.getDefaultCursor());
 	  		}
-	  		if(valid)
-	  		{
+
+        if(valid){
+
 	  		  jLabelDaysInTotal.setText("Days in total: "+ newHoliday.getNoOfDays());
           jLabelError.setVisible(false);
           jBtnSendRequest.setEnabled(true);
@@ -433,13 +444,14 @@ class DriverHolidayViewNRScreen extends JFrame
            
       }//else
       
+    }//else if
 
-    }
     //If the button is enabled and pressed, send the request
     if("sendRequest".equals(actionCmd)){
       try
       {
      	  this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+     	  System.out.println("start date: "+ newHoliday.getStartDate());
         newHoliday.saveToDB(driverID);
         reqSent = true;
       }
