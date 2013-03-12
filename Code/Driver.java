@@ -16,6 +16,22 @@ public class Driver
 		this.minWorkedWeek = DriverInfo.getHoursThisWeek(id);
 		this.minWorkedDay = minWorkedDay;
 	}
+	
+	public void addMinWorkedDay(int mins)
+	{
+		this.minWorkedDay = this.minWorkedDay + mins;
+		this.minWorkedWeek = this.minWorkedWeek + mins;
+	}
+	
+	/**
+	 * @return the driver
+	 */
+	public String toString()
+	{
+		return "Driver Id: " + this.id + "\n"+
+		       "Name: "+ this.name + "\n"+
+		       "Hours worked this week: "+ this.minWorkedWeek/60 + "\n";
+	}
 
 	/**
 	 * @return the id

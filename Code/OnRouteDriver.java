@@ -16,7 +16,15 @@ public class OnRouteDriver extends Driver
 		this.onService = onService;
 		this.onBus = onBus;
 	}
-
+	
+	/**
+	 * @return the time the Driver will be back
+	 */
+	public int getEndTime()
+	{
+		return this.onService.getStartTime() + this.onService.getDuration();
+	}
+	
 	/**
 	 * @return the onBus
 	 */
