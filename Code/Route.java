@@ -1,3 +1,4 @@
+import java.util.Arrays;
 
 public class Route
 {
@@ -7,12 +8,28 @@ public class Route
 	  
 	/**
 	 * @param routeNumber
-	 * @param services
 	 */
-	public Route(int routeNumber, Service[] services)
+	public Route(String routeName)
 	{
-		this.routeNumber = routeNumber;
+		this.routeNumber = BusStopInfo.findRoute(""+routeName);
 		this.services = services;
+		int noOfSer = TimetableInfo.getNumberOfServices(this.routeNumber);
+		this.services = new Service[noOfSer];
+		for(int i = 0; i < noOfSer; i++)
+		{
+			int servicesDB[] = TimetableInfo.getServiceTimes(this.routeNumber, TimetableInfo.timetableKind.valueOf("weekday"),i);
+			for(int j = 0; j < servicesDB.length; j++)
+			{
+					if (servicesDB[j] < 150)
+						servicesDB[j] += 1440;
+			}
+			Arrays.sort(servicesDB);
+			//for(int j = 0; j < servicesDB.length; j++)
+			//{	
+				System.out.println(servicesDB[0]+"\t"+ servicesDB[servicesDB.length -1]);
+				this.services[i] = new Service(servicesDB[0], servicesDB[servicesDB.length-1]);
+			//}
+		}
 	}
 	
 	/**

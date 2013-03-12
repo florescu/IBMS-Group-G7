@@ -13,6 +13,14 @@ public class Service
 	{
 		this.startTime = startTime;
 		this.endTime = endTime;
+		this.duration = calculateDuration(startTime, endTime);
+	}
+	
+	public String toString()
+	{
+		return "Start Time: "+ this.startTime + "\n"+
+					 "End Time: "+ this.endTime + "\n"+
+					 "Duration: "+ this.duration;
 	}
 	
 	/**
