@@ -5,20 +5,19 @@ public class Bus
 	
 	/**
 	 * @param id
-	 * @param isOnRoute
 	 */
-	public Bus(int id, boolean isOnRoute)
+	public Bus(int id)
 	{
 		this.id = id;
-		this.isOnRoute = isOnRoute;
+		this.isOnRoute = false;
 	}
 
 	/**
 	 * @return the id
 	 */
-	public int getId()
+	public int[] getId()
 	{
-		return id;
+	   return database.busDatabase.select_ids("bus_id", "bus", "number");
 	}
 
 	/**
@@ -29,21 +28,22 @@ public class Bus
 		this.id = id;
 	}
 
-	/**
-	 * @return the isOnRoute
-	 */
-	public boolean isOnRoute()
-	{
-		return isOnRoute;
-	}
+ /**
+   * @return bus is on route?
+   */
+  public boolean getIsOnRoute()
+  {
+    return isOnRoute;
+  }
 
-	/**
-	 * @param isOnRoute the isOnRoute to set
-	 */
-	public void setOnRoute(boolean isOnRoute)
-	{
-		this.isOnRoute = isOnRoute;
-	}
+  /**
+   * @oaram onRoute
+   */
+  public void setIsOnRoute(boolean onRoute)
+  {
+    this.isOnRoute = onRoute;
+  }
+
 	
 	
 	
