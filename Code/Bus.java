@@ -1,16 +1,16 @@
 public class Bus
 {
 	private int id; //The buses id
-	private boolean isAvailable; //Whether the bus is currently available
+	private boolean isOnRoute; //Whether the bus is currently on route
 	
 	/**
 	 * @param id
-	 * @param isAvailable
+	 * @param isOnRoute
 	 */
-	public Bus(int id, boolean isAvailable)
+	public Bus(int id, boolean isOnRoute)
 	{
 		this.id = id;
-		this.isAvailable = isAvailable;
+		this.isOnRoute = isOnRoute;
 	}
 
 	/**
@@ -30,19 +30,19 @@ public class Bus
 	}
 
 	/**
-	 * @return the isAvailable
+	 * @return the isOnRoute
 	 */
-	public boolean isAvailable()
+	public boolean isOnRoute()
 	{
-		return isAvailable;
+		return isOnRoute;
 	}
 
 	/**
-	 * @param isAvailable the isAvailable to set
+	 * @param isOnRoute the isOnRoute to set
 	 */
-	public void setAvailable(boolean isAvailable)
+	public void setOnRoute(boolean isOnRoute)
 	{
-		this.isAvailable = isAvailable;
+		this.isOnRoute = isOnRoute;
 	}
 	
 	
