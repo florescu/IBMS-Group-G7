@@ -3,7 +3,8 @@ public class Route
 {
 	private int routeNumber; //The route number
 	private Service services[]; //An array of all the services for that day
-	
+	private int timeSpent;
+	  
 	/**
 	 * @param routeNumber
 	 * @param services
@@ -12,6 +13,18 @@ public class Route
 	{
 		this.routeNumber = routeNumber;
 		this.services = services;
+	}
+	
+	/**
+	 * @param duration
+	 * @param noOfServices
+	 * @param noOfDrivers
+	 * @return the average time per driver per day.
+	 */
+	public int averageTimePerDriver(int duration, int noOfServices, int noOfDrivers)
+	{
+	    timeSpent = duration * noOfServices / noOfDrivers; 
+		return timeSpent;
 	}
 
 	/**
@@ -45,4 +58,5 @@ public class Route
 	{
 		this.services = services;
 	}	
+	
 }

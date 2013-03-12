@@ -2,17 +2,31 @@
 public class Service
 {
   private int startTime; //minutes from midnight
+  private int endTime; //minutes from midnight
   private int duration; //duration time in minutes
-  
+  	
 	/**
 	 * @param startTime
-	 * @param duration
+	 * @param endTime
 	 */
-	public Service(int startTime, int duration)
+	public Service(int startTime, int endTime)
 	{
 		this.startTime = startTime;
-		this.duration = duration;
+		this.endTime = endTime;
 	}
+	
+	/**
+	 * @param startTime
+	 * @param endTime
+	 * @return the duration
+	 */
+	public int calculateDuration(int startTime, int endTime)
+	{
+	    duration = endTime - startTime;
+		return duration;
+	}
+	
+	
 
 	/**
 	 * @return the startTime
