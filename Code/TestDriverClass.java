@@ -5,6 +5,7 @@ public class TestDriverClass
 {
 	public static void main(String[] args)
 	{
+		String routeName = "358out";
 		database.openBusDatabase();
   	int[] driverIDs = DriverInfo.getDrivers();
   	Driver[] drivers = new Driver[driverIDs.length];
@@ -34,25 +35,26 @@ public class TestDriverClass
   	
   	//Prints out bus stops for a route
 		System.out.println("");
-		int busStops[] = BusStopInfo.getBusStops(BusStopInfo.findRoute("358out"));
-		System.out.println("358out");
+		int busStops[] = BusStopInfo.getBusStops(BusStopInfo.findRoute(routeName));
+		System.out.println(routeName);
 		for(int i = 0; i < busStops.length; i++)
 		{
 			System.out.println(BusStopInfo.getFullName(busStops[i]) + " " + busStops[i]);
 		}
 	
 	
-		Route route1 = new Route("358out");
+		Route route1 = new Route(routeName);
 		Service theServices[] = route1.getServices();
 		for(int i = 0; i < theServices.length; i++)
 		{
 			System.out.println(theServices[i]);
 		}
+		System.out.println("averageTimePerDriver "+route1.averageTimePerDriver(50));
 	/*
 		
-		for(int i = 0; i < TimetableInfo.getNumberOfServices(BusStopInfo.findRoute("358out")); i++)
+		for(int i = 0; i < TimetableInfo.getNumberOfServices(BusStopInfo.findRoute(routeName)); i++)
 		{
-		int services[] = TimetableInfo.getServiceTimes(BusStopInfo.findRoute("358out"), TimetableInfo.timetableKind.valueOf("weekday"),i);
+		int services[] = TimetableInfo.getServiceTimes(BusStopInfo.findRoute(routeName), TimetableInfo.timetableKind.valueOf("weekday"),i);
 		System.out.println("");
 		System.out.println(services.length);
 		for(int j = 0; j < services.length; j++)

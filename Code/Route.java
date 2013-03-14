@@ -5,6 +5,7 @@ public class Route
 	private int routeNumber; //The route number
 	private Service services[]; //An array of all the services for that day
 	private int timeSpent;
+	private int totalDuration;
 	  
 	/**
 	 * @param routeNumber
@@ -24,11 +25,9 @@ public class Route
 						servicesDB[j] += 1440;
 			}
 			Arrays.sort(servicesDB);
-			//for(int j = 0; j < servicesDB.length; j++)
-			//{	
-				System.out.println(servicesDB[0]+"\t"+ servicesDB[servicesDB.length -1]);
-				this.services[i] = new Service(servicesDB[0], servicesDB[servicesDB.length-1]);
-			//}
+			System.out.println(servicesDB[0]+"\t"+ servicesDB[servicesDB.length -1]);
+			this.services[i] = new Service(servicesDB[0], servicesDB[servicesDB.length-1]);
+			this.totalDuration = this.totalDuration + this.services[i].getDuration();
 		}
 	}
 	
@@ -38,9 +37,9 @@ public class Route
 	 * @param noOfDrivers
 	 * @return the average time per driver per day.
 	 */
-	public int averageTimePerDriver(int duration, int noOfServices, int noOfDrivers)
+	public int averageTimePerDriver(int noOfDrivers)
 	{
-	    timeSpent = duration * noOfServices / noOfDrivers; 
+	    timeSpent = this.totalDuration / noOfDrivers; 
 		return timeSpent;
 	}
 
