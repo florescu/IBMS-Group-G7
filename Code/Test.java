@@ -16,7 +16,7 @@ public class Test {
         //for (int i=0; i<driverIDs.length; i++)
            //if driverIDs[i].findDriver
            // System.out.println("ID: "+driverIDs[i]);
-        
+        /*
         for (int i=0; i<driverIDs.length; i++)
           System.out.println("Driver: " + DriverInfo.getName(driverIDs[i]) + " ID: " + driverIDs[i]);   
         int ID = 2052;
@@ -31,6 +31,8 @@ public class Test {
         String ID2 = "2052";
         name = "Waud Al-Amri";
         System.out.println("This is " + DriverInfo.isInDatabase(Integer.parseInt(ID2),name));
+        */
+    
     }
 
 }

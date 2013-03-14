@@ -6,6 +6,7 @@ public class Roster
 	private OnRouteDriver onRouteDrivers[]; //An array of the drivers on route
 	private Bus availableBus[]; //An array for the available buses 
 	private Bus onRouteBus[]; //An array for the buses on route
+	private Route	theRoutes[];
 	private Date theDate; //The date to generate roster for
 	public final int MIN_IN_DAY = 1440;
 	
@@ -32,6 +33,17 @@ public class Roster
 	}//generateRoster
 	
 	
+	/**
+	 * @param duration
+	 * @param noOfServices
+	 * @param noOfDrivers
+	 * @return the average time per driver per day.
+	 */
+	public int averageTimePerDriver(int noOfDrivers)
+	{
+	    timeSpent = this.totalDuration / noOfDrivers; 
+		return timeSpent;
+	}
 	
 	
 	/**

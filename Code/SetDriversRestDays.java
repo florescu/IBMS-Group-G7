@@ -22,7 +22,25 @@ public class SetDriversRestDays{
        
         for (int i=0; i<driverIDs.length; i++)
         {
-          System.out.println(" "+ DriverInfo.isAvailable(driverIDs[i], baseDate.getTime()));
+        	System.out.println("Driver " + i);
+        	GregorianCalendar currentWeek = new GregorianCalendar(baseDate.get(Calendar.YEAR),baseDate.get(Calendar.MONTH),baseDate.get(Calendar.DAY_OF_MONTH));
+        	for (int j = 0; j < 52; j++)
+        	{
+        	
+        		//GregorianCalendar currentWeek = new GregorianCalendar(baseDate.get(Calendar.YEAR),baseDate.get(Calendar.MONTH),baseDate.get(Calendar.DAY_OF_MONTH));
+        		GregorianCalendar dayOne = new GregorianCalendar(currentWeek.get(Calendar.YEAR),currentWeek.get(Calendar.MONTH),currentWeek.get(Calendar.DAY_OF_MONTH));
+        		dayOne.add(DAY_OF_YEAR,dayOfWeek);
+        		GregorianCalendar dayTwo = new GregorianCalendar(currentWeek.get(Calendar.YEAR),currentWeek.get(Calendar.MONTH),currentWeek.get(Calendar.DAY_OF_MONTH));
+        		dayTwo.add(DAY_OF_YEAR,(dayOfWeek+1)%7);
+        		
+        		
+        		
+          	System.out.println(dayOne.get(Calendar.DAY_OF_MONTH)+"/"+dayOne.get(Calendar.MONTH)+"/"+dayOne.get(Calendar.YEAR)+"\t"+dayTwo.get(Calendar.DAY_OF_MONTH)+"/"+dayTwo.get(Calendar.MONTH)+"/"+dayTwo.get(Calendar.YEAR));
+          	currentWeek.add(WEEK_OF_YEAR, 1);
+          	DriverInfo.isAvailable(driverIDs[i],dayOne.getTime());
+          	DriverInfo.isAvailable(driverIDs[i],dayTwo.getTime());
+          }
+          dayOfWeek = (dayOfWeek+1)%7;
         }
     }
 
