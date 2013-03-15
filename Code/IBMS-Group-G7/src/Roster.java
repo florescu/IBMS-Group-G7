@@ -23,18 +23,15 @@ public class Roster
 		{
 			this.buses[i] = new Bus(busIDs.length);
 		}
-<<<<<<< HEAD
 		
 		//Getting all the routes
 		this.theRoutes = new Route[1];
 		this.theRoutes[0] = new Route("358out");
 		
 		//Setting the current day
-=======
 		this.theRoutes = new Route[2];
 		this.theRoutes[0] = new Route("358out");
 		this.theRoutes[1] = new Route("358back");
->>>>>>> 3facbb0b922d47cc81860d233bca7dd57631b2dc
 		this.currentDay = currentDay;
 	}
 
