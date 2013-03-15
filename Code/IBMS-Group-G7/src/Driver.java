@@ -4,19 +4,35 @@ public class Driver
 	private String name; //The drivers name
 	private int minWorkedWeek; //The minutes they have worked this week
 	private int minWorkedDay; //The minutes they have worked today
+	private boolean isOnRoute;
 
 	/**
 	 * @param id
 	 * @param minWorkedDay
 	 */
-	public Driver(int id, int minWorkedDay)
+	public Driver(int id)
 	{
 		this.id = id;
 		this.name = DriverInfo.getName(id);
-		this.minWorkedWeek = DriverInfo.getHoursThisWeek(id);
-		this.minWorkedDay = minWorkedDay;
+		this.isOnRoute = false;
 	}
 	
+	/**
+	 * @return the isOnRoute
+	 */
+	public boolean isOnRoute()
+	{
+		return isOnRoute;
+	}
+
+	/**
+	 * @param isOnRoute the isOnRoute to set
+	 */
+	public void setOnRoute(boolean isOnRoute)
+	{
+		this.isOnRoute = isOnRoute;
+	}
+
 	public void addMinWorkedDay(int mins)
 	{
 		this.minWorkedDay = this.minWorkedDay + mins;

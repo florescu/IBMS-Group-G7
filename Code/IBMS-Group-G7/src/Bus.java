@@ -2,6 +2,7 @@ public class Bus
 {
 	private int id; //The buses id
 	private boolean isOnRoute; //Whether the bus is currently on route
+	private int minOnRouteWeek;
 	
 	/**
 	 * @param id

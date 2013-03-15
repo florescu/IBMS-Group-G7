@@ -11,7 +11,7 @@ public class TestDriverClass
   	Driver[] drivers = new Driver[driverIDs.length];
   	for(int i = 0; i < driverIDs.length; i++)
   	{
-  		drivers[i] = new Driver(driverIDs[i],0);
+  		drivers[i] = new Driver(driverIDs[i]);
   	}//for
   	
   	for(int i = 0; i < driverIDs.length; i++)
