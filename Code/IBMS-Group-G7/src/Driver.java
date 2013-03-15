@@ -5,6 +5,7 @@ public class Driver
 	private int minWorkedWeek; //The minutes they have worked this week
 	private int minWorkedDay; //The minutes they have worked today
 	private boolean isOnRoute;
+	private int location; //The location of the driver
 
 	/**
 	 * @param id

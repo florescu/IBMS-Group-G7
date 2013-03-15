@@ -1,5 +1,7 @@
+import java.util.GregorianCalendar;
 import java.util.Random;
 import java.util.Arrays;
+
 
 public class TestDriverClass
 {
@@ -50,7 +52,17 @@ public class TestDriverClass
 			System.out.println(theServices[i]);
 		}
 		System.out.println("averageTimePerDriver "+route1.averageTimePerDriver(50));
-	/*
+	
+		GregorianCalendar currentDay = new GregorianCalendar(2013,03,15);
+    Roster roster = new Roster(currentDay);
+    
+		System.out.println(roster.getBestDriver());
+	
+			
+			
+			
+		
+		/*
 		
 		for(int i = 0; i < TimetableInfo.getNumberOfServices(BusStopInfo.findRoute(routeName)); i++)
 		{
