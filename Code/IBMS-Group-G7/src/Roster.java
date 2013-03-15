@@ -15,20 +15,19 @@ public class Roster
 	 */
 	public Roster(GregorianCalendar currentDay)
 	{
-		int theDriverIDs[] = getAvailableDrivers(currentDay);
-		this.drivers = new Driver[theDriverIDs.length];
-		for(int i = 0; i < drivers.length; i++)
-		{
-			this.drivers[i] = new Driver(theDriverIDs[i]);
-		}
-		int busIDs[] = BusInfo.getBuses();
+		//Getting all the buses
+		int[] busIDs = BusInfo.getBuses();
 		this.buses = new Bus[busIDs.length];
 		for(int i = 0; i < buses.length; i++)
 		{
 			this.buses[i] = new Bus(busIDs.length);
 		}
+		
+		//Getting all the routes
 		this.theRoutes = new Route[1];
 		this.theRoutes[0] = new Route("358out");
+		
+		//Setting the current day
 		this.currentDay = currentDay;
 	}
 
@@ -62,6 +61,12 @@ public class Roster
 
 	public void startDayDriverBus()
 	{
+		int theDriverIDs[] = getAvailableDrivers(this.currentDay);
+		this.drivers = new Driver[theDriverIDs.length];
+		for(int i = 0; i < drivers.length; i++)
+		{
+			this.drivers[i] = new Driver(theDriverIDs[i]);
+		}
 	  //loop through drivers and add min worked day to min worked week and set min worked day to 0
 		for(int driver = 0; driver < drivers.length; driver++)
 		{
