@@ -6,6 +6,7 @@ public class Roster
 	private Driver drivers[]; //An array of the available drivers
 	private Bus buses[]; //An array for the available buses 
 	private Route	theRoutes[];
+	private Driver bestDriver;
 	private GregorianCalendar currentDay; //The date to generate roster for
 	public final int MIN_IN_DAY = 1440;
 	
@@ -27,8 +28,9 @@ public class Roster
 		{
 			this.buses[i] = new Bus(busIDs.length);
 		}
-		this.theRoutes = new Route[1];
+		this.theRoutes = new Route[2];
 		this.theRoutes[0] = new Route("358out");
+		this.theRoutes[1] = new Route("358back");
 		this.currentDay = currentDay;
 	}
 
@@ -59,6 +61,29 @@ public class Roster
 			currentDay.add(Calendar.DAY_OF_YEAR, 1);
 		}//loop over days
 	}//generateRoster
+	
+	/**
+	 * @return the best fit driver
+	 */
+	public Driver getBestDriver()
+	{
+		int count = 0;
+		Driver fitDriver = null;
+		
+		for (int i = 0; i < drivers.length; i++)
+		  if ((!drivers[i].isOnRoute()))
+				count++;
+		
+		for (int i = 0; i < drivers.length; i++)  
+		  for (int route = 0; route < theRoutes.length; route++)
+				if ((!drivers[i].isOnRoute()) && (drivers[i].getMinWorkedDay() < theRoutes[route].averageTimePerDriver(count)))
+				{
+					System.out.println(theRoutes[route].averageTimePerDriver(count));
+	      	fitDriver = drivers[i];
+				}
+		bestDriver = fitDriver;
+		return bestDriver;
+	}
 
 	public void startDayDriverBus()
 	{
