@@ -4,6 +4,8 @@ public class Service
   private int startTime; //minutes from midnight
   private int endTime; //minutes from midnight
   private int duration; //duration time in minutes
+  private Driver driver; // the services driver
+  private Bus bus; //the services bus
   	
 	/**
 	 * @param startTime

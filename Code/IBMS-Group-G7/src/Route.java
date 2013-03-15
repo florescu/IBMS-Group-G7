@@ -6,6 +6,7 @@ public class Route
 	private Service services[]; //An array of all the services for that day
 	private int timeSpent;
 	private int totalDuration;
+	private int noOfServices; //The number of services on a route
 	  
 	/**
 	 * @param routeNumber
@@ -13,10 +14,10 @@ public class Route
 	public Route(String routeName)
 	{
 		this.routeNumber = BusStopInfo.findRoute(""+routeName);
-		this.services = services;
-		int noOfSer = TimetableInfo.getNumberOfServices(this.routeNumber);
-		this.services = new Service[noOfSer];
-		for(int i = 0; i < noOfSer; i++)
+		//this.services = services;
+		this.noOfServices = TimetableInfo.getNumberOfServices(this.routeNumber);
+		this.services = new Service[this.noOfServices];
+		for(int i = 0; i < this.noOfServices; i++)
 		{
 			int servicesDB[] = TimetableInfo.getServiceTimes(this.routeNumber, TimetableInfo.timetableKind.valueOf("weekday"),i);
 			for(int j = 0; j < servicesDB.length; j++)
@@ -42,7 +43,14 @@ public class Route
 	    timeSpent = this.totalDuration / noOfDrivers; 
 		return timeSpent;
 	}
-
+	
+	/**
+	 * @return the service
+	 */
+	public Service getService(int i)
+	{
+		return services[i];
+	}
 	/**
 	 * @return the routeNumber
 	 */
@@ -73,6 +81,22 @@ public class Route
 	public void setServices(Service[] services)
 	{
 		this.services = services;
+	}
+
+	/**
+	 * @return the noOfServices
+	 */
+	public int getNoOfServices()
+	{
+		return noOfServices;
+	}
+
+	/**
+	 * @param noOfServices the noOfServices to set
+	 */
+	public void setNoOfServices(int noOfServices)
+	{
+		this.noOfServices = noOfServices;
 	}	
 	
 }
