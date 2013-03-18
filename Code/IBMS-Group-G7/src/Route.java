@@ -26,8 +26,9 @@ public class Route
 						servicesDB[j] += 1440;
 			}
 			Arrays.sort(servicesDB);
-			System.out.println(servicesDB[0]+"\t"+ servicesDB[servicesDB.length -1]);
-			this.services[i] = new Service(servicesDB[0], servicesDB[servicesDB.length-1]);
+			int timingPoints[] = TimetableInfo.getTimingPoints(this.routeNumber);
+			System.out.println("Start: "+BusStopInfo.getFullName(timingPoints[0])+ "\tEnd: " + BusStopInfo.getFullName(timingPoints[timingPoints.length-1]));
+			this.services[i] = new Service(servicesDB[0], servicesDB[servicesDB.length-1], timingPoints[0], timingPoints[timingPoints.length-1]);
 			this.totalDuration = this.totalDuration + this.services[i].getDuration();
 		}
 	}

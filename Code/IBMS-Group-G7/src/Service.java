@@ -3,6 +3,8 @@ public class Service
 {
   private int startTime; //minutes from midnight
   private int endTime; //minutes from midnight
+  private int startLocation; // The start location
+  private int endLocation; // The end location
   private int duration; //duration time in minutes
   private Driver driver; // the services driver
   private Bus bus; //the services bus
@@ -11,11 +13,13 @@ public class Service
 	 * @param startTime
 	 * @param endTime
 	 */
-	public Service(int startTime, int endTime)
+	public Service(int startTime, int endTime, int startLocation, int endLocation)
 	{
 		this.startTime = startTime;
 		this.endTime = endTime;
 		this.duration = calculateDuration(startTime, endTime);
+		this.startLocation = startLocation;
+		this.endLocation = endLocation;
 	}
 	
 	public String toString()
