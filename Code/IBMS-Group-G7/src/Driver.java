@@ -5,7 +5,7 @@ public class Driver
 	private int minWorkedWeek; //The minutes they have worked this week
 	private int minWorkedDay; //The minutes they have worked today
 	private boolean isOnRoute;
-	private int location; //The location of the driver
+	private String location; //The location of the driver
 
 	/**
 	 * @param id
@@ -41,7 +41,7 @@ public class Driver
 	}
 	
 	/**
-	 * @return the driver
+	 * @return the driver info
 	 */
 	public String toString()
 	{
@@ -80,6 +80,22 @@ public class Driver
 	public void setName(String name)
 	{
 		this.name = name;
+	}
+	
+	/**
+	 * @return the location
+	 */
+	public String getLocation()
+	{
+		return location;
+	}
+
+	/**
+	 * @param name the new location
+	 */
+	public void setLocation(String newLocation)
+	{
+		this.location = newLocation;
 	}
 
 	/**

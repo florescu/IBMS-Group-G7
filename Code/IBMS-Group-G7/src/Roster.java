@@ -22,7 +22,7 @@ public class Roster
 		this.buses = new Bus[busIDs.length];
 		for(int i = 0; i < buses.length; i++)
 		{
-			this.buses[i] = new Bus(busIDs.length);
+			this.buses[i] = new Bus(busIDs[i]);
 		}
 		
 		//Getting all the routes
@@ -104,11 +104,11 @@ public class Roster
 	{
 		Bus fitBus = null;
 		
-		for (int i = 0; i < buses.length;)
+		for (int i = 0; i < buses.length; i++)
 		  if ((!buses[i].getIsOnRoute()))
-				fitBus = buses[i+1];
-		  else
-		  	i++;
+		  {	
+				fitBus = buses[i];
+		  }
 		
 		bestBus = fitBus;
 		return bestBus;

@@ -57,7 +57,9 @@ public class TestDriverClass
     Roster roster = new Roster(currentDay);
     
 		System.out.println("Best driver is " + roster.getBestDriver());
-	
+		System.out.println("Best bus is " + roster.getBestBus());
+		
+		
 			
 			
 			

@@ -3,7 +3,7 @@ public class Bus
 	private int id; //The buses id
 	private boolean isOnRoute; //Whether the bus is currently on route
 	private int minOnRouteWeek;
-	private int location;
+	private String location;
 	
 	/**
 	 * @param id
@@ -39,14 +39,36 @@ public class Bus
   }
 
   /**
-   * @oaram onRoute
+   * @param onRoute
    */
   public void setIsOnRoute(boolean onRoute)
   {
     this.isOnRoute = onRoute;
   }
+  
+  /**
+   * @return bus location
+   */
+  public String getLocation()
+  {
+    return location;
+  }
 
-	
+  /**
+   * @param new location
+   */
+  public void setLocation(String newLocation)
+  {
+    this.location = newLocation;
+  }
+
+  /**
+	 * @return the bus info
+	 */
+	public String toString()
+	{
+		return "Bus Id: " + this.id + "\n";
+	}
 	
 	
 }//Bus
