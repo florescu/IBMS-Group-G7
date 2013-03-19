@@ -56,8 +56,8 @@ public class TestDriverClass
 		GregorianCalendar currentDay = new GregorianCalendar(2013,03,15);
     Roster roster = new Roster(currentDay);
     
-		System.out.println("Best driver is " + roster.getBestDriver());
-		System.out.println("Best bus is " + roster.getBestBus());
+		System.out.println("Best driver is " + roster.getBestDriver(theServices[1]));
+		System.out.println("Best bus is " + roster.getBestBus(theServices[1]));
 		
 		
 			

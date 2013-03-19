@@ -78,7 +78,7 @@ public class Roster
 	/**
 	 * @return the best fit driver
 	 */
-	public Driver getBestDriver()
+	public Driver getBestDriver(Service service)
 	{
 		int count = 0;
 		Driver fitDriver = null;
@@ -89,7 +89,10 @@ public class Roster
 		
 		for (int i = 0; i < drivers.length; i++)  
 		  for (int route = 0; route < theRoutes.length; route++)
-				if ((!drivers[i].isOnRoute()) && (drivers[i].getMinWorkedDay() < theRoutes[route].averageTimePerDriver(count)))
+				if ((!drivers[i].isOnRoute()) && 
+						(drivers[i].getMinWorkedDay() < theRoutes[route].averageTimePerDriver(count)) &&
+						((drivers[i].getLocation()==null) || 
+						 (drivers[i].getLocation().equals(service.getStartLocation()))))
 				{
 					//System.out.println(theRoutes[route].averageTimePerDriver(count));
 	      	fitDriver = drivers[i];
@@ -101,12 +104,13 @@ public class Roster
 	/**
 	 * @return the best fit bus
 	 */
-	public Bus getBestBus()
+	public Bus getBestBus(Service service)
 	{
 		Bus fitBus = null;
 		
 		for (int i = 0; i < buses.length; i++)
-		  if ((!buses[i].getIsOnRoute()))
+		  if ((!buses[i].getIsOnRoute()) && (buses[i].getLocation()==null) || 
+					 (buses[i].getLocation().equals(service.getStartLocation())))
 		  {	
 				fitBus = buses[i];
 		  }
