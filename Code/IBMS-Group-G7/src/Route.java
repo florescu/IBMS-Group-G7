@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.GregorianCalendar;
 
 public class Route
 {
@@ -12,7 +13,7 @@ public class Route
 	/**
 	 * @param routeNumber
 	 */
-	public Route(String routeName)
+	public Route(String routeName, GregorianCalendar currentDay)
 	{
 		this.routeNumber = BusStopInfo.findRoute(""+routeName);
 		//this.services = services;
@@ -20,7 +21,7 @@ public class Route
 		this.services = new Service[this.noOfServices];
 		for(int i = 0; i < this.noOfServices; i++)
 		{
-			int servicesDB[] = TimetableInfo.getServiceTimes(this.routeNumber, TimetableInfo.timetableKind.valueOf("weekday"),i);
+			int servicesDB[] = TimetableInfo.getServiceTimes(this.routeNumber, TimetableInfo.timetableKind(currentDay.getTime()),i);
 			for(int j = 0; j < servicesDB.length; j++)
 			{
 					if (servicesDB[j] < 150)

@@ -24,7 +24,8 @@ public class Service
 	
 	public String toString()
 	{
-		return "Start Time: "+ this.startTime + "\n"+
+		return "Service start location: " + this.startLocation + " end location " + this.endLocation + "\n" +
+					 "Start Time: "+ this.startTime + "\n"+
 					 "End Time: "+ this.endTime + "\n"+
 					 "Duration: "+ this.duration;
 	}
@@ -120,5 +121,38 @@ public class Service
 	public void setDuration(int duration)
 	{
 		this.duration = duration;
+	}
+
+	/**
+	 * @return the driver
+	 */
+	public Driver getDriver()
+	{
+		return driver;
+	}
+
+	/**
+	 * @param driver the driver to set
+	 */
+	public void setDriver(Driver driver)
+	{
+		this.driver = driver;
+	}
+
+	/**
+	 * @return the bus
+	 */
+	public Bus getBus()
+	{
+		return bus;
+	}
+
+	/**
+	 * @param bus the bus to set
+	 */
+	public void setBus(Bus bus)
+	{
+		this.bus = bus;
 	} 
+	
 }

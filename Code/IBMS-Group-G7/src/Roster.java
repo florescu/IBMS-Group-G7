@@ -6,8 +6,6 @@ public class Roster
 	private Driver drivers[]; //An array of the available drivers
 	private Bus buses[]; //An array for the available buses 
 	private Route	theRoutes[];
-	private Driver bestDriver;
-	private Bus bestBus;
 	private GregorianCalendar currentDay; //The date to generate roster for
 	public final int MIN_IN_DAY = 1440;
 	
@@ -24,15 +22,8 @@ public class Roster
 		{
 			this.buses[i] = new Bus(busIDs[i]);
 		}
+		System.out.println("buses length: "+buses.length);
 		
-		//Getting all the routes
-		this.theRoutes = new Route[1];
-		this.theRoutes[0] = new Route("358out");
-		
-		//Setting the current day
-		this.theRoutes = new Route[2];
-		this.theRoutes[0] = new Route("358out");
-		this.theRoutes[1] = new Route("358back");
 		this.currentDay = currentDay;
 		
 		//Getting all the available drivers
@@ -46,12 +37,21 @@ public class Roster
 		  drivers[i] = new Driver(driverIDs[i]);
 		
 	}
+	
+	public void createRoutes()
+	{
+		//Setting the current day
+		this.theRoutes = new Route[2];
+		this.theRoutes[0] = new Route("358out", currentDay);
+		this.theRoutes[1] = new Route("358back", currentDay);
+	}
 
 	public void generateRoster()
 	{
 		for(int days = 0; days < 7; days++)
 		{
 			startDayDriverBus();
+			createRoutes();
 			for(int min = 160; min < MIN_IN_DAY+160; min ++)
 			{
 				for(int route = 0; route < theRoutes.length; route++)
@@ -61,12 +61,26 @@ public class Roster
 						if(theRoutes[route].getService(services).getStartTime() == min)
 						{
 							//get most appropriate driver
+							Driver bestDriver = getBestDriver(theRoutes[route].getService(services));
+							theRoutes[route].getService(services).setDriver(bestDriver);
+							bestDriver.setOnRoute(true);
+							
 							//get most appropriate bus
+							Bus bestBus = getBestBus(theRoutes[route].getService(services));
+							theRoutes[route].getService(services).setBus(bestBus);
+							bestBus.setIsOnRoute(true);
 						}//if a service is going to start at min
 						if(theRoutes[route].getService(services).getEndTime() == min)
 						{
 							//set driver to available
+							Driver endDriver = theRoutes[route].getService(services).getDriver();
+							endDriver.setOnRoute(false);
+							endDriver.setLocation(theRoutes[route].getService(services).getEndLocation());
+							endDriver.addMinWorkedDay(theRoutes[route].getService(services).getDuration());
 							//set bus to available
+							Bus endBus = theRoutes[route].getService(services).getBus();
+							endBus.setIsOnRoute(false);
+							endBus.setLocation(null);
 						}//if the service is going to end at min
 					}//loop over the services
 				}//loop over routes	
@@ -94,11 +108,10 @@ public class Roster
 						((drivers[i].getLocation()==null) || 
 						 (drivers[i].getLocation().equals(service.getStartLocation()))))
 				{
-					//System.out.println(theRoutes[route].averageTimePerDriver(count));
 	      	fitDriver = drivers[i];
 				}
-		bestDriver = fitDriver;
-		return bestDriver;
+		System.out.println("For service " + service + " best driver is: " + fitDriver);
+		return fitDriver;
 	}
 	
 	/**
@@ -109,14 +122,13 @@ public class Roster
 		Bus fitBus = null;
 		
 		for (int i = 0; i < buses.length; i++)
-		  if ((!buses[i].getIsOnRoute()) && (buses[i].getLocation()==null) || 
-					 (buses[i].getLocation().equals(service.getStartLocation())))
+		  if ((!buses[i].getIsOnRoute()) && ((buses[i].getLocation()==null) || 
+					 (buses[i].getLocation().equals(service.getStartLocation()))))
 		  {	
 				fitBus = buses[i];
 		  }
-		
-		bestBus = fitBus;
-		return bestBus;
+		System.out.println("For service " + service + "best bus is: " + fitBus);
+		return fitBus;
 	}
 	
 	public void startDayDriverBus()
