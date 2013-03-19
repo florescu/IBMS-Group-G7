@@ -57,6 +57,22 @@ public class Service
 	{
 		this.startTime = startTime;
 	}
+	
+	/**
+	 * @return the endTime
+	 */
+	public int getEndTime()
+	{
+		return endTime;
+	}
+
+	/**
+	 * @param endTime the endTime to set
+	 */
+	public void setEndTime(int endTime)
+	{
+		this.endTime = endTime;
+	}
 
 	/**
 	 * @return the duration

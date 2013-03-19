@@ -44,6 +44,7 @@ public class Roster
 		this.drivers = new Driver[driversLength];
 		for(int i = 0; i < driversLength; i++) 
 		  drivers[i] = new Driver(driverIDs[i]);
+		
 	}
 
 	public void generateRoster()
@@ -62,7 +63,7 @@ public class Roster
 							//get most appropriate driver
 							//get most appropriate bus
 						}//if a service is going to start at min
-						if(theRoutes[route].getService(services).getStartTime() == min)
+						if(theRoutes[route].getService(services).getEndTime() == min)
 						{
 							//set driver to available
 							//set bus to available

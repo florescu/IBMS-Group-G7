@@ -12,6 +12,7 @@ public class Bus
 	{
 		this.id = id;
 		this.isOnRoute = false;
+		this.location = null;
 	}
 
 	/**

@@ -16,6 +16,7 @@ public class Driver
 		this.id = id;
 		this.name = DriverInfo.getName(id);
 		this.isOnRoute = false;
+		this.location = null;
 	}
 	
 	/**
