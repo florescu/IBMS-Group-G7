@@ -17,6 +17,7 @@ public class Driver
 		this.name = DriverInfo.getName(id);
 		this.isOnRoute = false;
 		this.location = null;
+		this.minWorkedWeek = DriverInfo.getHoursThisWeek(id);
 	}
 	
 	/**
@@ -41,6 +42,11 @@ public class Driver
 		this.minWorkedWeek = this.minWorkedWeek + mins;
 	}
 	
+	public void saveMinWorkedWeek()
+	{
+    DriverInfo.setHoursThisWeek(this.id, this.minWorkedWeek);
+	}
+	
 	/**
 	 * @return the driver info
 	 */
@@ -48,7 +54,7 @@ public class Driver
 	{
 		return "Driver Id: " + this.id + "\n"+
 		       "Name: "+ this.name + "\n"+
-		       "Hours worked this week: "+ this.minWorkedWeek/60 + "\n";
+		       "Minutes worked this week: "+ this.minWorkedWeek + "\n";
 	}
 
 	/**

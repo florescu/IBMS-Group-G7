@@ -17,7 +17,7 @@ public class Route
 	{
 		this.routeNumber = BusStopInfo.findRoute(""+routeName);
 		//this.services = services;
-		this.noOfServices = TimetableInfo.getNumberOfServices(this.routeNumber);
+		this.noOfServices = TimetableInfo.getNumberOfServices(this.routeNumber, currentDay.getTime());
 		this.services = new Service[this.noOfServices];
 		for(int i = 0; i < this.noOfServices; i++)
 		{
@@ -29,7 +29,6 @@ public class Route
 			}
 			Arrays.sort(servicesDB);
 			int timingPoints[] = TimetableInfo.getTimingPoints(this.routeNumber);
-			System.out.println("Start: "+BusStopInfo.getFullName(timingPoints[0])+ "\tEnd: " + BusStopInfo.getFullName(timingPoints[timingPoints.length-1]));
 			this.services[i] = new Service(servicesDB[0], servicesDB[servicesDB.length-1], timingPoints[0], timingPoints[timingPoints.length-1]);
 			this.totalDuration = this.totalDuration + this.services[i].getDuration();
 		}
@@ -109,6 +108,14 @@ public class Route
 	public void setNoOfServices(int noOfServices)
 	{
 		this.noOfServices = noOfServices;
+	}
+
+	/**
+	 * @return the totalDuration
+	 */
+	public int getTotalDuration()
+	{
+		return totalDuration;
 	}	
 	
 }

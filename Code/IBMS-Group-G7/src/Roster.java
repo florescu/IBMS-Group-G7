@@ -1,4 +1,5 @@
 import java.util.*;
+import java.math.*;
 
 
 public class Roster
@@ -6,9 +7,10 @@ public class Roster
 	private Driver drivers[]; //An array of the available drivers
 	private Bus buses[]; //An array for the available buses 
 	private Route	theRoutes[];
+	private int averageTimePerDriver;
 	private GregorianCalendar currentDay; //The date to generate roster for
 	public final int MIN_IN_DAY = 1440;
-	
+
 
 	/**
 	 * @param currentDay
@@ -23,27 +25,57 @@ public class Roster
 			this.buses[i] = new Bus(busIDs[i]);
 		}
 		System.out.println("buses length: "+buses.length);
-		
+
 		this.currentDay = currentDay;
-		
+
 		//Getting all the available drivers
 		int[] driverIDs = DriverInfo.getDrivers();
-    int driversLength = 0;
+
+		for (int i = 0; i < driverIDs.length; i++)
+		{
+			Driver newDriver = new Driver(driverIDs[i]);
+			newDriver.setMinWorkedWeek(0);
+			newDriver.saveMinWorkedWeek();
+		}
+
+		int driversLength = 0;
 		for(int i = 0; i < driverIDs.length; i++)
 			if (DriverInfo.isAvailable(driverIDs[i]))
 				driversLength++;
 		this.drivers = new Driver[driversLength];
 		for(int i = 0; i < driversLength; i++) 
-		  drivers[i] = new Driver(driverIDs[i]);
-		
+		{
+			drivers[i] = new Driver(driverIDs[i]);
+		}
+
+		calculateAverage();
 	}
-	
+
 	public void createRoutes()
 	{
 		//Setting the current day
-		this.theRoutes = new Route[2];
+		this.theRoutes = new Route[4];
 		this.theRoutes[0] = new Route("358out", currentDay);
 		this.theRoutes[1] = new Route("358back", currentDay);
+		this.theRoutes[2] = new Route("383", currentDay);
+		this.theRoutes[3] = new Route("384", currentDay);
+	}
+
+	public void calculateAverage()
+	{
+		int totalDuration = 0;
+		for(int days = 0; days < 7; days++)
+		{
+			createRoutes();
+			for(int route = 0; route < theRoutes.length; route++)
+			{
+				totalDuration += theRoutes[route].getTotalDuration();
+			}//loop over routes	
+			currentDay.add(Calendar.DAY_OF_YEAR, 1);
+		}//loop over days
+		int average = totalDuration / 70;
+		System.out.println("Average: " + average);
+		this.averageTimePerDriver = average;
 	}
 
 	public void generateRoster()
@@ -64,7 +96,7 @@ public class Roster
 							Driver bestDriver = getBestDriver(theRoutes[route].getService(services));
 							theRoutes[route].getService(services).setDriver(bestDriver);
 							bestDriver.setOnRoute(true);
-							
+
 							//get most appropriate bus
 							Bus bestBus = getBestBus(theRoutes[route].getService(services));
 							theRoutes[route].getService(services).setBus(bestBus);
@@ -75,7 +107,7 @@ public class Roster
 							//set driver to available
 							Driver endDriver = theRoutes[route].getService(services).getDriver();
 							endDriver.setOnRoute(false);
-							endDriver.setLocation(theRoutes[route].getService(services).getEndLocation());
+							endDriver.setLocation(null);
 							endDriver.addMinWorkedDay(theRoutes[route].getService(services).getDuration());
 							//set bus to available
 							Bus endBus = theRoutes[route].getService(services).getBus();
@@ -85,10 +117,22 @@ public class Roster
 					}//loop over the services
 				}//loop over routes	
 			}//loop over minutes of day
+			for (int i = 0; i<drivers.length; i++)
+				drivers[i].saveMinWorkedWeek();
 			currentDay.add(Calendar.DAY_OF_YEAR, 1);
 		}//loop over days
+		int tot=0;
+		int driverIDs[] = DriverInfo.getDrivers();
+		drivers = new Driver[driverIDs.length];
+		for (int i = 0; i<driverIDs.length; i++)
+		{
+			drivers[i] = new Driver(driverIDs[i]);
+			tot += drivers[i].getMinWorkedWeek();
+		}
+		System.out.println("tot: "+tot);
+		printDay();
 	}//generateRoster
-	
+
 	/**
 	 * @return the best fit driver
 	 */
@@ -96,41 +140,86 @@ public class Roster
 	{
 		int count = 0;
 		Driver fitDriver = null;
-		
+
 		for (int i = 0; i < drivers.length; i++)
-		  if ((!drivers[i].isOnRoute()))
+			if ((!drivers[i].isOnRoute()))
 				count++;
-		
+
+		int noOfPosDrivers = 0;
+		int bestMins = 534232324;		
 		for (int i = 0; i < drivers.length; i++)  
-		  for (int route = 0; route < theRoutes.length; route++)
-				if ((!drivers[i].isOnRoute()) && 
-						(drivers[i].getMinWorkedDay() < theRoutes[route].averageTimePerDriver(count)) &&
-						((drivers[i].getLocation()==null) || 
-						 (drivers[i].getLocation().equals(service.getStartLocation()))))
+			if ((!drivers[i].isOnRoute()) &&  (drivers[i].getMinWorkedDay() < 300) &&
+					((drivers[i].getLocation()==null) || 
+							(drivers[i].getLocation().equals(service.getStartLocation()))))
+			{
+				int bestMinutes = averageTimePerDriver-drivers[i].getMinWorkedWeek()-service.getDuration();
+				if (bestMinutes > 0 && bestMinutes < bestMins)
 				{
-	      	fitDriver = drivers[i];
+					bestMins = bestMinutes;
+					fitDriver = drivers[i];
+					noOfPosDrivers++;
+					//System.out.println("min " + bestMinutes);
 				}
-		System.out.println("For service " + service + " best driver is: " + fitDriver);
+			}//if
+		if(noOfPosDrivers == 0)
+		{
+			bestMins = 12312321;	
+			for (int i = drivers.length-1; i >= 0; i--)  
+				if ((!drivers[i].isOnRoute()) &&  (drivers[i].getMinWorkedDay() < 300) &&
+						((drivers[i].getLocation()==null) || 
+								(drivers[i].getLocation().equals(service.getStartLocation()))))
+				{
+					int bestMinutes = drivers[i].getMinWorkedWeek();
+					if (bestMinutes == 0)
+					{
+						fitDriver = drivers[i];
+						break;
+					}
+					if (bestMins > bestMinutes)
+					{
+						bestMins = bestMinutes;
+						fitDriver = drivers[i];
+						//System.out.println("min " + bestMinutes);
+					}
+				}//if
+		}
+
+		/*for (int i = 0; i < drivers.length; i++)  
+			if ((!drivers[i].isOnRoute()) &&
+					((drivers[i].getLocation()==null) || 
+							(drivers[i].getLocation().equals(service.getStartLocation()))))
+			{
+				if ((drivers[i].getMinWorkedWeek() >= averageTimePerDriver)
+				   && (drivers[drivers.length-i-1].getMinWorkedWeek() < averageTimePerDriver))
+				{
+						fitDriver = drivers[drivers.length-i-1];
+						//System.out.println("min " + bestMinutes);
+				}
+				else 
+					fitDriver = drivers[i];
+			}//if*/
+		
+		
+		//System.out.println("For service " + service + " best driver is: " + fitDriver);
 		return fitDriver;
 	}
-	
+
 	/**
 	 * @return the best fit bus
 	 */
 	public Bus getBestBus(Service service)
 	{
 		Bus fitBus = null;
-		
+
 		for (int i = 0; i < buses.length; i++)
-		  if ((!buses[i].getIsOnRoute()) && ((buses[i].getLocation()==null) || 
-					 (buses[i].getLocation().equals(service.getStartLocation()))))
-		  {	
+			if ((!buses[i].getIsOnRoute()) && ((buses[i].getLocation()==null) || 
+					(buses[i].getLocation().equals(service.getStartLocation()))))
+			{	
 				fitBus = buses[i];
-		  }
-		System.out.println("For service " + service + "best bus is: " + fitBus);
+			}
 		return fitBus;
 	}
-	
+
 	public void startDayDriverBus()
 	{
 		int theDriverIDs[] = getAvailableDrivers(this.currentDay);
@@ -139,11 +228,10 @@ public class Roster
 		{
 			this.drivers[i] = new Driver(theDriverIDs[i]);
 		}
-	  //loop through drivers and add min worked day to min worked week and set min worked day to 0
+		//loop through drivers and add min worked day to min worked week and set min worked day to 0
 		for(int driver = 0; driver < drivers.length; driver++)
 		{
 			//Adding the mins worked for the previous day to the week total
-			drivers[driver].setMinWorkedWeek(drivers[driver].getMinWorkedWeek()+drivers[driver].getMinWorkedDay());
 			drivers[driver].setMinWorkedDay(0);
 			drivers[driver].setOnRoute(false);
 		}
@@ -152,7 +240,7 @@ public class Roster
 			buses[bus].setIsOnRoute(false);
 		}
 	}//Setting up the drivers and buses day
-	
+
 	public static int[] getAvailableDrivers(GregorianCalendar date)
 	{
 		int availableDrivers = 0;
@@ -174,6 +262,12 @@ public class Roster
 		}
 		return availableDriverIDs;
 	}//getAvailableDrivers
-	
-	
+
+	public void printDay()
+	{
+		System.out.println("Day: " + currentDay.get(Calendar.DAY_OF_MONTH)+"/"+currentDay.get(Calendar.MONTH)+"/"+currentDay.get(Calendar.YEAR));
+		for (int i=0; i<drivers.length; i++)
+			System.out.println(drivers[i]);
+	}
+
 }//Roster
