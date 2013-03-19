@@ -33,6 +33,16 @@ public class Roster
 		this.theRoutes[0] = new Route("358out");
 		this.theRoutes[1] = new Route("358back");
 		this.currentDay = currentDay;
+		
+		//Getting all the available drivers
+		int[] driverIDs = DriverInfo.getDrivers();
+    int driversLength = 0;
+		for(int i = 0; i < driverIDs.length; i++)
+			if (DriverInfo.isAvailable(driverIDs[i]))
+				driversLength++;
+		this.drivers = new Driver[driversLength];
+		for(int i = 0; i < driversLength; i++) 
+		  drivers[i] = new Driver(driverIDs[i]);
 	}
 
 	public void generateRoster()
@@ -79,7 +89,7 @@ public class Roster
 		  for (int route = 0; route < theRoutes.length; route++)
 				if ((!drivers[i].isOnRoute()) && (drivers[i].getMinWorkedDay() < theRoutes[route].averageTimePerDriver(count)))
 				{
-					System.out.println(theRoutes[route].averageTimePerDriver(count));
+					//System.out.println(theRoutes[route].averageTimePerDriver(count));
 	      	fitDriver = drivers[i];
 				}
 		bestDriver = fitDriver;
