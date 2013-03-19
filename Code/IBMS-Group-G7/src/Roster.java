@@ -7,6 +7,7 @@ public class Roster
 	private Bus buses[]; //An array for the available buses 
 	private Route	theRoutes[];
 	private Driver bestDriver;
+	private Bus bestBus;
 	private GregorianCalendar currentDay; //The date to generate roster for
 	public final int MIN_IN_DAY = 1440;
 	
@@ -95,7 +96,24 @@ public class Roster
 		bestDriver = fitDriver;
 		return bestDriver;
 	}
-
+	
+	/**
+	 * @return the best fit bus
+	 */
+	public Bus getBestBus()
+	{
+		Bus fitBus = null;
+		
+		for (int i = 0; i < buses.length;)
+		  if ((!buses[i].getIsOnRoute()))
+				fitBus = buses[i+1];
+		  else
+		  	i++;
+		
+		bestBus = fitBus;
+		return bestBus;
+	}
+	
 	public void startDayDriverBus()
 	{
 		int theDriverIDs[] = getAvailableDrivers(this.currentDay);
