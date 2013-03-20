@@ -76,6 +76,7 @@ public class Roster
 		}//loop over days
 		int average = totalDuration / 70;
 		System.out.println("Average: " + average);
+		average=905;
 		this.averageTimePerDriver = average;
 	}
 
@@ -159,8 +160,8 @@ public class Roster
 		int noOfPosDrivers = 0;
 		int bestMins = 534232324;		
 		for (int i = 0; i < drivers.length; i++)  
-			if ((!drivers[i].isOnRoute()) && (drivers[i].getMinWorkedDay() < 600) &&  
-					(DriverInfo.getHoursThisWeek(drivers[i].getId()) < 3000) &&
+			if ((!drivers[i].isOnRoute()) && (drivers[i].getMinWorkedDay() < 300) &&  
+					(DriverInfo.getHoursThisWeek(drivers[i].getId()) < averageTimePerDriver) &&
 					((drivers[i].getLocation()==null) || 
 					(drivers[i].getLocation().equals(service.getStartLocation()))))
 			{
@@ -177,7 +178,8 @@ public class Roster
 		{
 			bestMins = 12312321;	
 			for (int i = drivers.length-1; i >= 0; i--)  
-				if ((!drivers[i].isOnRoute()) &&  (DriverInfo.getHoursThisWeek(drivers[i].getId()) < 300) &&
+				if ((!drivers[i].isOnRoute()) && (drivers[i].getMinWorkedDay() < 300) &&  
+						(DriverInfo.getHoursThisWeek(drivers[i].getId()) < averageTimePerDriver) &&
 						((drivers[i].getLocation()==null) || 
 						(drivers[i].getLocation().equals(service.getStartLocation()))))
 				{
@@ -211,14 +213,14 @@ public class Roster
 				else 
 					fitDriver = drivers[i];
 			}//if*/
-			/*for (int i = 0; i < drivers.length; i++)  
-			    if ((!drivers[i].isOnRoute()) && (drivers[i].getMinWorkedDay()<300) &&
-			    		(DriverInfo.getHoursThisWeek(drivers[i].getId()) < averageTimePerDriver) &&
+			/* (int i = 0; i < drivers.length; i++)  
+			  if ((!drivers[i].isOnRoute()) && (drivers[i].getMinWorkedDay()<300) &&
+			    	(DriverInfo.getHoursThisWeek(drivers[i].getId()) < 300)) < averageTimePerDriver) &&
 				    ((drivers[i].getLocation()==null) || 
 				    (drivers[i].getLocation().equals(service.getStartLocation()))))
 				{    
 				    return drivers[i];
-		        }*/
+		    }*/
 		 
 		
 		//System.out.println("For service " + service + " best driver is: " + fitDriver);
