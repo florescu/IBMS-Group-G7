@@ -8,13 +8,13 @@ public class TestRoster
 		database.openBusDatabase();
 		try
 		{
-			GregorianCalendar cal = new GregorianCalendar(2013,3,15);
+			GregorianCalendar cal = new GregorianCalendar(2013,3,23);
 			Roster theRoster = new Roster(cal);
 			theRoster.generateRoster();
 		}
 		catch(InvalidQueryException e)
 		{
-			System.out.println(e.getMessage());
+			System.err.println(e.getMessage());
 		}
 	}
 

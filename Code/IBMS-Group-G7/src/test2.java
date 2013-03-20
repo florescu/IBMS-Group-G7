@@ -30,7 +30,7 @@ public class test2 {
        
         for (int j=0; j<365; j++)
         {
-          System.out.println(" "+newDate.get(DAY_OF_MONTH)+ " "+newDate.get(MONTH) +" "+  DriverInfo.isAvailable(2066, newDate.getTime()));
+          System.out.println(" "+newDate.get(DAY_OF_MONTH)+ " "+newDate.get(MONTH) +" "+  DriverInfo.getHoursThisWeek(2040));
           newDate.add(DAY_OF_YEAR,1);
         }
         

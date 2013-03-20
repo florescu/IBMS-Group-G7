@@ -34,8 +34,8 @@ public class SetDriversRestDays{
         		
           	System.out.println(dayOne.get(Calendar.DAY_OF_MONTH)+"/"+dayOne.get(Calendar.MONTH)+"/"+dayOne.get(Calendar.YEAR)+"\t"+dayTwo.get(Calendar.DAY_OF_MONTH)+"/"+dayTwo.get(Calendar.MONTH)+"/"+dayTwo.get(Calendar.YEAR));
           	currentWeek.add(WEEK_OF_YEAR, 1);
-          	DriverInfo.isAvailable(driverIDs[i],dayOne.getTime());
-          	DriverInfo.isAvailable(driverIDs[i],dayTwo.getTime());
+          	DriverInfo.setAvailable(driverIDs[i],dayOne.getTime(),false);
+          	DriverInfo.setAvailable(driverIDs[i],dayTwo.getTime(),false);
           }
           dayOfWeek = (dayOfWeek+1)%7;
         }

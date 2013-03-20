@@ -43,9 +43,10 @@ public class TestDriverClass
 		{
 			System.out.println(BusStopInfo.getFullName(busStops[i]) + " " + busStops[i]);
 		}
+		
+		GregorianCalendar currentDay = new GregorianCalendar(2013,03,15);
 	
-	
-		Route route1 = new Route(routeName);
+		Route route1 = new Route(routeName, currentDay);
 		Service theServices[] = route1.getServices();
 		for(int i = 0; i < theServices.length; i++)
 		{
@@ -53,11 +54,13 @@ public class TestDriverClass
 		}
 		System.out.println("averageTimePerDriver "+route1.averageTimePerDriver(50));
 	
-		GregorianCalendar currentDay = new GregorianCalendar(2013,03,15);
     Roster roster = new Roster(currentDay);
+    roster.generateRoster();
     
-		System.out.println("Best driver is " + roster.getBestDriver());
-	
+		System.out.println("Best driver is " + roster.getBestDriver(theServices[1]));
+		System.out.println("Best bus is " + roster.getBestBus(theServices[1]));
+		
+		
 			
 			
 			

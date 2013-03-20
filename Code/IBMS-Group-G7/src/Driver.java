@@ -5,7 +5,7 @@ public class Driver
 	private int minWorkedWeek; //The minutes they have worked this week
 	private int minWorkedDay; //The minutes they have worked today
 	private boolean isOnRoute;
-	private int location; //The location of the driver
+	private String location; //The location of the driver
 
 	/**
 	 * @param id
@@ -16,6 +16,8 @@ public class Driver
 		this.id = id;
 		this.name = DriverInfo.getName(id);
 		this.isOnRoute = false;
+		this.location = null;
+		this.minWorkedWeek = DriverInfo.getHoursThisWeek(id);
 	}
 	
 	/**
@@ -40,14 +42,19 @@ public class Driver
 		this.minWorkedWeek = this.minWorkedWeek + mins;
 	}
 	
+	public void saveMinWorkedWeek()
+	{
+    DriverInfo.setHoursThisWeek(this.id, this.minWorkedWeek);
+	}
+	
 	/**
-	 * @return the driver
+	 * @return the driver info
 	 */
 	public String toString()
 	{
 		return "Driver Id: " + this.id + "\n"+
 		       "Name: "+ this.name + "\n"+
-		       "Hours worked this week: "+ this.minWorkedWeek/60 + "\n";
+		       "Minutes worked this week: "+ DriverInfo.getHoursThisWeek(this.id) + "\n";
 	}
 
 	/**
@@ -80,6 +87,22 @@ public class Driver
 	public void setName(String name)
 	{
 		this.name = name;
+	}
+	
+	/**
+	 * @return the location
+	 */
+	public String getLocation()
+	{
+		return location;
+	}
+
+	/**
+	 * @param name the new location
+	 */
+	public void setLocation(String newLocation)
+	{
+		this.location = newLocation;
 	}
 
 	/**
