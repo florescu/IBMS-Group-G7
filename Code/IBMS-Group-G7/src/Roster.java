@@ -159,8 +159,8 @@ public class Roster
 		int noOfPosDrivers = 0;
 		int bestMins = 534232324;		
 		for (int i = 0; i < drivers.length; i++)  
-			if ((!drivers[i].isOnRoute()) && (drivers[i].getMinWorkedDay() < 300) &&  
-					(DriverInfo.getHoursThisWeek(drivers[i].getId()) < averageTimePerDriver) &&
+			if ((!drivers[i].isOnRoute()) && (drivers[i].getMinWorkedDay() < 600) &&  
+					(DriverInfo.getHoursThisWeek(drivers[i].getId()) < 3000) &&
 					((drivers[i].getLocation()==null) || 
 					(drivers[i].getLocation().equals(service.getStartLocation()))))
 			{

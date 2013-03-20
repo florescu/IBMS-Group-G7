@@ -54,7 +54,7 @@ public class Driver
 	{
 		return "Driver Id: " + this.id + "\n"+
 		       "Name: "+ this.name + "\n"+
-		       "Minutes worked this week: "+ this.minWorkedWeek + "\n";
+		       "Minutes worked this week: "+ DriverInfo.getHoursThisWeek(this.id) + "\n";
 	}
 
 	/**
