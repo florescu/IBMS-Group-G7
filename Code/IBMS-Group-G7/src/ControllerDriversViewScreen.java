@@ -18,7 +18,12 @@ class ControllerDriversViewScreen extends JFrame
   Color layoutBgClr = new Color(255, 255, 255);
   Color lblFgClr = new Color(150, 150, 150);
   Color reqBgClr = new Color(140, 140, 140);
- 
+
+  int driversNum;
+  int driversIDs[];
+  String driversNames[];
+
+
   public ControllerDriversViewScreen(String paramString){
 
     this.setTitle(paramString);
@@ -91,7 +96,9 @@ class ControllerDriversViewScreen extends JFrame
 
     //Get all the ids
     database.openBusDatabase();
-    int[] driversIDs = DriverInfo.getDrivers();
+    driversIDs = DriverInfo.getDrivers();
+
+    driversNum = driversIDs.length;
 
     for(int i = 0; i< driversIDs.length; i++){
       System.out.println("Driver: " + driversIDs[i]);
@@ -99,7 +106,7 @@ class ControllerDriversViewScreen extends JFrame
 
     
     //Get all the names
-    String[] driversNames = new String[driversIDs.length];
+    driversNames = new String[driversIDs.length];
 
     for(int i = 0; i < driversNames.length; i++){
       driversNames[i]=DriverInfo.getName(driversIDs[i]);
@@ -189,12 +196,18 @@ class ControllerDriversViewScreen extends JFrame
       new ControllerDriversViewScreen(title);
     }
 
+    // catch the view report click events
+    for(int i = 0; i < driversNum; i++){
 
+      String rBtnAction = "vreport" + i;
 
+      if(rBtnAction.equals(actionCmd)){
+        this.dispose();
+        new DriverReport("G7 - IBMS System | Driver Report", 
+                         driversIDs[i], driversNames[i]);
+      }//if
 
-
-
-
+    }//for
 
   }//actionPerformed
 }//class
