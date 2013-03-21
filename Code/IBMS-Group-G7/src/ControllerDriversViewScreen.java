@@ -86,6 +86,56 @@ class ControllerDriversViewScreen extends JFrame
     contentPanel.setLayout(new BorderLayout());
     contentPanel.setBackground(layoutBgClr);
 
+    
+    //Create the layouts for each driver
+
+    //Get all the ids
+    database.openBusDatabase();
+    int[] driversIDs = DriverInfo.getDrivers();
+
+    for(int i = 0; i< driversIDs.length; i++){
+      System.out.println("Driver: " + driversIDs[i]);
+    }
+
+    
+    //Get all the names
+    String[] driversNames = new String[driversIDs.length];
+
+    for(int i = 0; i < driversNames.length; i++){
+      driversNames[i]=DriverInfo.getName(driversIDs[i]);
+    }//for
+
+
+    JPanel[] driverDataPanels = new JPanel[driversIDs.length];
+    JButton[] vReportBtns = new JButton[driversIDs.length];
+
+    //Create the View Report Buttons
+    for(int i = 0; i < driversIDs.length; i++){
+      vReportBtns[i] = new JButton("View Report");
+      vReportBtns[i].setForeground(lblFgClr);
+      vReportBtns[i].setBackground(layoutBgClr);
+      vReportBtns[i].setActionCommand("vreport" + i);
+      vReportBtns[i].addActionListener(this);
+    }//for
+
+    //Create the drivers dataPanel
+    for(int i = 0; i < driversIDs.length; i++){
+      driverDataPanels[i] = new JPanel();
+      driverDataPanels[i].setLayout(new GridLayout(3, 1));
+      driverDataPanels[i].setBackground(layoutBgClr);
+
+      driverDataPanels[i].add(new JLabel("Name: " + driversNames[i]));
+      driverDataPanels[i].add(new JLabel("Id: " + driversIDs[i]));
+      driverDataPanels[i].add(vReportBtns[i]);
+    }//for
+
+
+    // Add the driver panels to the main content panel
+    for(int i = 0; i < driversIDs.length; i++){
+      mainContentPanel.add(driverDataPanels[i]);
+    }//for
+
+
     //Add the label to the content panel
     contentPanel.add(jScrollPanel, BorderLayout.CENTER);
 

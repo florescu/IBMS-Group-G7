@@ -6,7 +6,7 @@ class ControllerReportViewScreen extends JFrame
                                   implements ActionListener{
 
   //Declare the components
-  JLabel jLabelTimetable, jLabelSelectedView;
+  JLabel jLabelTimetable, jLabelSelectedView, jLabelReport;
   JPanel contentPanel, mainContentPanel, requestPanel;
   JScrollPane jScrollPanel;
   JMenuBar mainMenuBar;
@@ -35,6 +35,12 @@ class ControllerReportViewScreen extends JFrame
 
     jLabelSelectedView = new JLabel("Selected View: Report");
     jLabelSelectedView.setForeground(lblFgClr);
+
+    //Report label
+    jLabelReport = new JLabel("Report layout");
+    jLabelReport.setForeground(lblFgClr);
+    jLabelReport.setBackground(layoutBgClr);
+    jLabelReport.setHorizontalAlignment(SwingConstants.LEFT);
 
     //Add the two menus to the menu bar
     mainMenuBar.add(jMenuFile);
@@ -85,6 +91,10 @@ class ControllerReportViewScreen extends JFrame
     contentPanel.setPreferredSize(new Dimension(600, 300));
     contentPanel.setLayout(new BorderLayout());
     contentPanel.setBackground(layoutBgClr);
+
+    //Add the REPORT layer to the main content
+    mainContentPanel.add(jLabelReport);
+
 
     //Add the label to the content panel
     contentPanel.add(jScrollPanel, BorderLayout.CENTER);

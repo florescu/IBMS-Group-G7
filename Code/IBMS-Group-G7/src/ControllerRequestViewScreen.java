@@ -168,16 +168,18 @@ class ControllerRequestViewScreen extends JFrame
     if("exit".equals(actionCmd))
       System.exit(0);
     else if ("timetables".equals(actionCmd)){
-      System.out.println("Timetables menu selected");
+      this.dispose();
+      new ControllerTimetableViewScreen(title);
     }
     else if ("holidays".equals(actionCmd)){
       this.dispose();
       new ControllerRequestViewScreen(title);
     }
     else if ("drivers".equals(actionCmd)){
-      System.out.println("Drivers menu selected");
+      this.dispose();
+      new ControllerDriversViewScreen(title);
     }
-
+/*
     for(int i = 0; i < 10; i++){
       String aBtnAction = "approve"+i;
       String dBtnAction = "decline"+i;
@@ -192,7 +194,7 @@ class ControllerRequestViewScreen extends JFrame
         System.out.println("" + dBtnAction + " pressed");
       }
     }//for
-
+*/
 
   }//actionPerformed
 }//class
