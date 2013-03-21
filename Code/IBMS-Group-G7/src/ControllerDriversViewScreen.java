@@ -12,7 +12,7 @@ class ControllerDriversViewScreen extends JFrame
   JMenuBar mainMenuBar;
   JMenu jMenuFile, jMenuView;
   JMenuItem jMItemSave, jMItemPrint, jMItemExit;
-  JMenuItem jMItemTimetables, jMItemHolidays, jMItemDrivers;
+  JMenuItem jMItemTimetables, jMItemReport, jMItemDrivers;
 
   //Declate the colors
   Color layoutBgClr = new Color(255, 255, 255);
@@ -53,9 +53,9 @@ class ControllerDriversViewScreen extends JFrame
     jMItemTimetables.setActionCommand("timetables");
     jMItemTimetables.addActionListener(this);
  
-    jMItemHolidays = new JMenuItem("Holidays", KeyEvent.VK_H);
-    jMItemHolidays.setActionCommand("holidays");
-    jMItemHolidays.addActionListener(this);
+    jMItemReport = new JMenuItem("Report", KeyEvent.VK_R);
+    jMItemReport.setActionCommand("report");
+    jMItemReport.addActionListener(this);
  
     jMItemDrivers = new JMenuItem("Drivers", KeyEvent.VK_D);
     jMItemDrivers.setActionCommand("drivers");
@@ -67,7 +67,7 @@ class ControllerDriversViewScreen extends JFrame
     jMenuFile.add(this.jMItemExit);
  
     jMenuView.add(this.jMItemTimetables);
-    jMenuView.add(this.jMItemHolidays);
+    jMenuView.add(this.jMItemReport);
     jMenuView.add(this.jMItemDrivers);
 
     //Create the mainContent panel
@@ -130,9 +130,9 @@ class ControllerDriversViewScreen extends JFrame
       this.dispose();
       new ControllerTimetableViewScreen(title);
     }
-    else if ("holidays".equals(actionCmd)){
+    else if ("report".equals(actionCmd)){
       this.dispose();
-      new ControllerRequestViewScreen(title);
+      new ControllerReportViewScreen(title);
     }
     else if ("drivers".equals(actionCmd)){
       this.dispose();
