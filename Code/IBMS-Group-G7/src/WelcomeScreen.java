@@ -105,7 +105,7 @@ class WelcomeScreen extends JFrame implements ActionListener{
        System.out.println("Passanger button pressed");
     }else{
        dispose();
-       new ControllerIdScreen("G7 - IBMS System | Controller - Identification");
+       new ControllerTimetableViewScreen("G7 - IBMS System | Controller - Identification");
     }//else
   }//actionPerformed
 

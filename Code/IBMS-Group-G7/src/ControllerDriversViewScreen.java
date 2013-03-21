@@ -202,7 +202,7 @@ class ControllerDriversViewScreen extends JFrame
       String rBtnAction = "vreport" + i;
 
       if(rBtnAction.equals(actionCmd)){
-        this.dispose();
+        //this.dispose();
         new DriverReport("G7 - IBMS System | Driver Report", 
                          driversIDs[i], driversNames[i]);
       }//if
