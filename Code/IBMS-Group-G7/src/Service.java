@@ -201,4 +201,16 @@ public class Service
   	return database.busDatabase.select_ids("service_id", "service", "service_id");
   }
   
+  /**
+   * See if a service is in databse.
+   */
+  public static boolean isInDatabase(int service)
+  {
+  	int[] serviceIDs = getServices();
+  	for (int i=0; i<serviceIDs.length; i++)
+  		if (service == serviceIDs[i])
+  			return true;
+		return false;
+  }// isInDatabase
+  
 }

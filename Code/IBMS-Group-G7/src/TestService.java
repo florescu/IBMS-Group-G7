@@ -30,8 +30,8 @@ public class TestService {
         	System.out.println(serviceIDs[i] + " is cancelled: " + Service.isCancelled(serviceIDs[i]));
         */
         
-        /*Service.setDelayedTime(serviceIDs[serviceIDs.length-1], 0);
-        System.out.println("---------------------------------------");
+        Service.setDelayedTime(serviceIDs[serviceIDs.length-1], 5);
+       /* System.out.println("---------------------------------------");
         for (int i=0; i<serviceIDs.length; i++)
         	System.out.println(serviceIDs[i] + " is cancelled: " + Service.isCancelled(serviceIDs[i])
         											+ " is delayed: " + Service.isDelayed(serviceIDs[i]));
