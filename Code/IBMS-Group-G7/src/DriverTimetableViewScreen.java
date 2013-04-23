@@ -1,5 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.io.*;
+
 import javax.swing.*;
 
 class DriverTimetableViewScreen extends JFrame 
@@ -10,11 +12,13 @@ class DriverTimetableViewScreen extends JFrame
 
   //Declare the components 
   JLabel jLabelTimetable, jLabelSelectedView;
-  JPanel contentPanel;
+  JPanel contentPanel, textAreaPanel;
   JMenuBar mainMenuBar;
   JMenu jMenuFile, jMenuView;
   JMenuItem jMItemSave, jMItemPrint, jMItemExit;
   JMenuItem jMItemTimetable, jMItemHolidays;
+  JTextArea JTextAreaTimetable;
+  JScrollPane jScrollPanel;
 
   //Declare the colours
   Color layoutBgClr = new Color(255, 255, 255);
@@ -68,17 +72,39 @@ class DriverTimetableViewScreen extends JFrame
     jMenuView.add(this.jMItemTimetable);
     jMenuView.add(this.jMItemHolidays);
  
-    jLabelTimetable = new JLabel("Timetable");
-    jLabelTimetable.setForeground(this.lblFgClr);
- 
+    //jLabelTimetable = new JLabel("Timetable");
+    //jLabelTimetable.setForeground(this.lblFgClr);
+    JTextAreaTimetable = new JTextArea();
+    
     //Create the contentPanel
     contentPanel = new JPanel();
     contentPanel.setPreferredSize(new Dimension(600, 300));
     contentPanel.setLayout(new GridLayout(1, 1));
     contentPanel.setBackground(this.layoutBgClr);
 
-    contentPanel.add(this.jLabelTimetable);
- 
+    //contentPanel.add(this.jLabelTimetable);
+  //Create the scrollpanel
+   /* jScrollPanel = new JScrollPane(textAreaPanel);
+    jScrollPanel.setBackground(layoutBgClr);*/
+    
+    //getContentPane().add(new JScrollPane(JTextAreaTimetable));
+    //Putting content in.
+    try{
+    	JTextAreaTimetable.read(new FileReader("reports/18_3_2013/drivers/"+driverID), null);
+    }catch(IOException ioe)
+    {
+    	
+    } 
+    
+    JTextAreaTimetable.setEditable(false);
+    
+    jScrollPanel = new JScrollPane(JTextAreaTimetable);
+    jScrollPanel.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+    jScrollPanel.setBackground(layoutBgClr);
+    
+    //contentPanel.add(this.JTextAreaTimetable);
+    contentPanel.add(jScrollPanel, BorderLayout.CENTER);
+    
     //Resize and position the window
     Dimension localDimension = Toolkit.getDefaultToolkit().getScreenSize();
 

@@ -45,7 +45,7 @@ public class database
       busDatabase = new database("13_COMP23420_G7",
 	  	 "13_COMP23420_G7",
               	 "PyzBwqMnNdtM85Jy",
-	  	 "jdbc:mysql://ramen.cs.man.ac.uk:3306",
+	  	 "jdbc:mysql://potnoodle.cs.man.ac.uk:3306",
              	 "com.mysql.jdbc.Driver");
       busDatabase.open();
     }

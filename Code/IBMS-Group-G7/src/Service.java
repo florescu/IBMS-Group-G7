@@ -24,10 +24,10 @@ public class Service
 	
 	public String toString()
 	{
-		return "Service start location: " + this.startLocation + " end location " + this.endLocation + "\n" +
+		return "\nService start location: " + this.startLocation + " end location " + this.endLocation + "\n" +
 					 "Start Time: "+ this.startTime + "\n"+
 					 "End Time: "+ this.endTime + "\n"+
-					 "Duration: "+ this.duration;
+					 "Duration: "+ this.duration+ "\n";
 	}
 	
 	/**

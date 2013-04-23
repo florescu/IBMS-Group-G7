@@ -1,5 +1,8 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.io.FileReader;
+import java.io.IOException;
+
 import javax.swing.*;
 
 class DriverReport extends JFrame 
@@ -9,6 +12,7 @@ class DriverReport extends JFrame
   JLabel jLabelTimetable, jLabelSelectedView, jLabelContent;
   JPanel contentPanel, mainContentPanel, requestPanel;
   JScrollPane jScrollPanel;
+  JTextArea JTextAreaTimetable;
 
   //Declate the colors
   Color layoutBgClr = new Color(255, 255, 255);
@@ -32,6 +36,7 @@ class DriverReport extends JFrame
     //Create the scrollpanel
     jScrollPanel = new JScrollPane(mainContentPanel);
     jScrollPanel.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+    jScrollPanel.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
     jScrollPanel.setBackground(layoutBgClr);
 
     //Create the content panel
@@ -40,14 +45,21 @@ class DriverReport extends JFrame
     contentPanel.setLayout(new BorderLayout());
     contentPanel.setBackground(layoutBgClr);
 
-      //Create the label for the content panel
-    jLabelContent = new JLabel("Name: " + driverName + "| Id: " + driverID);
-    jLabelContent.setForeground(lblFgClr);
-    jLabelContent.setBackground(layoutBgClr);
-    jLabelContent.setHorizontalAlignment(SwingConstants.LEFT);
+     
+    
+    JTextAreaTimetable = new JTextArea();
+    
+    try{
+    	JTextAreaTimetable.read(new FileReader("reports/25_3_2013/drivers/"+driverID), null);
+    }catch(IOException ioe)
+    {
+    	
+    } 
+    
+    JTextAreaTimetable.setEditable(false);
 
     //Add the label to the Scroll panel
-    mainContentPanel.add(jLabelContent); 
+    mainContentPanel.add(JTextAreaTimetable); 
 
     //Add the label to the content panel
     contentPanel.add(jScrollPanel, BorderLayout.CENTER);

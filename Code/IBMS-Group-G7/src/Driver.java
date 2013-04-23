@@ -52,10 +52,11 @@ public class Driver
 	 */
 	public String toString()
 	{
-		return "Driver Id: " + this.id + "\n"+
+		return "\nDriver Id: " + this.id + "\n"+
 		       "Name: "+ this.name + "\n"+
 		       "Minutes worked this week: "+ DriverInfo.getHoursThisWeek(this.id) + "\n";
 	}
+	
 
 	/**
 	 * @return the id

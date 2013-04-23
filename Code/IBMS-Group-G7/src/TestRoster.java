@@ -8,7 +8,7 @@ public class TestRoster
 		database.openBusDatabase();
 		try
 		{
-			GregorianCalendar cal = new GregorianCalendar(2013,3,23);
+			GregorianCalendar cal = new GregorianCalendar(2013,3,11);
 			Roster theRoster = new Roster(cal);
 			theRoster.generateRoster();
 		}

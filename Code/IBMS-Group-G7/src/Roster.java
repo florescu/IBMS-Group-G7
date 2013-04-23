@@ -1,5 +1,7 @@
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.*;
-import java.math.*;
 
 
 public class Roster
@@ -9,8 +11,9 @@ public class Roster
 	private Route	theRoutes[];
 	private int averageTimePerDriver;
 	private GregorianCalendar currentDay; //The date to generate roster for
+	private String weekString;
 	public final int MIN_IN_DAY = 1440;
-  private int time = 0;
+	private int time = 0;
 
 	/**
 	 * @param currentDay
@@ -24,19 +27,50 @@ public class Roster
 		{
 			this.buses[i] = new Bus(busIDs[i]);
 		}
-		System.out.println("buses length: "+buses.length);
 
 		this.currentDay = currentDay;
-
+		this.weekString = currentDay.get(Calendar.DAY_OF_MONTH)+"_"+currentDay.get(Calendar.MONTH)+"_"+currentDay.get(Calendar.YEAR);
+		
+		boolean success = (new File("reports/"+weekString)).mkdirs();
+		if (!success)
+		{
+		   System.out.println("Cannot make directory "+ weekString); 
+		}
+		success = (new File("reports/"+weekString+"/drivers").mkdirs());
+		if (!success)
+		{
+		   System.out.println("Cannot make directory drivers"); 
+		}
 		//Getting all the available drivers
 		int[] driverIDs = DriverInfo.getDrivers();
 
 		for (int i = 0; i < driverIDs.length; i++)
 		{
 			Driver newDriver = new Driver(driverIDs[i]);
-			//newDriver.setMinWorkedWeek(0);
-			//newDriver.saveMinWorkedWeek();
 			DriverInfo.setHoursThisWeek(newDriver.getId(), 0);
+			try
+			{
+				File file = new File("reports/"+weekString+"/drivers/"+newDriver.getId());
+				success = (file.createNewFile());
+				FileOutputStream fop = new FileOutputStream(file);
+				String content = newDriver.getName()+" - " +weekString+"\n\n";
+				// if file doesnt exists, then create it
+				if (!file.exists()) {
+					file.createNewFile();
+				}
+
+				// get the content in bytes
+				byte[] contentInBytes = content.getBytes();
+
+				fop.write(contentInBytes);
+				fop.flush();
+				fop.close();
+			} catch (IOException e)
+			{
+				System.out.println("Cannot make file "+newDriver.getId());
+				e.printStackTrace();
+			}
+			
 		}
 
 		int driversLength = 0;
@@ -71,23 +105,30 @@ public class Roster
 			for(int route = 0; route < theRoutes.length; route++)
 			{
 				totalDuration += theRoutes[route].getTotalDuration();
-			}//loop over routes	
+			}
 			currentDay.add(Calendar.DAY_OF_YEAR, 1);
-		}//loop over days
+		}
 		int average = totalDuration / 70;
-		System.out.println("Average: " + average);
 		average=905;
 		this.averageTimePerDriver = average;
 	}
 
 	public void generateRoster()
 	{
+		double currentProgress = 0;
+		double progress = (double)7/(double)MIN_IN_DAY;
 		for(int days = 0; days < 7; days++)
 		{
 			startDayDriverBus();
 			createRoutes();
 			for(int min = 160; min < MIN_IN_DAY+160; min ++)
 			{
+				currentProgress = currentProgress+progress;
+				if(currentProgress >= 1)
+				{
+					System.out.print("*");
+					currentProgress =currentProgress-1;
+				}
 				for(int route = 0; route < theRoutes.length; route++)
 				{
 					for(int services = 0; services < theRoutes[route].getNoOfServices(); services++)
@@ -96,8 +137,8 @@ public class Roster
 						{
 							//get most appropriate driver
 							Driver bestDriver = getBestDriver(theRoutes[route].getService(services));
+							appendDriverReport(bestDriver.getId(), theRoutes[route].getService(services).toString());
 							time++;
-							System.out.println("Best driver: " + bestDriver + " time " + time);
 							theRoutes[route].getService(services).setDriver(bestDriver);
 							bestDriver.setOnRoute(true);
 
@@ -105,44 +146,38 @@ public class Roster
 							Bus bestBus = getBestBus(theRoutes[route].getService(services));
 							theRoutes[route].getService(services).setBus(bestBus);
 							bestBus.setIsOnRoute(true);
-						}//if a service is going to start at min
+						}
 						if(theRoutes[route].getService(services).getEndTime() == min)
 						{
 							//set driver to available
 							Driver endDriver = theRoutes[route].getService(services).getDriver();
 							endDriver.setOnRoute(false);
 							endDriver.setLocation(null);
-							//endDriver.addMinWorkedDay(theRoutes[route].getService(services).getDuration());
 							int hoursSoFar = DriverInfo.getHoursThisWeek(endDriver.getId());
 							hoursSoFar += theRoutes[route].getService(services).getDuration();
-							System.out.println("End driver" + endDriver + "Hours so far: " + hoursSoFar);
 							DriverInfo.setHoursThisWeek(endDriver.getId(), hoursSoFar);
-							System.out.println("New balance: " + DriverInfo.getHoursThisWeek(endDriver.getId()));
-							//DriverInfo.setHoursThisWeek(endDriver.getId(), hoursSoFar + theRoutes[route].getService(services).getDuration());
 							//set bus to available
 							Bus endBus = theRoutes[route].getService(services).getBus();
 							endBus.setIsOnRoute(false);
 							endBus.setLocation(null);
-						}//if the service is going to end at min
-					}//loop over the services
-				}//loop over routes	
-			}//loop over minutes of day
-			//for (int i = 0; i<drivers.length; i++)
-				//drivers[i].saveMinWorkedWeek();
-				
+						}
+					}
+				}	
+			}
+
 			currentDay.add(Calendar.DAY_OF_YEAR, 1);
 		}//loop over days
+		System.out.println("");
 		int tot=0;
 		int driverIDs[] = DriverInfo.getDrivers();
 		drivers = new Driver[driverIDs.length];
 		for (int i = 0; i<driverIDs.length; i++)
 		{
 			drivers[i] = new Driver(driverIDs[i]);
-			//tot += drivers[i].getMinWorkedWeek();
 			tot += DriverInfo.getHoursThisWeek(drivers[i].getId());
 		}
-		System.out.println("tot: "+tot);
-		printDay();
+		generateReport();
+		//printDay();
 	}//generateRoster
 
 	/**
@@ -163,7 +198,7 @@ public class Roster
 			if ((!drivers[i].isOnRoute()) && (drivers[i].getMinWorkedDay() < 300) &&  
 					(DriverInfo.getHoursThisWeek(drivers[i].getId()) < averageTimePerDriver) &&
 					((drivers[i].getLocation()==null) || 
-					(drivers[i].getLocation().equals(service.getStartLocation()))))
+							(drivers[i].getLocation().equals(service.getStartLocation()))))
 			{
 				int bestMinutes = averageTimePerDriver-DriverInfo.getHoursThisWeek(drivers[i].getId())-service.getDuration();
 				if (bestMinutes > 0 && bestMinutes < bestMins)
@@ -171,7 +206,6 @@ public class Roster
 					bestMins = bestMinutes;
 					fitDriver = drivers[i];
 					noOfPosDrivers++;
-					//System.out.println("min " + bestMinutes);
 				}
 			}//if
 		if(noOfPosDrivers == 0)
@@ -181,7 +215,7 @@ public class Roster
 				if ((!drivers[i].isOnRoute()) && (drivers[i].getMinWorkedDay() < 300) &&  
 						(DriverInfo.getHoursThisWeek(drivers[i].getId()) < averageTimePerDriver) &&
 						((drivers[i].getLocation()==null) || 
-						(drivers[i].getLocation().equals(service.getStartLocation()))))
+								(drivers[i].getLocation().equals(service.getStartLocation()))))
 				{
 					int bestMinutes = DriverInfo.getHoursThisWeek(drivers[i].getId());
 					if (bestMinutes == 0)
@@ -194,36 +228,9 @@ public class Roster
 						bestMins = bestMinutes;
 						fitDriver = drivers[i];
 						return drivers[i];
-						//System.out.println("min " + bestMinutes);
 					}
 				}//if
 		}
-
-		/*for (int i = 0; i < drivers.length; i++)  
-			if ((!drivers[i].isOnRoute()) &&
-					((drivers[i].getLocation()==null) || 
-							(drivers[i].getLocation().equals(service.getStartLocation()))))
-			{
-				if ((drivers[i].getMinWorkedWeek() >= averageTimePerDriver)
-				   && (drivers[drivers.length-i-1].getMinWorkedWeek() < averageTimePerDriver))
-				{
-						fitDriver = drivers[drivers.length-i-1];
-						//System.out.println("min " + bestMinutes);
-				}
-				else 
-					fitDriver = drivers[i];
-			}//if*/
-			/* (int i = 0; i < drivers.length; i++)  
-			  if ((!drivers[i].isOnRoute()) && (drivers[i].getMinWorkedDay()<300) &&
-			    	(DriverInfo.getHoursThisWeek(drivers[i].getId()) < 300)) < averageTimePerDriver) &&
-				    ((drivers[i].getLocation()==null) || 
-				    (drivers[i].getLocation().equals(service.getStartLocation()))))
-				{    
-				    return drivers[i];
-		    }*/
-		 
-		
-		//System.out.println("For service " + service + " best driver is: " + fitDriver);
 		return fitDriver;
 	}
 
@@ -251,10 +258,8 @@ public class Roster
 		{
 			this.drivers[i] = new Driver(theDriverIDs[i]);
 		}
-		//loop through drivers and add min worked day to min worked week and set min worked day to 0
 		for(int driver = 0; driver < drivers.length; driver++)
 		{
-			//Adding the mins worked for the previous day to the week total
 			drivers[driver].setMinWorkedDay(0);
 			drivers[driver].setOnRoute(false);
 		}
@@ -262,7 +267,7 @@ public class Roster
 		{
 			buses[bus].setIsOnRoute(false);
 		}
-	}//Setting up the drivers and buses day
+	}
 
 	public static int[] getAvailableDrivers(GregorianCalendar date)
 	{
@@ -286,6 +291,89 @@ public class Roster
 		return availableDriverIDs;
 	}//getAvailableDrivers
 
+	public void appendDriverReport(int id, String content)
+	{
+		FileOutputStream fop = null;
+		File file;
+
+		try {
+
+			file = new File("reports/"+weekString ,"drivers/"+id);
+			fop = new FileOutputStream(file, true);
+
+			// if file doesnt exists, then create it
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+
+			// get the content in bytes
+			byte[] contentInBytes = content.getBytes();
+
+			fop.write(contentInBytes);
+			fop.flush();
+			fop.close();
+
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (fop != null) {
+					fop.close();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void generateReport()
+	{
+		FileOutputStream fop = null;
+		File file;
+		String content = "Week "+weekString +"\n";
+
+		try {
+
+			file = new File("reports/"+weekString ,"all_drivers.txt");
+			fop = new FileOutputStream(file);
+
+			// if file doesnt exists, then create it
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+
+			// get the content in bytes
+			byte[] contentInBytes = content.getBytes();
+
+			fop.write(contentInBytes);
+			fop.flush();
+			
+			for (int i=0; i<drivers.length; i++)
+			{
+				content = drivers[i].toString();
+				contentInBytes = content.getBytes();
+				fop.write(contentInBytes);
+				fop.flush();
+			}
+			
+			
+			fop.close();
+
+			System.out.println("Done");
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (fop != null) {
+					fop.close();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 	public void printDay()
 	{
 		System.out.println("Day: " + currentDay.get(Calendar.DAY_OF_MONTH)+"/"+currentDay.get(Calendar.MONTH)+"/"+currentDay.get(Calendar.YEAR));

@@ -1,5 +1,8 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.io.FileReader;
+import java.io.IOException;
+
 import javax.swing.*;
 
 class ControllerReportViewScreen extends JFrame 
@@ -12,7 +15,8 @@ class ControllerReportViewScreen extends JFrame
   JMenuBar mainMenuBar;
   JMenu jMenuFile, jMenuView;
   JMenuItem jMItemSave, jMItemPrint, jMItemExit;
-  JMenuItem jMItemTimetables, jMItemReport, jMItemDrivers;
+  JMenuItem jMItemReport, jMItemDrivers;
+  JTextArea JTextAreaTimetable;
 
   //Declate the colors
   Color layoutBgClr = new Color(255, 255, 255);
@@ -55,10 +59,6 @@ class ControllerReportViewScreen extends JFrame
     jMItemExit.setActionCommand("exit");
     jMItemExit.addActionListener(this);
  
-    jMItemTimetables = new JMenuItem("Timetables", KeyEvent.VK_T);
-    jMItemTimetables.setActionCommand("timetables");
-    jMItemTimetables.addActionListener(this);
- 
     jMItemReport = new JMenuItem("Report", KeyEvent.VK_R);
     jMItemReport.setActionCommand("report");
     jMItemReport.addActionListener(this);
@@ -72,7 +72,6 @@ class ControllerReportViewScreen extends JFrame
     jMenuFile.add(this.jMItemPrint);
     jMenuFile.add(this.jMItemExit);
  
-    jMenuView.add(this.jMItemTimetables);
     jMenuView.add(this.jMItemReport);
     jMenuView.add(this.jMItemDrivers);
 
@@ -84,6 +83,7 @@ class ControllerReportViewScreen extends JFrame
     //Create the scrollpanel
     jScrollPanel = new JScrollPane(mainContentPanel);
     jScrollPanel.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+    jScrollPanel.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
     jScrollPanel.setBackground(layoutBgClr);
 
     //Create the content panel
@@ -92,9 +92,19 @@ class ControllerReportViewScreen extends JFrame
     contentPanel.setLayout(new BorderLayout());
     contentPanel.setBackground(layoutBgClr);
 
-    //Add the REPORT layer to the main content
-    mainContentPanel.add(jLabelReport);
+    JTextAreaTimetable = new JTextArea();
+    
+    try{
+    	JTextAreaTimetable.read(new FileReader("reports/18_3_2013/all_drivers.txt"), null);
+    }catch(IOException ioe)
+    {
+    	
+    } 
+    
+    JTextAreaTimetable.setEditable(false);
 
+    //Add the label to the Scroll panel
+    mainContentPanel.add(JTextAreaTimetable); 
 
     //Add the label to the content panel
     contentPanel.add(jScrollPanel, BorderLayout.CENTER);
@@ -136,10 +146,6 @@ class ControllerReportViewScreen extends JFrame
 
     if("exit".equals(actionCmd))
       System.exit(0);
-    else if ("timetables".equals(actionCmd)){
-      this.dispose();
-      new ControllerTimetableViewScreen(title);
-    }
     else if ("report".equals(actionCmd)){
       this.dispose();
       new ControllerReportViewScreen(title);
