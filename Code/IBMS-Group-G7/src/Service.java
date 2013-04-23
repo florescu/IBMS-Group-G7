@@ -1,3 +1,5 @@
+import java.util.Date;
+
 
 public class Service
 {
@@ -155,4 +157,48 @@ public class Service
 		this.bus = bus;
 	} 
 	
+	/**
+   * Determine whether a service is cancelled. 0 if service wasn't cancelled.
+   */
+  public static boolean isCancelled(int service)
+  {
+  	if (database.busDatabase.get_int("service", service, "cancelled") == 0)
+  		return false;
+  	else 
+  		return true;
+  }
+  
+  /**
+   * Set a service to cancelled.
+   */
+  public static void setCancelled(int service, Boolean value)
+  {
+  	database.busDatabase.set_value("service", service, "cancelled", value);
+  }
+  
+  /**
+   * Determine whether a service is delayed on a given date. null if service wasn't delayed, no of minutes otherwise.
+   */
+  public static int isDelayed(int service)
+  {
+  	return database.busDatabase.get_int("service", service, "delayedTime");
+  }
+	
+  /**
+   * Set a service to delayed by a number of minutes.
+   */
+  public static void setDelayedTime(int service, Object value)
+  {
+  	database.busDatabase.set_value("service", service, "delayedTime", value);
+  }
+  
+  /**
+   * Get the IDs of all the services in the database
+   */
+  public static int[] getServices()
+  {
+    //return database.busDatabase.select_ids("service_id", String source, String order)
+  	return database.busDatabase.select_ids("service_id", "service", "service_id");
+  }
+  
 }
