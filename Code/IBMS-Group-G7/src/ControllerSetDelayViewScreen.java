@@ -5,7 +5,7 @@ import java.io.IOException;
 
 import javax.swing.*;
 
-class ControllerProblemsViewScreen extends JFrame 
+class ControllerSetDelayViewScreen extends JFrame 
                                   implements ActionListener{
 
   //Declare the components
@@ -28,7 +28,7 @@ class ControllerProblemsViewScreen extends JFrame
   Color btnBgClr = new Color(245, 245, 245);
   Color btnFgClr = new Color(130, 130, 130);
  
-  public ControllerProblemsViewScreen(String paramString){
+  public ControllerSetDelayViewScreen(String paramString){
 
     this.setTitle(paramString);
  
@@ -42,7 +42,7 @@ class ControllerProblemsViewScreen extends JFrame
     jMenuView = new JMenu("View");
     jMenuView.setMnemonic(KeyEvent.VK_V);
 
-    jLabelSelectedView = new JLabel("Selected View: Problems");
+    jLabelSelectedView = new JLabel("Selected View: Set Delay");
     jLabelSelectedView.setForeground(lblFgClr);
 
     //Problems label

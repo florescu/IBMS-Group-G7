@@ -5,7 +5,7 @@ import java.io.IOException;
 
 import javax.swing.*;
 
-class ControllerProblemsViewScreen extends JFrame 
+class ControllerCancelServiceViewScreen extends JFrame 
                                   implements ActionListener{
 
   //Declare the components
@@ -28,7 +28,7 @@ class ControllerProblemsViewScreen extends JFrame
   Color btnBgClr = new Color(245, 245, 245);
   Color btnFgClr = new Color(130, 130, 130);
  
-  public ControllerProblemsViewScreen(String paramString){
+  public ControllerCancelServiceViewScreen(String paramString){
 
     this.setTitle(paramString);
  
@@ -42,7 +42,7 @@ class ControllerProblemsViewScreen extends JFrame
     jMenuView = new JMenu("View");
     jMenuView.setMnemonic(KeyEvent.VK_V);
 
-    jLabelSelectedView = new JLabel("Selected View: Problems");
+    jLabelSelectedView = new JLabel("Selected View: Cancel Service");
     jLabelSelectedView.setForeground(lblFgClr);
 
     //Problems label
@@ -106,27 +106,7 @@ class ControllerProblemsViewScreen extends JFrame
     jTxtFServiceCancel = new JTextField("service id", 7);
     jTxtFServiceCancel.setPreferredSize(new Dimension(30, 30));
  
-    jTxtFServiceDelay = new JTextField("service id", 7);
-    jTxtFServiceDelay.setPreferredSize(new Dimension(30, 30));
-    
     //Create the buttons
-    jBtnResetDelay = new JButton("Reset Delay");
-    jBtnResetDelay.setActionCommand("resetDelay");
-    jBtnResetDelay.addActionListener(this);
-    jBtnResetDelay.setBackground(this.btnBgClr);
-    jBtnResetDelay.setForeground(this.btnFgClr);
-    
-    jBtnSetDelay = new JButton("Set Delay");
-    jBtnSetDelay.setActionCommand("setDelay");
-    jBtnSetDelay.addActionListener(this);
-    jBtnSetDelay.setBackground(this.btnBgClr);
-    jBtnSetDelay.setForeground(this.btnFgClr);
-    
-    jBtnResetCancel = new JButton("Reset Cancel");
-    jBtnResetCancel.setActionCommand("resetCancel");
-    jBtnResetCancel.addActionListener(this);
-    jBtnResetCancel.setBackground(this.btnBgClr);
-    jBtnResetCancel.setForeground(this.btnFgClr);
     
     jBtnCancel = new JButton("Cancel");
     jBtnCancel.setActionCommand("cancelService");
@@ -150,22 +130,13 @@ class ControllerProblemsViewScreen extends JFrame
     jButtonsPanel.setBackground(this.layoutBgClr); 
     
     jButtonsPanel.add(new JLabel(""));
-    jButtonsPanel.add(this.jBtnSetDelay);
-    jButtonsPanel.add(new JLabel(""));
-    
-    jLabelResetDelay = new JLabel("Reset delay for");
-    jButtonsPanel.add(this.jLabelResetDelay);
-    jButtonsPanel.add(this.jTxtFServiceDelay);
-    jButtonsPanel.add(this.jBtnResetDelay);
-    
-    jButtonsPanel.add(new JLabel(""));
     jButtonsPanel.add(this.jBtnCancel);
     jButtonsPanel.add(new JLabel(""));
     
-    jLabelResetCancel = new JLabel("Reset cancel for");
-    jButtonsPanel.add(this.jLabelResetCancel);
-    jButtonsPanel.add(this.jTxtFServiceCancel);
-    jButtonsPanel.add(this.jBtnResetCancel);
+    //jLabelResetCancel = new JLabel("Reset cancel for");
+    //jButtonsPanel.add(this.jLabelResetCancel);
+    //jButtonsPanel.add(this.jTxtFServiceCancel);
+    //jButtonsPanel.add(this.jBtnResetCancel);
     
     
     //Add the label to the content panel
@@ -220,58 +191,6 @@ class ControllerProblemsViewScreen extends JFrame
     else if ("problems".equals(actionCmd)){
       this.dispose();
       new ControllerProblemsViewScreen(title);
-    }
-    else if ("resetDelay".equals(actionCmd)){
-      database.openBusDatabase();   
-      int serviceID = Integer.parseInt(jTxtFServiceDelay.getText());
-
-      //Check if the fields are empty or with proper values
-      
-      if(jTxtFServiceDelay.getText() == null || 
-         !Validator.isNumeric(jTxtFServiceDelay.getText())){
-         
-        jLabelError.setText("Error: provide valid service ID!");
-        jLabelError.setVisible(true);
-
-      }else if(!Service.isInDatabase(serviceID)){
-       
-        jLabelError.setText("Error: No such service in the database!");
-        jLabelError.setVisible(true);
-      }
-      else{
-      	jLabelSent.setText("Request sent.");
-      	jLabelSent.setVisible(true);
-      	Service.setDelayedTime(serviceID, 0);
-        new ControllerAckScreen();
-      }//else
-    }//else if reset Delay
-    else if ("resetCancel".equals(actionCmd)){
-      database.openBusDatabase();   
-      int serviceID = Integer.parseInt(jTxtFServiceCancel.getText());
-
-      //Check if the fields are empty or with proper values
-      
-      if(jTxtFServiceCancel.getText() == null || 
-         !Validator.isNumeric(jTxtFServiceCancel.getText())){
-         
-        jLabelError.setText("Error: provide valid service ID!");
-        jLabelError.setVisible(true);
-
-      }else if(!Service.isInDatabase(serviceID)){
-       
-        jLabelError.setText("Error: No such service in the database!");
-        jLabelError.setVisible(true);
-      }
-      else{
-      	jLabelSent.setText("Request sent.");
-      	jLabelSent.setVisible(true);
-      	Service.setCancelled(serviceID, false);
-        new ControllerAckScreen();
-      }//else
-    }//else if reset cancel
-    else if ("setDelay".equals(actionCmd)){
-      this.dispose();
-      new ControllerSetDelayViewScreen(title);
     }
     else if ("cancelService".equals(actionCmd)){
       this.dispose();
