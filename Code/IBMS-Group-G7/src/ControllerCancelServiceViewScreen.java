@@ -28,6 +28,8 @@ class ControllerCancelServiceViewScreen extends JFrame
   Color btnBgClr = new Color(245, 245, 245);
   Color btnFgClr = new Color(130, 130, 130);
  
+  public static String cancelMessage;
+  
   public ControllerCancelServiceViewScreen(String paramString){
 
     this.setTitle(paramString);
@@ -126,9 +128,9 @@ class ControllerCancelServiceViewScreen extends JFrame
     jLabelError.setVisible(false);
     jLabelError.setHorizontalAlignment(0);
     jLabelSent = new JLabel("Request sent"); 
-    jLabelError.setForeground(this.lblErrorFgClr);
-    jLabelError.setVisible(false);
-    jLabelError.setHorizontalAlignment(0);
+    jLabelSent.setForeground(this.lblErrorFgClr);
+    jLabelSent.setVisible(false);
+    jLabelSent.setHorizontalAlignment(0);
 
     //Create the button panel
     
@@ -234,7 +236,9 @@ class ControllerCancelServiceViewScreen extends JFrame
       	jLabelSent.setText("Request sent.");
       	jLabelSent.setVisible(true);
       	Service.setCancelled(serviceID, true);
-      	System.out.println("Message sent");
+      	cancelMessage = "The service " + serviceID + " is cancelled " + " due to " + JTxtFReason.getText() + ". We apologize for the delay to your journey.";
+      	System.out.println(cancelMessage);
+      	Service.setMessage(serviceID, cancelMessage);
       	this.dispose();
         new ControllerAckScreen();
       }

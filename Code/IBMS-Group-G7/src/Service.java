@@ -202,6 +202,22 @@ public class Service
   }
   
   /**
+   * Get the message of a services in the database
+   */
+  public static String getMessage(int service)
+  {
+  	return database.busDatabase.get_string("service", service, "message");
+  }
+  
+  /**
+   * Set the message of a services in the database
+   */
+  public static void setMessage(int service, String reason)
+  {
+  	database.busDatabase.set_value("service", service, "message", reason);
+  }
+  
+  /**
    * See if a service is in databse.
    */
   public static boolean isInDatabase(int service)

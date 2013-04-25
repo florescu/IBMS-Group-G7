@@ -242,6 +242,7 @@ class ControllerProblemsViewScreen extends JFrame
       	jLabelSent.setText("Request sent.");
       	jLabelSent.setVisible(true);
       	Service.setDelayedTime(serviceID, 0);
+      	Service.setMessage(serviceID, "");
       	this.dispose();
         new ControllerAckScreen();
       }//else
@@ -267,6 +268,7 @@ class ControllerProblemsViewScreen extends JFrame
       	jLabelSent.setText("Request sent.");
       	jLabelSent.setVisible(true);
       	Service.setCancelled(serviceID, false);
+      	Service.setMessage(serviceID, "");
       	this.dispose();
         new ControllerAckScreen();
       }//else
