@@ -9,16 +9,16 @@ class ControllerCancelServiceViewScreen extends JFrame
                                   implements ActionListener{
 
   //Declare the components
-  JLabel jLabelTimetable, jLabelSelectedView, jLabelSent, jLabelProblems, jLabelResetCancel, jLabelResetDelay , jLabelError;
-  JPanel contentPanel, mainContentPanel, requestPanel, jButtonsPanel;
+  JLabel jLabelTimetable, jLabelMessage, jLabelSelectedView, jLabelSent, jLabelProblems, jLabelCancel, jLabelResetDelay , jLabelError;
+  JPanel contentPanel, mainContentPanel, requestPanel, jButtonsPanel, jMessagePanel;
   JScrollPane jScrollPanel;
   JMenuBar mainMenuBar;
   JMenu jMenuFile, jMenuView;
   JMenuItem jMItemSave, jMItemPrint, jMItemExit;
   JMenuItem jMItemReport, jMItemDrivers, jMItemProblems;
   JTextArea JTextAreaTimetable;
-  JButton jBtnResetDelay, jBtnSetDelay, jBtnResetCancel, jBtnCancel;
-  JTextField jTxtFServiceCancel,  jTxtFServiceDelay;
+  JButton jBtnResetDelay, jBtnSetDelay, jBtnResetCancel, jBtnCancel, jBtnSubmit;
+  JTextField jTxtFServiceCancel,  jTxtFServiceDelay, jTxtFServiceID, JTxtFReason;
 
   //Declate the colors
   Color layoutBgClr = new Color(255, 255, 255);
@@ -114,6 +114,12 @@ class ControllerCancelServiceViewScreen extends JFrame
     jBtnCancel.setBackground(this.btnBgClr);
     jBtnCancel.setForeground(this.btnFgClr);
     
+    jBtnSubmit = new JButton("Submit");
+    jBtnSubmit.setActionCommand("submitMessage");
+    jBtnSubmit.addActionListener(this);
+    jBtnSubmit.setBackground(this.btnBgClr);
+    jBtnSubmit.setForeground(this.btnFgClr);
+    
     //Create the labels
     jLabelError = new JLabel("Error: Please enter a valid service ID!"); 
     jLabelError.setForeground(this.lblErrorFgClr);
@@ -126,23 +132,38 @@ class ControllerCancelServiceViewScreen extends JFrame
 
     //Create the button panel
     
-    jButtonsPanel = new JPanel(new GridLayout(4, 3, 10, 50));
+    jButtonsPanel = new JPanel(new FlowLayout());
     jButtonsPanel.setBackground(this.layoutBgClr); 
     
-    jButtonsPanel.add(new JLabel(""));
+    jLabelCancel = new JLabel("Reset cancel for");
+    jButtonsPanel.add(this.jLabelCancel);
+    jButtonsPanel.add(this.jTxtFServiceCancel);
     jButtonsPanel.add(this.jBtnCancel);
-    jButtonsPanel.add(new JLabel(""));
     
-    //jLabelResetCancel = new JLabel("Reset cancel for");
-    //jButtonsPanel.add(this.jLabelResetCancel);
-    //jButtonsPanel.add(this.jTxtFServiceCancel);
-    //jButtonsPanel.add(this.jBtnResetCancel);
+    jMessagePanel = new JPanel(new FlowLayout());
+    jMessagePanel.setBackground(this.layoutBgClr); 
+    
+    //The 358 service is delayed by approximately 20 minutes due to a shortage of water for the windscreen wipers1, and will arrive at New Mills bus station at approximately 13.15. We apologize for the delay to your journey.
+    jLabelMessage = new JLabel("The service ");
+    jMessagePanel.add(this.jLabelMessage);
+    jTxtFServiceID = new JTextField("service id", 7);
+    jTxtFServiceID.setPreferredSize(new Dimension(30, 30));
+    jMessagePanel.add(this.jTxtFServiceID);
+    jLabelMessage = new JLabel(" is cancelled due to ");
+    jMessagePanel.add(this.jLabelMessage);
+    JTxtFReason = new JTextField("message", 20);
+    jTxtFServiceID.setPreferredSize(new Dimension(30, 30));
+    jMessagePanel.add(this.JTxtFReason);
+    jLabelMessage = new JLabel("We apologize for the consequences this may have on your journey.");
+    jMessagePanel.add(this.jLabelMessage);
+    jMessagePanel.add(this.jBtnSubmit);
     
     
     //Add the label to the content panel
-    contentPanel.add(jScrollPanel, BorderLayout.CENTER);
-    contentPanel.add(this.jButtonsPanel);
-
+    //contentPanel.add(jScrollPanel, BorderLayout.CENTER);
+    //contentPanel.add(this.jButtonsPanel,BorderLayout.PAGE_START);
+    contentPanel.add(this.jMessagePanel);
+    
     //Resize and position the window
     Dimension localDimension = Toolkit.getDefaultToolkit().getScreenSize();
  
@@ -192,10 +213,57 @@ class ControllerCancelServiceViewScreen extends JFrame
       this.dispose();
       new ControllerProblemsViewScreen(title);
     }
+    else if ("submitMessage".equals(actionCmd)){
+    	database.openBusDatabase();   
+      int serviceID = Integer.parseInt(jTxtFServiceID.getText());
+
+      //Check if the fields are empty or with proper values
+      
+      if(jTxtFServiceID.getText() == null || 
+         !Validator.isNumeric(jTxtFServiceID.getText())){
+         
+        jLabelError.setText("Error: provide valid service ID!");
+        jLabelError.setVisible(true);
+
+      }else if(!Service.isInDatabase(serviceID)){
+       
+        jLabelError.setText("Error: No such service in the database!");
+        jLabelError.setVisible(true);
+      }
+      else{
+      	jLabelSent.setText("Request sent.");
+      	jLabelSent.setVisible(true);
+      	Service.setCancelled(serviceID, true);
+      	System.out.println("Message sent");
+      	this.dispose();
+        new ControllerAckScreen();
+      }
+    }//else submit message
     else if ("cancelService".equals(actionCmd)){
-      this.dispose();
-      new ControllerCancelServiceViewScreen(title);
-    }
+      database.openBusDatabase();   
+      int serviceID = Integer.parseInt(jTxtFServiceCancel.getText());
+
+      //Check if the fields are empty or with proper values
+      
+      if(jTxtFServiceCancel.getText() == null || 
+         !Validator.isNumeric(jTxtFServiceCancel.getText())){
+         
+        jLabelError.setText("Error: provide valid service ID!");
+        jLabelError.setVisible(true);
+
+      }else if(!Service.isInDatabase(serviceID)){
+       
+        jLabelError.setText("Error: No such service in the database!");
+        jLabelError.setVisible(true);
+      }
+      else{
+      	jLabelSent.setText("Request sent.");
+      	jLabelSent.setVisible(true);
+      	Service.setCancelled(serviceID, true);
+      	this.dispose();
+        new ControllerAckScreen();
+      }//else
+    }//else if reset cancel
   }//actionPerformed
 }//class
 
