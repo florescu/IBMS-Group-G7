@@ -47,6 +47,14 @@ public class TimetableInfo
     String source = database.join("timetable_line", "daily_timetable", "daily_timetable");
     return database.busDatabase.select_ids("Distinct timing_point", source, "daily_timetable.route", route, "time");
   }
+  
+  /**
+   * Get the timing point for a time and service - made by Joshua Abbott
+   */
+  public static int getTimingPoint(int service, int time)
+  {
+    return database.busDatabase.find_id("timing_point","timetable_line", "service", service, "time", time);
+  }
 
   /**
    * Get the number of services on a route for the given timetable kind:
