@@ -15,7 +15,7 @@ class ControllerReportViewScreen extends JFrame
   JMenuBar mainMenuBar;
   JMenu jMenuFile, jMenuView;
   JMenuItem jMItemSave, jMItemPrint, jMItemExit;
-  JMenuItem jMItemReport, jMItemDrivers;
+  JMenuItem jMItemReport, jMItemDrivers, jMItemProblems;
   JTextArea JTextAreaTimetable;
 
   //Declate the colors
@@ -66,6 +66,10 @@ class ControllerReportViewScreen extends JFrame
     jMItemDrivers = new JMenuItem("Drivers", KeyEvent.VK_D);
     jMItemDrivers.setActionCommand("drivers");
     jMItemDrivers.addActionListener(this);
+    
+    jMItemProblems = new JMenuItem("Problems", KeyEvent.VK_P);
+    jMItemProblems.setActionCommand("problems");
+    jMItemProblems.addActionListener(this);
  
     //Add the items to the menus
     jMenuFile.add(this.jMItemSave);
@@ -74,6 +78,7 @@ class ControllerReportViewScreen extends JFrame
  
     jMenuView.add(this.jMItemReport);
     jMenuView.add(this.jMItemDrivers);
+    jMenuView.add(this.jMItemProblems);
 
     //Create the mainContent panel
     mainContentPanel = new JPanel();
@@ -153,6 +158,10 @@ class ControllerReportViewScreen extends JFrame
     else if ("drivers".equals(actionCmd)){
       this.dispose();
       new ControllerDriversViewScreen(title);
+    }
+    else if ("problems".equals(actionCmd)){
+      this.dispose();
+      new ControllerProblemsViewScreen(title);
     }
 
   }//actionPerformed

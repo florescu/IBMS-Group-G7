@@ -201,4 +201,32 @@ public class Service
   	return database.busDatabase.select_ids("service_id", "service", "service_id");
   }
   
+  /**
+   * Get the message of a services in the database
+   */
+  public static String getMessage(int service)
+  {
+  	return database.busDatabase.get_string("service", service, "message");
+  }
+  
+  /**
+   * Set the message of a services in the database
+   */
+  public static void setMessage(int service, String reason)
+  {
+  	database.busDatabase.set_value("service", service, "message", reason);
+  }
+  
+  /**
+   * See if a service is in databse.
+   */
+  public static boolean isInDatabase(int service)
+  {
+  	int[] serviceIDs = getServices();
+  	for (int i=0; i<serviceIDs.length; i++)
+  		if (service == serviceIDs[i])
+  			return true;
+		return false;
+  }// isInDatabase
+  
 }
