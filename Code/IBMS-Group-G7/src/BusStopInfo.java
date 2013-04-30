@@ -196,5 +196,27 @@ public class BusStopInfo
   {
     return database.busDatabase.find_id("area", "name", name);
   }
-     
+  
+  /* 
+   * Show next 5 buses arriving at this bus stop. 
+   */
+  public static void display5buses(int stop, int route, int year, int month, int day)
+  {
+		GregorianCalendar cal = new GregorianCalendar(year,month,day);
+		int services[] = TimetableInfo.getServices(route, TimetableInfo.timetableKind(cal.getTime()));
+  	for(int i = 0; i < services.length; i++)
+		{
+			System.out.println();
+			int serviceTimes[] = TimetableInfo.getServiceTimes(route,i);
+			for(int j = 0; j < serviceTimes.length; j ++)
+			{
+				System.out.print(serviceTimes[j]);
+				stop = TimetableInfo.getTimingPoint(services[i], serviceTimes[j]);
+				System.out.println(BusStopInfo.getFullName(stop));
+			}
+			System.out.println();
+		}
+  	
+  }
+  
 }

@@ -217,6 +217,17 @@ public class Service
   	database.busDatabase.set_value("service", service, "message", reason);
   }
   
+  /*select service(timing_point), time from timetable_info where timing_point = bus_stop_id and time>currentTime order by time
+   ----------------------
+   ----------------------
+   ----------------------
+   ----------------------
+   ----------------------
+   ----------------------
+   ----------------------
+   ----------------------
+   */
+  
   /**
    * See if a service is in databse.
    */
