@@ -20,8 +20,9 @@ public class TestDisplay {
      */
     public static void main(String[] args) {
         database.openBusDatabase();
-        BusStopInfo.display5buses(771, 65, 2013, 04, 30);
-       
+        String[] result = BusStopInfo.display5buses(770);
+        for (int i = 0; i < result.length; i++)
+        	System.out.println(result[i]);
     }
 
 }

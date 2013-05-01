@@ -1,4 +1,6 @@
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -200,23 +202,49 @@ public class BusStopInfo
   /* 
    * Show next 5 buses arriving at this bus stop. 
    */
-  public static void display5buses(int stop, int route, int year, int month, int day)
+  @SuppressWarnings("deprecation")
+	public static String[] display5buses(int stop)
   {
-		GregorianCalendar cal = new GregorianCalendar(year,month,day);
-		int services[] = TimetableInfo.getServices(route, TimetableInfo.timetableKind(cal.getTime()));
-  	for(int i = 0; i < services.length; i++)
-		{
-			System.out.println();
-			int serviceTimes[] = TimetableInfo.getServiceTimes(route,i);
-			for(int j = 0; j < serviceTimes.length; j ++)
-			{
-				System.out.print(serviceTimes[j]);
-				stop = TimetableInfo.getTimingPoint(services[i], serviceTimes[j]);
-				System.out.println(BusStopInfo.getFullName(stop));
-			}
-			System.out.println();
-		}
-  	
-  }
+  	//database.busDatabase.select("service, time", "timetable_line", "", "time");
+    int[] service = database.busDatabase.select_ids("service", "timetable_line", "timing_point", stop, "time");
+    int[] time = database.busDatabase.select_ids("time", "timetable_line", "timing_point", stop, "time");
+    
+    DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+    Date date = new Date();
+    int hours = date.getHours();
+    int minutes = date.getMinutes();
+    
+    int timeAsInDatabase = hours * 60 + minutes + 1;
+    //System.out.println(timeAsInDatabase);
+    
+    int currentIndex = 0;
+    
+    int counter = 0;
+    while (counter < service.length)
+    {
+    	if (time[counter] < timeAsInDatabase)
+    	{
+    	  counter++;
+    	}
+    	else
+    	{
+    		currentIndex = counter;
+    		counter = service.length; // to break
+    	}//else
+    
+    }//while
+    
+    int min = service.length;
+    if (5 < min)
+    	min = 5;
+    
+    String[] result = new String[min];
+    
+    for (int j=0; j<min; j++)
+  	  result[j] = service[j+currentIndex] + " " + time[j+currentIndex];
+    
+    return result;
+    
+  }//display5Buses
   
-}
+}//class

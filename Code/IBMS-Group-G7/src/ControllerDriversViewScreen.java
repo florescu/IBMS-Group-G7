@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.event.*;
+
 import javax.swing.*;
 
 class ControllerDriversViewScreen extends JFrame implements ActionListener
@@ -12,7 +13,7 @@ class ControllerDriversViewScreen extends JFrame implements ActionListener
 	JMenuBar mainMenuBar;
 	JMenu jMenuFile, jMenuView;
 	JMenuItem jMItemSave, jMItemPrint, jMItemExit;
-	JMenuItem jMItemReport, jMItemDrivers;
+	JMenuItem jMItemReport, jMItemDrivers, jMItemProblems;
 
 	// Declate the colors
 	Color layoutBgClr = new Color(255, 255, 255);
@@ -61,6 +62,10 @@ class ControllerDriversViewScreen extends JFrame implements ActionListener
 		jMItemDrivers = new JMenuItem("Drivers", KeyEvent.VK_D);
 		jMItemDrivers.setActionCommand("drivers");
 		jMItemDrivers.addActionListener(this);
+		
+		jMItemProblems = new JMenuItem("Problems", KeyEvent.VK_P);
+    jMItemProblems.setActionCommand("problems");
+    jMItemProblems.addActionListener(this);
 
 		// Add the items to the menus
 		jMenuFile.add(this.jMItemSave);
@@ -69,6 +74,7 @@ class ControllerDriversViewScreen extends JFrame implements ActionListener
 
 		jMenuView.add(this.jMItemReport);
 		jMenuView.add(this.jMItemDrivers);
+		jMenuView.add(this.jMItemProblems);
 
 		// Create the mainContent panel
 		mainContentPanel = new JPanel();
@@ -207,11 +213,16 @@ class ControllerDriversViewScreen extends JFrame implements ActionListener
 		{
 			this.dispose();
 			new ControllerReportViewScreen(title);
-		} else if ("drivers".equals(actionCmd))
+		} 
+		else if ("drivers".equals(actionCmd))
 		{
 			this.dispose();
 			new ControllerDriversViewScreen(title);
 		}
+		else if ("problems".equals(actionCmd)){
+      this.dispose();
+      new ControllerProblemsViewScreen(title);
+    }
 
 		// catch the view report click events
 		for (int i = 0; i < driversNum; i++)
