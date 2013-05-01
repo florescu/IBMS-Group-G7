@@ -2,7 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
  
-class DriverIdScreen extends JFrame implements ActionListener{
+class DriverIDScreen extends JFrame implements ActionListener{
 
   //Declare the components
   JLabel jLabelId, jLabelName, jLabelError;
@@ -17,7 +17,7 @@ class DriverIdScreen extends JFrame implements ActionListener{
   Color btnBgClr = new Color(245, 245, 245);
   Color btnFgClr = new Color(130, 130, 130);
  
-  public DriverIdScreen(String paramString){
+  public DriverIDScreen(String paramString){
 
     this.setTitle(paramString);
  

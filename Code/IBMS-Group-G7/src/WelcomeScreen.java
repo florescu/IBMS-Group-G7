@@ -100,9 +100,9 @@ class WelcomeScreen extends JFrame implements ActionListener{
 
     if("driver".equals(paramActionEvent.getActionCommand())){
       dispose();
-      new DriverIdScreen("G7 - IBMS System | Driver - Identification");
+      new DriverIDScreen("G7 - IBMS System | Driver - Identification");
     }else if("passanger".equals(paramActionEvent.getActionCommand())){
-       System.out.println("Passanger button pressed");
+       new PassengerScreen("G7 - IBMS System | Passenger - Information");
     }else{
        dispose();
        new ControllerReportViewScreen("G7 - IBMS System | Controller - Report");

@@ -199,6 +199,21 @@ public class BusStopInfo
     return database.busDatabase.find_id("area", "name", name);
   }
   
+  /**
+   * Get all the bus stops ids and names.
+   */
+  public static String[] getBusStops()
+  {
+    int[] id = database.busDatabase.select_ids("bus_stop_id", "bus_stop", "bus_stop_id");
+    String[] name = new String[id.length];
+    String[] result = new String[id.length];
+    for (int i = 0; i<id.length; i++)
+    	name[i] = database.busDatabase.get_string("bus_stop", id[i], "name");
+    for (int i = 0; i<id.length; i++)
+    	result[i] = id[i] + " " + name[i];
+    return result;
+  }
+  
   /* 
    * Show next 5 buses arriving at this bus stop. 
    */
