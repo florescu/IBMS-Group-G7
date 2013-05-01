@@ -132,7 +132,7 @@ public class Holiday extends RuntimeException
     {
       if(!DriverInfo.isAvailable(driverID,currentDate.getTime()))
         {
-        	throw new HolidayException("You are already off on that date");
+        	throw new HolidayException("You are already off on that date!");
       }//if
       currentDate.add(DAY_OF_YEAR,1);
     }//for
