@@ -193,6 +193,14 @@ public class Service
   }
   
   /**
+   * Get the delayed time of a service.
+   */
+  public static int getDelayedTime(int service)
+  {
+  	return database.busDatabase.get_int("service", service, "delayedTime");
+  }
+  
+  /**
    * Get the IDs of all the services in the database
    */
   public static int[] getServices()

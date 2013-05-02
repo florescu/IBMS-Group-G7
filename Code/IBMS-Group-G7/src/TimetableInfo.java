@@ -127,6 +127,30 @@ public class TimetableInfo
   {
     return getServiceTimes(route, new Date(), serviceNumber);
   }
+  
+  /**
+   * Get the time for a specific service
+   */
+  public static int[] getTimeForService(int service)
+  {
+  	//return database.busDatabase.get_int("timetable_line", service, "time"); 
+  	int[] services = database.busDatabase.select_ids("timetable_line_id", "timetable_line", "service", service, "timetable_line_id");
+    int[] times = new int[services.length];
+    for (int i = 0; i<services.length; i++)
+    	times[i] = database.busDatabase.get_int("timetable_line", services[i], "time"); 
+  	return times;
+  }
+  
+  /**
+   * Set the time for a specific service
+   */
+  public static void setTimeForService(int service, int time)
+  {
+  	int[] id = database.busDatabase.select_ids("timetable_line_id", "timetable_line", "service", service, "timetable_line_id");
+    int[] times = getTimeForService(service);
+    for (int i = 0; i<times.length; i++)
+    	database.busDatabase.set_value("timetable_line", id[i], "time", time+times[i]);
+  }
 
   /**
    * Get the timetable kind for a day

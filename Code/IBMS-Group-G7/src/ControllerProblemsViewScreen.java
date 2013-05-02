@@ -241,8 +241,11 @@ class ControllerProblemsViewScreen extends JFrame
       else{
       	jLabelSent.setText("Request sent.");
       	jLabelSent.setVisible(true);
+      	int delayedTime = Service.getDelayedTime(serviceID);
+      	delayedTime = 0-delayedTime;
       	Service.setDelayedTime(serviceID, 0);
       	Service.setMessage(serviceID, "");
+      	TimetableInfo.setTimeForService(serviceID, delayedTime);
       	this.dispose();
         new ControllerAckScreen();
       }//else
