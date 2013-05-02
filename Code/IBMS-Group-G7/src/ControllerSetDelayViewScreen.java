@@ -244,6 +244,8 @@ class ControllerSetDelayViewScreen extends JFrame
       	delayMessage = "The service " + serviceID + " is delayed by approximately " + jTxtFMinutes.getText() + " minutes due to " + JTxtFReason.getText() + ". We apologize for the delay to your journey.";
       	System.out.println(delayMessage);
       	Service.setMessage(serviceID, delayMessage);
+      	int time = Integer.parseInt(jTxtFMinutes.getText());
+      	TimetableInfo.setTimeForService(serviceID, time);
       	this.dispose();
         new ControllerAckScreen();
       }
