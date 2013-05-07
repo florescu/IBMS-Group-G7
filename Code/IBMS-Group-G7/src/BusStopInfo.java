@@ -261,6 +261,54 @@ public class BusStopInfo
     return result;
     
   }//display5Buses
+  
+  /* 
+   * Show next 5 buses arriving at this bus stop. 
+   */
+	public static int[] displayNextBus(int stop, int theTime)
+  {
+  	//database.busDatabase.select("service, time", "timetable_line", "", "time");
+    int[] service = database.busDatabase.select_ids("service", "timetable_line", "timing_point", stop, "time");
+    int[] time = database.busDatabase.select_ids("time", "timetable_line", "timing_point", stop, "time");
+    
+    int timeAsInDatabase = theTime;
+    //System.out.println(timeAsInDatabase);
+    
+    int currentIndex = 0;
+    
+    int counter = 0;
+    while (counter < service.length)
+    {
+    	if (time[counter] < timeAsInDatabase)
+    	{
+    	  counter++;
+    	}
+    	else
+    	{
+    		currentIndex = counter;
+    		counter = service.length; // to break
+    	}//else
+    
+    }//while
+    
+    int min = service.length;
+    if (5 < min)
+    	min = 5;
+    
+    String[] result = new String[min];
+    
+    for (int j=0; j<min; j++)
+  	  result[j] = service[j+currentIndex] + " " + time[j+currentIndex];
+    
+    String[] parts = result[0].split(" ");
+		int theService = Integer.parseInt(parts[0]);
+		int theTimeInt = Integer.parseInt(parts[1]);
+		
+		
+		int[] resultInt = {theService, theTimeInt};
+    return resultInt;
+    
+  }//display5Buses
 
   /* 
    * Show next 5 buses arriving at this bus stop. 

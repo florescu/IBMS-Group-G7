@@ -1,12 +1,14 @@
 public class Edge
 {
 	private final Stop target;
-	private final int distance;
+	private int distance;
+	private int route;
 	
-	public Edge(Stop stop, int distance)
+	public Edge(Stop stop, int distance, int route)
 	{
 		this.target = stop;
 		this.distance = distance;
+		this.route = route;
 	}
 
 	/**
@@ -25,6 +27,21 @@ public class Edge
 	public int getDistance()
 	{
 		return distance;
+	}
+
+	public void setDistance(int distance)
+	{
+		this.distance = distance;
+	}
+
+	public int getRoute()
+	{
+		return route;
+	}
+
+	public void setRoute(int route)
+	{
+		this.route = route;
 	}
 
 	

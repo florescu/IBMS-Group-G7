@@ -7,128 +7,130 @@ import java.util.PriorityQueue;
 public class Journey
 {
 
+	Stop s0 = new Stop("Stockport, Bus Station");
+	Stop s1 = new Stop("Stockport, Dialstone Lane/Hillcrest Road");
+	Stop s2 = new Stop("Stockport, Lower Bents Lane/Stockport Road");
+	Stop s3 = new Stop("Stockport, Asda/Sainsbury's");
+	Stop s4 = new Stop("Marple, Offerton Fold");
+	Stop s5 = new Stop("Marple, Navigation Hotel");
+	Stop s6 = new Stop("Marple, Norfolk Arms");
+	Stop s7 = new Stop("Strines, Royal Oak");
+	Stop s8 = new Stop("New Mills, Bus Station");
+	Stop s9 = new Stop("Low Leighton, Ollerset View Hospital");
+	Stop s10 = new Stop("Birch Vale, Grouse Hotel");
+	Stop s11 = new Stop("Hayfield, Bus Station");
+	Stop s12 = new Stop("Glossop, Little Hayfield");
+	Stop s13 = new Stop("Glossop, Grouse Inn");
+	Stop s14 = new Stop("Glossop, Henry Street");
+	Stop s15 = new Stop("Romiley, Corcoran Drive");
+	Stop s16 = new Stop("Romiley, Train Station");
+
+
+	Stop[] stops = {s0, s1, s2, s3, s4, s5, s6, s7, s8,
+			s9, s10, s11, s12, s13, s14, s15, s16};
+
 	/**
 	 * @param startStop
 	 * @param endStop
 	 * @param startTime
 	 */
-	public Journey()
+	public Journey(int startStop, int endStop)
 	{
-		Stop s0 = new Stop("Stockport, Bus Station");
-		Stop s2 = new Stop("Stockport, Dialstone Lane/Hillcrest Road");
-		Stop s3 = new Stop("Stockport, Lower Bents Lane/Stockport Road");
-		Stop s4 = new Stop("Stockport, Asda/Sainsbury's");
-		Stop s5 = new Stop("Marple, Offerton Fold");
-		Stop s6 = new Stop("Marple, Navigation Hotel");
-		Stop s8 = new Stop("Marple, Norfolk Arms");
-		Stop s9 = new Stop("Strines, Royal Oak");
-		Stop s10 = new Stop("New Mills, Bus Station");
-		Stop s12 = new Stop("Low Leighton, Ollerset View Hospital");
-		Stop s14 = new Stop("Birch Vale, Grouse Hotel");
-		Stop s15 = new Stop("Hayfield, Bus Station");
-		Stop s16 = new Stop("Glossop, Little Hayfield");
-		Stop s17 = new Stop("Glossop, Grouse Inn");
-		Stop s18 = new Stop("Glossop, Henry Street");
-		Stop s19 = new Stop("Romiley, Corcoran Drive");
-		Stop s20 = new Stop("Romiley, Train Station");
-
 		//Stockport, Bus Station
-		s0.setAdj(new Edge[]{ new Edge(s5, 9),
-													new Edge(s2, 12),
-													new Edge(s4, 5)});
-		
-		
+		s0.setAdj(new Edge[]{ new Edge(s4, 9, 68),
+				new Edge(s1, 12, 65),
+				new Edge(s3, 5, 66)});
+
+
 		//Stockport, Dialstone Lane/Hillcrest Road
-		s2.setAdj(new Edge[]{ new Edge(s0, 11),
-													new Edge(s6, 12)});
-		
+		s1.setAdj(new Edge[]{ new Edge(s0, 11, 66),
+				new Edge(s5, 12, 65)});
+
 		//Stockport, Lower Bents Lane/Stockport Road
-		s3.setAdj(new Edge[]{ new Edge(s0, 14),
-													new Edge(s20, 8)});
-		
+		s2.setAdj(new Edge[]{ new Edge(s0, 14, 65),
+				new Edge(s16, 8, 66)});
+
 		//Stockport, Asda/Sainsbury's
-		s4.setAdj(new Edge[]{ new Edge(s3, 10)});
-		
+		s3.setAdj(new Edge[]{ new Edge(s2, 10, 66)});
+
 		//Marple, Offerton Fold
-		s5.setAdj(new Edge[]{ new Edge(s0, 9),
-													new Edge(s6, 10)});
-		
+		s4.setAdj(new Edge[]{ new Edge(s0, 9, 67),
+				new Edge(s5, 10, 68)});
+
 		//Marple, Navigation Hotel
-		s6.setAdj(new Edge[]{ new Edge(s5, 10),
-													new Edge(s2, 11),
-													new Edge(s8, 4),
-													new Edge(s9, 5)});
-		
+		s5.setAdj(new Edge[]{ new Edge(s4, 10, 67),
+				new Edge(s1, 11, 66),
+				new Edge(s6, 4, 65),
+				new Edge(s7, 5, 68)});
+
 		//Marple, Norfolk Arms
-		s8.setAdj(new Edge[]{ new Edge(s6, 5),
-													new Edge(s19, 6)});
-		
+		s6.setAdj(new Edge[]{ new Edge(s5, 5, 67),
+				new Edge(s15, 6, 68)});
+
 		//Strines, Royal Oak
-		s9.setAdj(new Edge[]{ new Edge(s6, 5),
-													new Edge(s10, 6)});
-		
+		s7.setAdj(new Edge[]{ new Edge(s5, 5, 67),
+				new Edge(s8, 6, 68)});
+
 		//New Mills, Bus Station 
-		s10.setAdj(new Edge[]{ new Edge(s9, 6),
-													 new Edge(s12, 5)});
-		
-		
+		s8.setAdj(new Edge[]{ new Edge(s7, 6, 67),
+				new Edge(s9, 5, 68)});
+
+
 		//Low Leighton, Ollerset View Hospital
-		s12.setAdj(new Edge[]{ new Edge(s10, 4),
-													 new Edge(s14, 3)});
-		
-		
+		s9.setAdj(new Edge[]{ new Edge(s8, 4, 67),
+				new Edge(s10, 3, 68)});
+
+
 		//Birch Vale, Grouse Hotel
-		s14.setAdj(new Edge[]{ new Edge(s12, 3),
-													 new Edge(s15, 3)});
-		
+		s10.setAdj(new Edge[]{ new Edge(s9, 3, 67),
+				new Edge(s11, 3, 68)});
+
 		//Hayfield, Bus Station
-		s15.setAdj(new Edge[]{ new Edge(s14, 3),
-													 new Edge(s16, 2)});
-		
+		s11.setAdj(new Edge[]{ new Edge(s10, 3, 67),
+				new Edge(s12, 2, 68)});
+
 		//Glossop, Little Hayfield
-		s16.setAdj(new Edge[]{ new Edge(s15, 2),
-													 new Edge(s17, 6)});
-		
+		s12.setAdj(new Edge[]{ new Edge(s11, 2, 67),
+				new Edge(s13, 6, 68)});
+
 		//Glossop, Grouse Inn
-		s17.setAdj(new Edge[]{ new Edge(s16, 6),
-													 new Edge(s18, 7)});
-		
+		s13.setAdj(new Edge[]{ new Edge(s12, 6, 67),
+				new Edge(s14, 7, 68)});
+
 		//Glossop, Henry Street
-		s18.setAdj(new Edge[]{ new Edge(s17, 7)});
-		
+		s14.setAdj(new Edge[]{ new Edge(s13, 7, 67)});
+
 		//Romiley, Corcoran Drive
-		s19.setAdj(new Edge[]{ new Edge(s8, 6),
-													 new Edge(s20, 5)});
-		
+		s15.setAdj(new Edge[]{ new Edge(s6, 6, 66),
+				new Edge(s16, 5, 65)});
+
 		//Romiley, Train Station
-		s20.setAdj(new Edge[]{ new Edge(s19, 4),
-													 new Edge(s3, 7)});
+		s16.setAdj(new Edge[]{ new Edge(s15, 4, 66),
+				new Edge(s2, 7, 65)});
+
+		calculatePaths(this.stops[startStop]);
 		
-		Stop[] stops = {s0, s2, s3, s4, s5, s6, s8, s8, s9, s10,
-										s12, s14, s15, s16, s17, s18, s19, s20};
+		Stop s = this.stops[endStop];
+
+		List<Stop> path = getShortestPathTo(s);
 		
-		calculatePaths(s0);
-		
-		for(Stop s : stops)
-		{
-			System.out.println("Distance to " + s + ": " + s.getMinDistance());
-	    List<Stop> path = getShortestPathTo(s);
-	    System.out.println("Path: " + path);
-		}
+		System.out.println("Path: " + path);
+
 	}
-	
+
 	public static List<Stop> getShortestPathTo(Stop target)
 	{
 		List<Stop> path = new ArrayList<Stop>();
 		for(Stop stop = target; stop != null; stop = stop.getPrevious())
 		{
+			System.out.println(stop.getRouteTaken());
 			path.add(stop);
 		}
-		
+
 		Collections.reverse(path);
 		return path;
 	}
-	
+
 	public static void calculatePaths(Stop startStop)
 	{
 		//Set the min distance of start stop to 0
@@ -151,6 +153,7 @@ public class Journey
 				//If smaller than the current min for stop then set min and previous
 				if(distanceThroughU < stop.getMinDistance())
 				{
+					u.setRouteTaken(edge.getRoute());
 					stopQueue.remove(stop);
 					stop.setMinDistance(distanceThroughU);
 					stop.setPrevious(u);

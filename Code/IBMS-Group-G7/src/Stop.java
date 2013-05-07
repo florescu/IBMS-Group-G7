@@ -4,6 +4,7 @@ public class Stop implements Comparable<Stop>
 	private Edge[] adj;
 	private int minDistance = Integer.MAX_VALUE;
 	private Stop previous;
+	private int routeTaken;
 	
 	//Constructor
 	public Stop(String name)
@@ -90,6 +91,16 @@ public class Stop implements Comparable<Stop>
 	public void setPrevious(Stop previous)
 	{
 		this.previous = previous;
+	}
+
+	public int getRouteTaken()
+	{
+		return routeTaken;
+	}
+
+	public void setRouteTaken(int routeTaken)
+	{
+		this.routeTaken = routeTaken;
 	}
 	
 	

@@ -3,25 +3,20 @@ public class TestJourney
 {
 	public static void main(String[] args)
 	{
-		Journey j = new Journey();
-		/*
 		database.openBusDatabase();
+		Journey j = new Journey(0,6);
+		
+		
+		int[] result = BusStopInfo.displayNextBus(770, 700);
+		
+		System.out.println(result[0]);
+		System.out.println(result[1]);
+		
 		int[] routes = BusStopInfo.getRoutes();
 		for(int i = 0; i < routes.length; i++)
 		{
-			System.out.println(routes[i]);
-			int[] stops = TimetableInfo.getServiceTimes(routes[i],10);
-			for(int j = 0; j < stops.length; j++)
-			{
-				int stop = TimetableInfo.getTimingPoint(10, stops[j]);
-				System.out.println(BusStopInfo.getFullName(stop));
-				System.out.println(stops[j]);
-			}
-			System.out.println();
+			System.out.println(BusStopInfo.findBusStop("SKP","Bus Station"));
 		}
-		//Journey journey = new Journey(775,779,0);
-		 * 
-		 */
 	}
 
 }
