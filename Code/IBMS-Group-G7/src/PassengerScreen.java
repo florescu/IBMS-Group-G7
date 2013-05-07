@@ -106,61 +106,77 @@ class PassengerScreen extends JFrame implements ActionListener{
 	    String[] tokens = stopName.split(" ");
 	    int stopID = Integer.parseInt(tokens[0]);
 	    String[] result = BusStopInfo.display5buses(stopID);
-      //for (int i = 0; i < result.length; i++)
-      	//System.out.println(result[i]);
+
+      System.out.println("Selected bus stop: " + stopID + " " + stopName);
+
       JLabel titleLabel = new JLabel("Service						Time");
       titleLabel.setForeground(this.lblFgClr);
       contentPanel.add(titleLabel);
-      JLabel time1 = new JLabel(result[0]);
-      time1.setForeground(this.lblFgClr);
-      JLabel time2 = new JLabel(result[1]);
-      time2.setForeground(this.lblFgClr);
-      JLabel time3 = new JLabel(result[2]);
-      time3.setForeground(this.lblFgClr);
-      JLabel time4 = new JLabel(result[3]);
-      time4.setForeground(this.lblFgClr);
-      JLabel time5 = new JLabel(result[4]);
-      time5.setForeground(this.lblFgClr);
-      contentPanel.add(time1);
-      contentPanel.add(time2);
-      contentPanel.add(time3);
-      contentPanel.add(time4);
-      contentPanel.add(time5);
-    }
-  	else if ("route".equals(paramActionEvent.getActionCommand()))
-  	{
+
+      System.out.println("Buses' time:");
+      for(int i = 0; i < result.length; i++){
+    
+        System.out.println("Bus " + (i + 1) + " " + result[i]);
+        
+        JLabel timeLbl = new JLabel(result[i]);
+
+        timeLbl.setForeground(this.lblFgClr);
+        contentPanel.add(timeLbl);
+      
+      }//for
+
+    }else if ("route".equals(paramActionEvent.getActionCommand())){
+
 	  	JComboBox cb = (JComboBox)paramActionEvent.getSource();
 	    String route = (String)cb.getSelectedItem();
 	    int routeID = Integer.parseInt(route);
 	    int[] finalBusStops = BusStopInfo.getBusStops(routeID);
+
 	    for (int i = 0; i<finalBusStops.length; i++)
 	      busStops[i] = Integer.toString(finalBusStops[i]);
+
 	    for (int i = 0; i<finalBusStops.length; i++)
 	    	System.out.println(busStops[i]);
+
 	    String[] busStopNames = new String[busStops.length]; 
 	    String[] allBusStops = BusStopInfo.getBusStops();
 	    
+      System.out.println("Selected route: " + routeID + " " + route);
+
 	    //This should compare the array of all bus stops which contains both id and name with the one which
 	    //only contains ids. if the small array element is contained in the bigger array, the busStopNames should be
 	    //the same as the big array element.
-	    for (int j = 0; j<allBusStops.length;j++)
-	      for (int i = 0; i<busStops.length; i++)
-	    	  if (allBusStops[j].contains(busStops[i])) // this should work but doesn't!!!!!!!!!!!!!!!!
- 	    	    busStopNames[i] = allBusStops[j];  // same about this!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	    for (int j = 0; j<allBusStops.length; j++){
 	    
+        for (int i = 0; i<busStops.length; i++){
+	    	  
+          if (allBusStops[j].contains(busStops[i])){ // this should work but doesn't!!!!!!!!!!!!!!!! WORKS
+ 	    	
+            //System.out.println("BUS: " + allBusStops[j] + " contains: " + busStops[i]);
+            busStopNames[i] = allBusStops[j];  // same about this!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! WORKS
+	    
+          }//if
+        }//for
+      }//for
+
 	    for (int j = 0; j<busStopNames.length;j++)
 	    	System.out.println(busStopNames[j]);
 	    
+
 	    int combosize = JComboBoxBusList.getItemCount();
-	   // System.out.println(combosize);
+	    System.out.println(combosize);
 	    
-	    if (combosize > 0)
-	    	for (int i = 0; i<combosize-1; i++)
+
+      //To be fixed - remove items(labels)
+	    if (combosize > 0){
+	    	for (int i = 0; i<combosize-1; i++){
 	    		if (JComboBoxBusList.getItemAt(i) != null)
 	    		{
         		JComboBoxBusList.removeItemAt(i);
         		JComboBoxBusList.removeAll();
 	    		}//if	
+        }//for
+      }//if
   		
 	    
 	    for (int i = 0; i<finalBusStops.length; i++)

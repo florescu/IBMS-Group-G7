@@ -1,0 +1,17 @@
+public class Stop
+{
+	private String name;
+	private Edge[] adj;
+	private int distance = 999999;
+	private Stop previous;
+	
+	public Stop(String name)
+	{
+		this.name = name;
+	}
+	
+	public String toString()
+	{
+		return this.name;
+	}
+}

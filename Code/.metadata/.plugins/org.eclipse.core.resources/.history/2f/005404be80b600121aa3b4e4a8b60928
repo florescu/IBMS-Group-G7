@@ -1,0 +1,85 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.PriorityQueue;
+
+
+public class Journey
+{
+	private Stop[22] stops;
+
+	/**
+	 * @param startStop
+	 * @param endStop
+	 * @param startTime
+	 */
+	public Journey()
+	{
+		Stop s0 = new Stop("Stockport, Bus Station");
+		Stop s1 = new Stop("Stockport, Intermediate Road");
+		Stop s2 = new Stop("Stockport, Dialstone Lane/Hillcrest Road");
+		Stop s3 = new Stop("Stockport, Lower Bents Lane/Stockport Road");
+		Stop s4 = new Stop("Stockport, Asda/Sainsbury's");
+		Stop s5 = new Stop("Marple, Offerton Fold");
+		Stop s6 = new Stop("Marple, Navigation Hotel");
+		Stop s7 = new Stop("Marple, Back of Beyond");
+		Stop s8 = new Stop("Marple, Norfolk Arms");
+		Stop s9 = new Stop("Strines, Royal Oak");
+		Stop s10 = new Stop("New Mills, Bus Station");
+		Stop s11 = new Stop("Newtown, Train Station");
+		Stop s12 = new Stop("Low Leighton, Ollerset View Hospital");
+		Stop s13 = new Stop("Thornsett, Printers Arms");
+		Stop s14 = new Stop("Birch Vale, Grouse Hotel");
+		Stop s15 = new Stop("Hayfield, Bus Station");
+		Stop s16 = new Stop("Glossop, Little Hayfield");
+		Stop s17 = new Stop("Glossop, Grouse Inn");
+		Stop s18 = new Stop("Glossop, Henry Street");
+		Stop s19 = new Stop("Romiley, Corcoran Drive");
+		Stop s20 = new Stop("Romiley, Train Station");
+		Stop s21 = new Stop("Romiley, Frog and Diver Arms");
+		this.stops = {s0, s1, s2};
+	}
+	
+	public static List<Stop> getShortestPathTo(Stop target)
+	{
+		List<Stop> path = new ArrayList<Stop>();
+		for(Stop stop = target; stop != null; stop = stop.getPrevious())
+		{
+			path.add(stop);
+		}
+		
+		Collections.reverse(path);
+		return path;
+	}
+	
+	public static void calculatePaths(Stop startStop)
+	{
+		//Set the min distance of start stop to 0
+		startStop.setMinDistance(0);
+		//Priority queue to store stops
+		PriorityQueue<Stop> stopQueue = new PriorityQueue<Stop>();
+		//Add the startStop to the queue
+		stopQueue.add(startStop);
+		//While the stopQueue is not empty
+		while(!stopQueue.isEmpty())
+		{
+			//Remove the stop from the front of the queue 
+			Stop u = stopQueue.poll();
+			//For all edges of the stop work out minDistance
+			for(Edge edge: u.getAdj())
+			{
+				Stop stop = edge.getTarget();
+				//Calculate the min ditance going though u
+				int distanceThroughU = u.getMinDistance() + edge.getDistance();
+				//If smaller than the current min for stop then set min and previous
+				if(distanceThroughU < stop.getMinDistance())
+				{
+					stopQueue.remove(stop);
+					stop.setMinDistance(distanceThroughU);
+					stop.setPrevious(u);
+					stopQueue.add(stop);
+				}
+			}
+		}
+	}
+}
