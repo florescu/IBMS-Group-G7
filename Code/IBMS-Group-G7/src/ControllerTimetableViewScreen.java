@@ -144,10 +144,10 @@ class ControllerTimetableViewScreen extends JFrame
         } else if ("timetables".equals(actionCmd)) {
             this.dispose();
             new ControllerTimetableViewScreen(title);
-        }  else if ("holidays".equals(actionCmd)) {
+        } else if ("report".equals(actionCmd)) {
             this.dispose();
-            new ControllerRequestViewScreen(title);
-        } else if ("drivers".equals(actionCmd)) {
+            new ControllerReportViewScreen(title);
+        }  else if ("drivers".equals(actionCmd)) {
             this.dispose();
             new ControllerDriversViewScreen(title);
         } else if ("problems".equals(actionCmd)) {
