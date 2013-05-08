@@ -12,7 +12,7 @@ class ControllerRequestViewScreen extends JFrame
   JMenuBar mainMenuBar;
   JMenu jMenuFile, jMenuView;
   JMenuItem jMItemSave, jMItemPrint, jMItemExit;
-  JMenuItem jMItemTimetables, jMItemHolidays, jMItemDrivers;
+  JMenuItem jMItemTimetables, jMItemHolidays, jMItemDrivers, jMItemReport, jMItemProblems;
 
   //Declate the colors
   Color layoutBgClr = new Color(255, 255, 255);
@@ -33,7 +33,7 @@ class ControllerRequestViewScreen extends JFrame
     jMenuView = new JMenu("View");
     jMenuView.setMnemonic(KeyEvent.VK_V);
 
-    jLabelSelectedView = new JLabel("Selected View: Holidays");
+    jLabelSelectedView = new JLabel("Selected View: Requests");
     jLabelSelectedView.setForeground(lblFgClr);
 
     //Add the two menus to the menu bar
@@ -52,14 +52,22 @@ class ControllerRequestViewScreen extends JFrame
     jMItemTimetables = new JMenuItem("Timetables", KeyEvent.VK_T);
     jMItemTimetables.setActionCommand("timetables");
     jMItemTimetables.addActionListener(this);
- 
-    jMItemHolidays = new JMenuItem("Holidays", KeyEvent.VK_H);
+
+    jMItemReport = new JMenuItem("Report", KeyEvent.VK_R);
+    jMItemReport.setActionCommand("report");
+    jMItemReport.addActionListener(this);
+
+    jMItemHolidays = new JMenuItem("Requests", KeyEvent.VK_H);
     jMItemHolidays.setActionCommand("holidays");
     jMItemHolidays.addActionListener(this);
  
     jMItemDrivers = new JMenuItem("Drivers", KeyEvent.VK_D);
     jMItemDrivers.setActionCommand("drivers");
     jMItemDrivers.addActionListener(this);
+
+    jMItemProblems = new JMenuItem("Problems", KeyEvent.VK_P);
+    jMItemProblems.setActionCommand("problems");
+    jMItemProblems.addActionListener(this);
  
     //Add the items to the menus
     jMenuFile.add(this.jMItemSave);
@@ -67,8 +75,10 @@ class ControllerRequestViewScreen extends JFrame
     jMenuFile.add(this.jMItemExit);
  
     jMenuView.add(this.jMItemTimetables);
+    jMenuView.add(this.jMItemReport);
     jMenuView.add(this.jMItemHolidays);
     jMenuView.add(this.jMItemDrivers);
+    jMenuView.add(this.jMItemProblems);
 
     //Create the mainContent panel
     mainContentPanel = new JPanel();
@@ -165,36 +175,24 @@ class ControllerRequestViewScreen extends JFrame
     String actionCmd = paramActionEvent.getActionCommand();
     String title = "G7 - IBMS System | Controller";
 
-    if("exit".equals(actionCmd))
-      System.exit(0);
-    else if ("timetables".equals(actionCmd)){
-      this.dispose();
-      new ControllerTimetableViewScreen(title);
-    }
-    else if ("holidays".equals(actionCmd)){
-      this.dispose();
-      new ControllerRequestViewScreen(title);
-    }
-    else if ("drivers".equals(actionCmd)){
-      this.dispose();
-      new ControllerDriversViewScreen(title);
-    }
-/*
-    for(int i = 0; i < 10; i++){
-      String aBtnAction = "approve"+i;
-      String dBtnAction = "decline"+i;
-
-      if(aBtnAction.equals(actionCmd)){
-        //Logic for approve. i is unique
-        System.out.println("" + aBtnAction + " pressed");
+      if ("exit".equals(actionCmd)) {
+          System.exit(0);
+      } else if ("timetables".equals(actionCmd)) {
+          this.dispose();
+          new ControllerTimetableViewScreen(title);
+      } else if ("report".equals(actionCmd)) {
+          this.dispose();
+          new ControllerReportViewScreen(title);
+      } else if ("holidays".equals(actionCmd)) {
+          this.dispose();
+          new ControllerRequestViewScreen(title);
+      } else if ("drivers".equals(actionCmd)) {
+          this.dispose();
+          new ControllerDriversViewScreen(title);
+      } else if ("problems".equals(actionCmd)) {
+          this.dispose();
+          new ControllerProblemsViewScreen(title);
       }
-      
-      if(dBtnAction.equals(actionCmd)){
-        //Logic for decline. i is unique
-        System.out.println("" + dBtnAction + " pressed");
-      }
-    }//for
-*/
 
   }//actionPerformed
 }//class
