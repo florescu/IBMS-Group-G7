@@ -15,6 +15,7 @@ class ControllerSetDelayViewScreen extends JFrame
     JScrollPane jScrollPanel;
     JMenuBar mainMenuBar;
     JMenu jMenuFile, jMenuView;
+    JComboBox jCBoxServiceDelay;
     JMenuItem jMItemSave, jMItemPrint, jMItemExit;
     JMenuItem jMItemTimetables, jMItemHolidays, jMItemDrivers, jMItemReport, jMItemProblems;
     JTextArea JTextAreaTimetable;
@@ -106,21 +107,23 @@ class ControllerSetDelayViewScreen extends JFrame
         mainContentPanel.setLayout(new GridLayout(0, 3, 20, 20));
         mainContentPanel.setBackground(layoutBgClr);
 
-        //Create the scrollpanel
-        jScrollPanel = new JScrollPane(mainContentPanel);
-        jScrollPanel.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        jScrollPanel.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        jScrollPanel.setBackground(layoutBgClr);
-
         //Create the content panel
         contentPanel = new JPanel();
         contentPanel.setPreferredSize(new Dimension(600, 300));
         contentPanel.setLayout(new BorderLayout());
         contentPanel.setBackground(layoutBgClr);
 
-        //Create the text fields
-        jTxtFServiceDelay = new JTextField("service id", 7);
-        jTxtFServiceDelay.setPreferredSize(new Dimension(30, 30));
+        database.openBusDatabase();
+        int servicesInt[] = Service.getServices();
+        Integer services[] = new Integer[servicesInt.length];
+
+        for (int i = 0; i < services.length; i++) {
+            services[i] = Integer.valueOf(servicesInt[i]);
+        }
+
+        jCBoxServiceDelay = new JComboBox(services);
+        jCBoxServiceDelay.setEditable(false);
+
 
         //Create the buttons
         jBtnReset = new JButton("Reset");
@@ -151,12 +154,6 @@ class ControllerSetDelayViewScreen extends JFrame
         jBtnCancelView.addActionListener(this);
 
 
-        jBtnDelay = new JButton("Delay");
-        jBtnDelay.setActionCommand("delayService");
-        jBtnDelay.addActionListener(this);
-        jBtnDelay.setBackground(this.btnBgClr);
-        jBtnDelay.setForeground(this.btnFgClr);
-
         jBtnSubmit = new JButton("Submit");
         jBtnSubmit.setActionCommand("submitMessage");
         jBtnSubmit.addActionListener(this);
@@ -178,20 +175,14 @@ class ControllerSetDelayViewScreen extends JFrame
         jButtonsPanel = new JPanel(new FlowLayout());
         jButtonsPanel.setBackground(this.layoutBgClr);
 
-        jLabelDelay = new JLabel("Set delay for");
-        jButtonsPanel.add(this.jLabelDelay);
-        jButtonsPanel.add(this.jTxtFServiceDelay);
-        jButtonsPanel.add(this.jBtnDelay);
-
         jMessagePanel = new JPanel(new FlowLayout());
         jMessagePanel.setBackground(this.layoutBgClr);
 
         //The 358 service is delayed by approximately 20 minutes due to a shortage of water for the windscreen wipers1, and will arrive at New Mills bus station at approximately 13.15. We apologize for the delay to your journey.
         jLabelMessage = new JLabel("The service ");
         jMessagePanel.add(this.jLabelMessage);
-        jTxtFServiceID = new JTextField("service id", 7);
-        jTxtFServiceID.setPreferredSize(new Dimension(30, 30));
-        jMessagePanel.add(this.jTxtFServiceID);
+
+        jMessagePanel.add(this.jCBoxServiceDelay);
         jLabelMessage = new JLabel(" is delayed by approximately ");
         jMessagePanel.add(this.jLabelMessage);
         jTxtFMinutes = new JTextField("min", 3);
@@ -200,7 +191,7 @@ class ControllerSetDelayViewScreen extends JFrame
         jLabelMessage = new JLabel(" due to ");
         jMessagePanel.add(this.jLabelMessage);
         JTxtFReason = new JTextField("reason", 20);
-        jTxtFServiceID.setPreferredSize(new Dimension(30, 30));
+
         jMessagePanel.add(this.JTxtFReason);
         jLabelMessage = new JLabel(" We apologize for the delay to your journey.");
         jMessagePanel.add(this.jLabelMessage);
@@ -224,8 +215,6 @@ class ControllerSetDelayViewScreen extends JFrame
         contentPanel.add(submenuPanel, BorderLayout.PAGE_START);
 
         //Add the label to the content panel
-        //contentPanel.add(jScrollPanel, BorderLayout.CENTER);
-        //contentPanel.add(this.jButtonsPanel,BorderLayout.PAGE_START);
         contentPanel.add(this.jMessagePanel);
 
         //Resize and position the window
@@ -263,7 +252,7 @@ class ControllerSetDelayViewScreen extends JFrame
         String actionCmd = paramActionEvent.getActionCommand();
         String title = "G7 - IBMS System | Controller";
 
-      if ("exit".equals(actionCmd)) {
+        if ("exit".equals(actionCmd)) {
             System.exit(0);
         } else if ("timetables".equals(actionCmd)) {
             this.dispose();
@@ -282,56 +271,21 @@ class ControllerSetDelayViewScreen extends JFrame
             new ControllerProblemsViewScreen(title);
         } else if ("submitMessage".equals(actionCmd)) {
             database.openBusDatabase();
-            int serviceID = Integer.parseInt(jTxtFServiceID.getText());
+            int serviceID = (Integer) jCBoxServiceDelay.getSelectedItem();
 
             //Check if the fields are empty or with proper values
 
-            if (jTxtFServiceID.getText() == null
-                    || !Validator.isNumeric(jTxtFServiceID.getText())) {
+            jLabelSent.setText("Request sent.");
+            jLabelSent.setVisible(true);
+            Service.setDelayedTime(serviceID, jTxtFMinutes.getText());
+            delayMessage = "The service " + serviceID + " is delayed by approximately " + jTxtFMinutes.getText() + " minutes due to " + JTxtFReason.getText() + ". We apologize for the delay to your journey.";
+            System.out.println(delayMessage);
+            Service.setMessage(serviceID, delayMessage);
+            int time = Integer.parseInt(jTxtFMinutes.getText());
+            TimetableInfo.setTimeForService(serviceID, time);
+            this.dispose();
+            new ControllerAckScreen("");
 
-                jLabelError.setText("Error: provide valid service ID!");
-                jLabelError.setVisible(true);
-
-            } else if (!Service.isInDatabase(serviceID)) {
-
-                jLabelError.setText("Error: No such service in the database!");
-                jLabelError.setVisible(true);
-            } else {
-                jLabelSent.setText("Request sent.");
-                jLabelSent.setVisible(true);
-                Service.setDelayedTime(serviceID, jTxtFMinutes.getText());
-                delayMessage = "The service " + serviceID + " is delayed by approximately " + jTxtFMinutes.getText() + " minutes due to " + JTxtFReason.getText() + ". We apologize for the delay to your journey.";
-                System.out.println(delayMessage);
-                Service.setMessage(serviceID, delayMessage);
-                int time = Integer.parseInt(jTxtFMinutes.getText());
-                TimetableInfo.setTimeForService(serviceID, time);
-                this.dispose();
-                new ControllerAckScreen("");
-            }
-        }//else submit message
-        else if ("delayService".equals(actionCmd)) {
-            database.openBusDatabase();
-            int serviceID = Integer.parseInt(jTxtFServiceDelay.getText());
-
-            //Check if the fields are empty or with proper values
-
-            if (jTxtFServiceDelay.getText() == null
-                    || !Validator.isNumeric(jTxtFServiceDelay.getText())) {
-
-                jLabelError.setText("Error: provide valid service ID!");
-                jLabelError.setVisible(true);
-
-            } else if (!Service.isInDatabase(serviceID)) {
-
-                jLabelError.setText("Error: No such service in the database!");
-                jLabelError.setVisible(true);
-            } else {
-                jLabelSent.setText("Request sent.");
-                jLabelSent.setVisible(true);
-                Service.setCancelled(serviceID, true);
-                this.dispose();
-                new ControllerAckScreen("");
-            }//else
         } else if ("setDelayView".equals(actionCmd)) {
             this.dispose();
             new ControllerSetDelayViewScreen(title);

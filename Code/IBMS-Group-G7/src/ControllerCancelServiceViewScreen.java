@@ -15,6 +15,7 @@ class ControllerCancelServiceViewScreen extends JFrame
     JScrollPane jScrollPanel;
     JMenuBar mainMenuBar;
     JMenu jMenuFile, jMenuView;
+    JComboBox jCBoxServiceCancel;
     JMenuItem jMItemSave, jMItemPrint, jMItemExit;
     JMenuItem jMItemTimetables, jMItemHolidays, jMItemDrivers, jMItemReport, jMItemProblems;
     JTextArea JTextAreaTimetable;
@@ -98,7 +99,7 @@ class ControllerCancelServiceViewScreen extends JFrame
         jMenuView.add(this.jMItemHolidays);
         jMenuView.add(this.jMItemDrivers);
         jMenuView.add(this.jMItemProblems);
-        
+
         //Create the mainContent panel
         mainContentPanel = new JPanel();
         mainContentPanel.setLayout(new GridLayout(0, 3, 20, 20));
@@ -116,9 +117,16 @@ class ControllerCancelServiceViewScreen extends JFrame
         contentPanel.setLayout(new BorderLayout());
         contentPanel.setBackground(layoutBgClr);
 
-        //Create the text fields
-        jTxtFServiceCancel = new JTextField("service id", 7);
-        jTxtFServiceCancel.setPreferredSize(new Dimension(30, 30));
+        database.openBusDatabase();
+        int servicesInt[] = Service.getServices();
+        Integer services[] = new Integer[servicesInt.length];
+
+        for (int i = 0; i < services.length; i++) {
+            services[i] = Integer.valueOf(servicesInt[i]);
+        }
+
+        jCBoxServiceCancel = new JComboBox(services);
+        jCBoxServiceCancel.setEditable(false);
 
 
         //Create the buttons
@@ -149,13 +157,6 @@ class ControllerCancelServiceViewScreen extends JFrame
         jBtnCancelView.setActionCommand("cancelServiceView");
         jBtnCancelView.addActionListener(this);
 
-
-        jBtnCancel = new JButton("Cancel");
-        jBtnCancel.setActionCommand("cancelService");
-        jBtnCancel.addActionListener(this);
-        jBtnCancel.setBackground(this.btnBgClr);
-        jBtnCancel.setForeground(this.btnFgClr);
-
         jBtnSubmit = new JButton("Submit");
         jBtnSubmit.setActionCommand("submitMessage");
         jBtnSubmit.addActionListener(this);
@@ -173,14 +174,8 @@ class ControllerCancelServiceViewScreen extends JFrame
         jLabelSent.setHorizontalAlignment(0);
 
         //Create the button panel
-
         jButtonsPanel = new JPanel(new FlowLayout());
         jButtonsPanel.setBackground(this.layoutBgClr);
-
-        jLabelCancel = new JLabel("Reset cancel for");
-        jButtonsPanel.add(this.jLabelCancel);
-        jButtonsPanel.add(this.jTxtFServiceCancel);
-        jButtonsPanel.add(this.jBtnCancel);
 
         jMessagePanel = new JPanel(new FlowLayout());
         jMessagePanel.setBackground(this.layoutBgClr);
@@ -188,13 +183,12 @@ class ControllerCancelServiceViewScreen extends JFrame
         //The 358 service is delayed by approximately 20 minutes due to a shortage of water for the windscreen wipers1, and will arrive at New Mills bus station at approximately 13.15. We apologize for the delay to your journey.
         jLabelMessage = new JLabel("The service ");
         jMessagePanel.add(this.jLabelMessage);
-        jTxtFServiceID = new JTextField("service id", 7);
-        jTxtFServiceID.setPreferredSize(new Dimension(30, 30));
-        jMessagePanel.add(this.jTxtFServiceID);
+
+        jMessagePanel.add(this.jCBoxServiceCancel);
         jLabelMessage = new JLabel(" is cancelled due to ");
         jMessagePanel.add(this.jLabelMessage);
         JTxtFReason = new JTextField("message", 20);
-        jTxtFServiceID.setPreferredSize(new Dimension(30, 30));
+        
         jMessagePanel.add(this.JTxtFReason);
         jLabelMessage = new JLabel("We apologize for the consequences this may have on your journey.");
         jMessagePanel.add(this.jLabelMessage);
@@ -276,56 +270,20 @@ class ControllerCancelServiceViewScreen extends JFrame
             new ControllerProblemsViewScreen(title);
         } else if ("submitMessage".equals(actionCmd)) {
             database.openBusDatabase();
-            int serviceID = Integer.parseInt(jTxtFServiceID.getText());
+            int serviceID = (Integer) jCBoxServiceCancel.getSelectedItem();
 
             //Check if the fields are empty or with proper values
 
-            if (jTxtFServiceID.getText() == null
-                    || !Validator.isNumeric(jTxtFServiceID.getText())) {
+            jLabelSent.setText("Request sent.");
+            jLabelSent.setVisible(true);
+            Service.setCancelled(serviceID, true);
+            cancelMessage = "The service " + serviceID + " is cancelled " + " due to " + JTxtFReason.getText() + ". We apologize for the delay to your journey.";
+            System.out.println(cancelMessage);
+            Service.setMessage(serviceID, cancelMessage);
+            this.dispose();
+            new ControllerAckScreen("");
 
-                jLabelError.setText("Error: provide valid service ID!");
-                jLabelError.setVisible(true);
-
-            } else if (!Service.isInDatabase(serviceID)) {
-
-                jLabelError.setText("Error: No such service in the database!");
-                jLabelError.setVisible(true);
-            } else {
-                jLabelSent.setText("Request sent.");
-                jLabelSent.setVisible(true);
-                Service.setCancelled(serviceID, true);
-                cancelMessage = "The service " + serviceID + " is cancelled " + " due to " + JTxtFReason.getText() + ". We apologize for the delay to your journey.";
-                System.out.println(cancelMessage);
-                Service.setMessage(serviceID, cancelMessage);
-                this.dispose();
-                new ControllerAckScreen("");
-            }
-        }//else submit message
-        else if ("cancelService".equals(actionCmd)) {
-            database.openBusDatabase();
-            int serviceID = Integer.parseInt(jTxtFServiceCancel.getText());
-
-            //Check if the fields are empty or with proper values
-
-            if (jTxtFServiceCancel.getText() == null
-                    || !Validator.isNumeric(jTxtFServiceCancel.getText())) {
-
-                jLabelError.setText("Error: provide valid service ID!");
-                jLabelError.setVisible(true);
-
-            } else if (!Service.isInDatabase(serviceID)) {
-
-                jLabelError.setText("Error: No such service in the database!");
-                jLabelError.setVisible(true);
-            } else {
-                jLabelSent.setText("Request sent.");
-                jLabelSent.setVisible(true);
-                Service.setCancelled(serviceID, true);
-                this.dispose();
-                new ControllerAckScreen("");
-            }//else
-        }//else if reset cancel
-        else if ("setDelayView".equals(actionCmd)) {
+        }else if ("setDelayView".equals(actionCmd)) {
             this.dispose();
             new ControllerSetDelayViewScreen(title);
         } else if ("cancelServiceView".equals(actionCmd)) {
