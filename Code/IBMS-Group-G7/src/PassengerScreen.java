@@ -48,7 +48,7 @@ class PassengerScreen extends JFrame implements ActionListener{
     //Create the content panel
     contentPanel = new JPanel();
     contentPanel.setPreferredSize(new Dimension(550, 200));
-    contentPanel.setLayout(new GridLayout(11, 0));
+    contentPanel.setLayout(new GridLayout(0, 1));
     contentPanel.setBackground(this.layoutBgClr);
  
     //Create the labels
