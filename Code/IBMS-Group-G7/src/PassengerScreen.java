@@ -15,6 +15,7 @@ class PassengerScreen extends JFrame implements ActionListener{
   int[] routes;
   int routesCBoxPressedTimes = 0;
   String routeId, busStation;
+  boolean refreshPressed = false;
 
   //Declare the colors
   Color layoutBgClr = new Color(255, 255, 255);
@@ -141,8 +142,24 @@ class PassengerScreen extends JFrame implements ActionListener{
   	{
       System.out.println("slected a bus stop");
 	  	JComboBox cb = (JComboBox)paramActionEvent.getSource();
-	    
-       String stopName = (String)cb.getSelectedItem();
+	  	//busStation = (String)JComboBoxBusList.getSelectedItem();
+	  	if (refreshPressed)
+	  	{
+	  		JComboBoxBusList.setSelectedItem(busStation);
+	  	  refreshPressed = false;
+	  	  repaint();
+	  	}
+	  	else
+	  	{
+	  		JComboBoxBusList.setSelectedItem((String)JComboBoxBusList.getSelectedItem());
+	  		repaint();
+	  	}
+	  	/*if (busStation != (String)JComboBoxBusList.getSelectedItem() && busStation != null){
+	  		  JComboBoxBusList.setSelectedItem(busStation);
+		      repaint();
+	  	}*/
+      
+	  	String stopName = (String)cb.getSelectedItem();
       System.out.println("stopName selected: " + stopName);
     
       if(stopName != null){
@@ -180,6 +197,7 @@ class PassengerScreen extends JFrame implements ActionListener{
 
       if(busStation != null && routeId != JComboBoxRoutesList.getSelectedItem()){
         JComboBoxBusList.setSelectedItem(busStation);
+        JComboBoxBusList.revalidate();
         repaint();
       }
 
@@ -189,6 +207,7 @@ class PassengerScreen extends JFrame implements ActionListener{
       System.out.println("Selected a route");
 
 	  	JComboBox cb = (JComboBox)paramActionEvent.getSource();
+	  	
 	    String route = (String)cb.getSelectedItem();
 	    int routeID = Integer.parseInt(route);
 	    int[] finalBusStops = BusStopInfo.getBusStops(routeID);
@@ -251,15 +270,15 @@ class PassengerScreen extends JFrame implements ActionListener{
 
       routeId = (String)JComboBoxRoutesList.getSelectedItem();
       busStation = (String)JComboBoxBusList.getSelectedItem();
-
-      repaint();
-      
+      refreshPressed = true;
       ActionEvent e1 = new ActionEvent(JComboBoxRoutesList, ActionEvent.ACTION_PERFORMED, "route");  
       this.actionPerformed(e1);
       ActionEvent e2 = new ActionEvent(JComboBoxBusList, ActionEvent.ACTION_PERFORMED, "selectStop");
       this.actionPerformed(e2);
-      
+      contentPanel.revalidate();
+      JComboBoxBusList.setSelectedItem(busStation);
       repaint();
+      
       //   new PassengerScreen("G7 - IBMS System | Passenger - Information");
   
     }else{
