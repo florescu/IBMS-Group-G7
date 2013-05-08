@@ -17,7 +17,7 @@ class ControllerSetDelayViewScreen extends JFrame
     JMenu jMenuFile, jMenuView;
     JComboBox jCBoxServiceDelay;
     JMenuItem jMItemSave, jMItemPrint, jMItemExit;
-    JMenuItem jMItemTimetables, jMItemHolidays, jMItemDrivers, jMItemReport, jMItemProblems;
+    JMenuItem jMItemTimetables, jMItemDrivers, jMItemReport, jMItemProblems;
     JTextArea JTextAreaTimetable;
     JButton jBtnResetDelay, jBtnSetDelay, jBtnResetCancel, jBtnDelay, jBtnSubmit, jBtnCancelView, jBtnReset;
     JTextField jTxtFServiceDelay, jTxtFServiceID, JTxtFReason, jTxtFMinutes;
@@ -76,10 +76,6 @@ class ControllerSetDelayViewScreen extends JFrame
         jMItemReport.setActionCommand("report");
         jMItemReport.addActionListener(this);
 
-        jMItemHolidays = new JMenuItem("Requests", KeyEvent.VK_H);
-        jMItemHolidays.setActionCommand("holidays");
-        jMItemHolidays.addActionListener(this);
-
         jMItemDrivers = new JMenuItem("Drivers", KeyEvent.VK_D);
         jMItemDrivers.setActionCommand("drivers");
         jMItemDrivers.addActionListener(this);
@@ -98,7 +94,6 @@ class ControllerSetDelayViewScreen extends JFrame
 
         jMenuView.add(this.jMItemTimetables);
         jMenuView.add(this.jMItemReport);
-        jMenuView.add(this.jMItemHolidays);
         jMenuView.add(this.jMItemDrivers);
         jMenuView.add(this.jMItemProblems);
 
@@ -260,10 +255,7 @@ class ControllerSetDelayViewScreen extends JFrame
         } else if ("report".equals(actionCmd)) {
             this.dispose();
             new ControllerReportViewScreen(title);
-        } else if ("holidays".equals(actionCmd)) {
-            this.dispose();
-            new ControllerRequestViewScreen(title);
-        } else if ("drivers".equals(actionCmd)) {
+        }  else if ("drivers".equals(actionCmd)) {
             this.dispose();
             new ControllerDriversViewScreen(title);
         } else if ("problems".equals(actionCmd)) {

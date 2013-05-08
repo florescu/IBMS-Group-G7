@@ -13,7 +13,7 @@ class ControllerDriversViewScreen extends JFrame implements ActionListener {
     JMenuBar mainMenuBar;
     JMenu jMenuFile, jMenuView;
     JMenuItem jMItemSave, jMItemPrint, jMItemExit;
-    JMenuItem jMItemTimetables, jMItemHolidays, jMItemDrivers, jMItemReport, jMItemProblems;
+    JMenuItem jMItemTimetables, jMItemDrivers, jMItemReport, jMItemProblems;
     // Declate the colors
     Color layoutBgClr = new Color(255, 255, 255);
     Color lblFgClr = new Color(150, 150, 150);
@@ -67,10 +67,6 @@ class ControllerDriversViewScreen extends JFrame implements ActionListener {
         jMItemReport.setActionCommand("report");
         jMItemReport.addActionListener(this);
 
-        jMItemHolidays = new JMenuItem("Requests", KeyEvent.VK_H);
-        jMItemHolidays.setActionCommand("holidays");
-        jMItemHolidays.addActionListener(this);
-
         jMItemDrivers = new JMenuItem("Drivers", KeyEvent.VK_D);
         jMItemDrivers.setActionCommand("drivers");
         jMItemDrivers.addActionListener(this);
@@ -86,7 +82,6 @@ class ControllerDriversViewScreen extends JFrame implements ActionListener {
 
         jMenuView.add(this.jMItemTimetables);
         jMenuView.add(this.jMItemReport);
-        jMenuView.add(this.jMItemHolidays);
         jMenuView.add(this.jMItemDrivers);
         jMenuView.add(this.jMItemProblems);
         // Create the mainContent panel
@@ -220,9 +215,6 @@ class ControllerDriversViewScreen extends JFrame implements ActionListener {
         } else if ("report".equals(actionCmd)) {
             this.dispose();
             new ControllerReportViewScreen(title);
-        } else if ("holidays".equals(actionCmd)) {
-            this.dispose();
-            new ControllerRequestViewScreen(title);
         } else if ("drivers".equals(actionCmd)) {
             this.dispose();
             new ControllerDriversViewScreen(title);
