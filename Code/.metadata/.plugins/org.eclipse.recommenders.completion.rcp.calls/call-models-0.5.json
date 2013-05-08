@@ -1,0 +1,12 @@
+{
+  "/Users/Josh/Documents/Manchester Uni/CS/Second Year/COMP23420/IBMS-Group-G7/Code/IBMS-Group-G7/src": {
+    "location": "/Users/Josh/Documents/Manchester Uni/CS/Second Year/COMP23420/IBMS-Group-G7/Code/IBMS-Group-G7/src",
+    "status": "UNRESOLVED",
+    "error": "No class path info available for \u0027/Users/Josh/Documents/Manchester Uni/CS/Second Year/COMP23420/IBMS-Group-G7/Code/IBMS-Group-G7/src\u0027. Skipped."
+  },
+  "/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/classes.jar": {
+    "coordinate": "jre:jre:zip:call:1.0.0",
+    "location": "/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/classes.jar",
+    "status": "RESOLVED"
+  }
+}
