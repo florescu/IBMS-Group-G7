@@ -300,6 +300,8 @@ public class BusStopInfo
     for (int j=0; j<min; j++)
   	  result[j] = service[j+currentIndex] + " " + time[j+currentIndex];
     
+    if(result.length<1)
+    	throw new InvalidQueryException("There is no buses available at that time.");
     String[] parts = result[0].split(" ");
 		int theService = Integer.parseInt(parts[0]);
 		int theTimeInt = Integer.parseInt(parts[1]);
@@ -343,4 +345,18 @@ public class BusStopInfo
     
     return service[currentIndex];
   }//display5Buses
+  
+  public static int getTime(int service, int stop)
+  {
+  	int result = 0;
+    int[] stops = database.busDatabase.select_ids("timing_point", "timetable_line", "service", service, "time");
+    int[] time = database.busDatabase.select_ids("time", "timetable_line", "service", service, "time");
+    for(int i = 0; i < stops.length; i++)
+    {
+    	if(stops[i]==stop)
+    		result = time[i];
+    }
+    return result;
+  }
+
 }//class

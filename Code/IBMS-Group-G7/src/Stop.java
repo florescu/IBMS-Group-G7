@@ -5,6 +5,7 @@ public class Stop implements Comparable<Stop>
 	private int minDistance = Integer.MAX_VALUE;
 	private Stop previous;
 	private int routeTaken;
+	private boolean routeChecked = false;
 	
 	//Constructor
 	public Stop(String name)
@@ -101,6 +102,16 @@ public class Stop implements Comparable<Stop>
 	public void setRouteTaken(int routeTaken)
 	{
 		this.routeTaken = routeTaken;
+	}
+
+	public boolean isRouteChecked()
+	{
+		return routeChecked;
+	}
+
+	public void setRouteChecked(boolean routeChecked)
+	{
+		this.routeChecked = routeChecked;
 	}
 	
 	
