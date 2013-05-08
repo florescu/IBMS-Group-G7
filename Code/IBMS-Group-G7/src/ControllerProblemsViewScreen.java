@@ -11,7 +11,7 @@ class ControllerProblemsViewScreen extends JFrame
 
     //Declare the components
     JLabel jLabelTimetable, jLabelSelectedView, jLabelSent, jLabelProblems, jLabelResetCancel, jLabelResetDelay, jLabelError;
-    JPanel contentPanel, mainContentPanel, requestPanel, JComponentsPanel, submenuPanel;
+    JPanel contentPanel, mainContentPanel, requestPanel, JComponentsPanel, submenuPanel,JResetCancelPanel,JResetDelayPanel;
     JScrollPane jScrollPanel;
     JMenuBar mainMenuBar, secondaryMenuBar;
     JMenu jMenuFile, jMenuView;
@@ -171,26 +171,28 @@ class ControllerProblemsViewScreen extends JFrame
 
         //Create the button panel
 
-        JComponentsPanel = new JPanel(new GridLayout(4, 3, 10, 50));
+        JComponentsPanel = new JPanel(new GridLayout(2, 1));
         JComponentsPanel.setBackground(this.layoutBgClr);
 
-        JComponentsPanel.add(new JLabel(""));
-        JComponentsPanel.add(this.jBtnSetDelay);
-        JComponentsPanel.add(new JLabel(""));
+       //Create the JResetDelay panel
+        JResetDelayPanel = new JPanel();
+        JResetDelayPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 60, 30));
+        JResetDelayPanel.setBackground(layoutBgClr);
+
+        //Create the JRestCancel panel
+        JResetCancelPanel = new JPanel();
+        JResetCancelPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 60, 30));
+        JResetCancelPanel.setBackground(layoutBgClr);
 
         jLabelResetDelay = new JLabel("Reset delay for");
-        JComponentsPanel.add(this.jLabelResetDelay);
-        JComponentsPanel.add(this.jTxtFServiceDelay);
-        JComponentsPanel.add(this.jBtnResetDelay);
-
-        JComponentsPanel.add(new JLabel(""));
-        JComponentsPanel.add(this.jBtnCancel);
-        JComponentsPanel.add(new JLabel(""));
+        JResetDelayPanel.add(this.jLabelResetDelay);
+        JResetDelayPanel.add(this.jTxtFServiceDelay);
+        JResetDelayPanel.add(this.jBtnResetDelay);
 
         jLabelResetCancel = new JLabel("Reset cancel for");
-        JComponentsPanel.add(this.jLabelResetCancel);
-        JComponentsPanel.add(this.jTxtFServiceCancel);
-        JComponentsPanel.add(this.jBtnResetCancel);
+        JResetCancelPanel.add(this.jLabelResetCancel);
+        JResetCancelPanel.add(this.jTxtFServiceCancel);
+        JResetCancelPanel.add(this.jBtnResetCancel);
 
         //Create the submenuPanel
         submenuPanel = new JPanel();
@@ -206,10 +208,12 @@ class ControllerProblemsViewScreen extends JFrame
         submenuPanel.add(jBtnSetDelay);
         submenuPanel.add(jBtnCancel);
 
+        JComponentsPanel.add(JResetDelayPanel);
+        JComponentsPanel.add(JResetCancelPanel);
 
         //Add the label to the content panel
         contentPanel.add(submenuPanel, BorderLayout.PAGE_START);
-        contentPanel.add(componentsPanel);
+        contentPanel.add(JComponentsPanel);
 
         //Resize and position the window
         Dimension localDimension = Toolkit.getDefaultToolkit().getScreenSize();
