@@ -26,6 +26,8 @@ public class Journey
 	private static int startTime;
 	private static boolean routesChecked = true;
 	private List<Stop> path;
+	
+	private String message;
 
 	Stop[] stops = {s0, s1, s2, s3, s4, s5, s6, s7, s8,
 			s9, s10, s11, s12, s13};
@@ -100,9 +102,7 @@ public class Journey
 		s13.setAdj(new Edge[]{ new Edge(s12, 4, 66),
 				new Edge(s2, 7, 65)});
 
-		System.out.println(getBusCode(this.stops[startStop].getName(), this.stops[startStop].getAdj()[0].getRoute())[0]);
 		int calTime = BusStopInfo.displayNextBus(getBusCode(this.stops[startStop].getName(), this.stops[startStop].getAdj()[0].getRoute())[0], startTime)[1];
-		System.out.println("First bus: "+calTime);
 		this.stops[startStop].setMinDistance(calTime);
 		try
 		{
@@ -117,7 +117,7 @@ public class Journey
 			}while(!routesChecked);
 
 
-			System.out.println("Get the "+calculateTime(path.get(0).getMinDistance())+" "+getRouteName(path.get(0).getRouteTaken())+" service from "+path.get(0).getName());
+			message = "Get the "+calculateTime(path.get(0).getMinDistance())+" "+getRouteName(path.get(0).getRouteTaken())+" service from "+path.get(0).getName()+"\n";
 			for(int i =1; i < path.size(); i++)
 			{
 				if(i+1 < path.size())
@@ -127,12 +127,12 @@ public class Journey
 						int nextBusCode = getBusCode(path.get(i+1).getName(),path.get(i+1).getRouteTaken())[0];
 						int theCode = BusStopInfo.getPreviousStop(nextBusCode, path.get(i+1).getRouteTaken());
 						int nextTime = BusStopInfo.displayNextBus(theCode,path.get(i).getMinDistance())[1];
-						System.out.print("Change at "+path.get(i).getName());
-						System.out.println(" and get the "+calculateTime(nextTime)+" "+getRouteName(path.get(i+1).getRouteTaken())+" service");
+						this.message = this.message.concat("Change at "+path.get(i).getName());
+						this.message = this.message.concat(" and get the "+calculateTime(nextTime)+" "+getRouteName(path.get(i+1).getRouteTaken())+" service\n");
 					}
 				}
 			}
-			System.out.println("Arrive at "+path.get(path.size()-1).getName()+" "+ calculateTime(path.get(path.size()-1).getMinDistance()));
+			this.message = this.message.concat("Arrive at "+path.get(path.size()-1).getName()+" "+ calculateTime(path.get(path.size()-1).getMinDistance()));
 		}
 		catch(ArrayIndexOutOfBoundsException e)
 		{
@@ -270,5 +270,21 @@ public class Journey
 			return 99999;
 		}
 		return difference;
+	}
+
+	/**
+	 * @return the message
+	 */
+	public String getMessage()
+	{
+		return message;
+	}
+
+	/**
+	 * @param message the message to set
+	 */
+	public void setMessage(String message)
+	{
+		this.message = message;
 	}
 }

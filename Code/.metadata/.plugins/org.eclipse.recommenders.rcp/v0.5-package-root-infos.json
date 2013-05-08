@@ -189,9 +189,9 @@
       "micro": 0,
       "qualifier": ""
     },
-    "jarFileFingerprint": "ec3683ec63bf144edb6b572631a1d8d75f950464",
-    "jarFileModificationDate": "2013-04-07T19:09:01+01:00",
-    "location": "/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/classes.jar",
+    "jarFileFingerprint": "80a1b59c9a46cd5cd3869637f77eb5261937fd35",
+    "jarFileModificationDate": "2011-07-14T20:43:29+01:00",
+    "location": "/System/Library/Java/Extensions/j3dutils.jar",
     "javaRuntime": true
   },
   {
@@ -202,9 +202,9 @@
       "micro": 0,
       "qualifier": ""
     },
-    "jarFileFingerprint": "80a1b59c9a46cd5cd3869637f77eb5261937fd35",
-    "jarFileModificationDate": "2011-07-14T20:43:29+01:00",
-    "location": "/System/Library/Java/Extensions/j3dutils.jar",
+    "jarFileFingerprint": "ec3683ec63bf144edb6b572631a1d8d75f950464",
+    "jarFileModificationDate": "2013-04-07T19:09:01+01:00",
+    "location": "/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/classes.jar",
     "javaRuntime": true
   },
   {
@@ -221,19 +221,6 @@
     "javaRuntime": false
   },
   {
-    "symbolicName": "joda-time",
-    "version": {
-      "major": 2,
-      "minor": 1,
-      "micro": 0,
-      "qualifier": ""
-    },
-    "jarFileFingerprint": "8f79e353ef77da6710e1f10d34fc3698eaaacbca",
-    "jarFileModificationDate": "2013-03-17T14:53:57Z",
-    "location": "/Users/Josh/Documents/Manchester Uni/CS/Second Year/COMP23420/IBMS-Group-G7/Code/IBMS-Group-G7/lib/joda-time-2.1.jar",
-    "javaRuntime": false
-  },
-  {
     "symbolicName": "jre",
     "version": {
       "major": 1,
@@ -241,35 +228,9 @@
       "micro": 0,
       "qualifier": ""
     },
-    "jarFileFingerprint": "ff9ef0f8ac62416c62c8bc4228c50ce95b3c58ae",
-    "jarFileModificationDate": "2013-04-21T14:13:23+01:00",
-    "location": "/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/lib/ext/dnsns.jar",
-    "javaRuntime": true
-  },
-  {
-    "symbolicName": "jre",
-    "version": {
-      "major": 1,
-      "minor": 0,
-      "micro": 0,
-      "qualifier": ""
-    },
-    "jarFileFingerprint": "0999f1f3951d713e9a0d96f063f6f6e931589cdd",
-    "jarFileModificationDate": "2011-07-14T20:43:29+01:00",
-    "location": "/System/Library/Java/Extensions/vecmath.jar",
-    "javaRuntime": true
-  },
-  {
-    "symbolicName": "jre",
-    "version": {
-      "major": 1,
-      "minor": 0,
-      "micro": 0,
-      "qualifier": ""
-    },
-    "jarFileFingerprint": "70e3f9e76e3d5884415516c0cee0855295bcb571",
-    "jarFileModificationDate": "2013-04-07T18:54:33+01:00",
-    "location": "/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jce.jar",
+    "jarFileFingerprint": "0a96b7d4126b3a5e4ac1bfb648ce0a059e03f7de",
+    "jarFileModificationDate": "2013-04-21T14:13:26+01:00",
+    "location": "/System/Library/Java/Extensions/dns_sd.jar",
     "javaRuntime": true
   },
   {
@@ -293,9 +254,48 @@
       "micro": 0,
       "qualifier": ""
     },
-    "jarFileFingerprint": "0a96b7d4126b3a5e4ac1bfb648ce0a059e03f7de",
-    "jarFileModificationDate": "2013-04-21T14:13:26+01:00",
-    "location": "/System/Library/Java/Extensions/dns_sd.jar",
+    "jarFileFingerprint": "70e3f9e76e3d5884415516c0cee0855295bcb571",
+    "jarFileModificationDate": "2013-04-07T18:54:33+01:00",
+    "location": "/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jce.jar",
     "javaRuntime": true
+  },
+  {
+    "symbolicName": "jre",
+    "version": {
+      "major": 1,
+      "minor": 0,
+      "micro": 0,
+      "qualifier": ""
+    },
+    "jarFileFingerprint": "0999f1f3951d713e9a0d96f063f6f6e931589cdd",
+    "jarFileModificationDate": "2011-07-14T20:43:29+01:00",
+    "location": "/System/Library/Java/Extensions/vecmath.jar",
+    "javaRuntime": true
+  },
+  {
+    "symbolicName": "jre",
+    "version": {
+      "major": 1,
+      "minor": 0,
+      "micro": 0,
+      "qualifier": ""
+    },
+    "jarFileFingerprint": "ff9ef0f8ac62416c62c8bc4228c50ce95b3c58ae",
+    "jarFileModificationDate": "2013-04-21T14:13:23+01:00",
+    "location": "/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/lib/ext/dnsns.jar",
+    "javaRuntime": true
+  },
+  {
+    "symbolicName": "joda-time",
+    "version": {
+      "major": 2,
+      "minor": 1,
+      "micro": 0,
+      "qualifier": ""
+    },
+    "jarFileFingerprint": "8f79e353ef77da6710e1f10d34fc3698eaaacbca",
+    "jarFileModificationDate": "2013-03-17T14:53:57Z",
+    "location": "/Users/Josh/Documents/Manchester Uni/CS/Second Year/COMP23420/IBMS-Group-G7/Code/IBMS-Group-G7/lib/joda-time-2.1.jar",
+    "javaRuntime": false
   }
 ]
