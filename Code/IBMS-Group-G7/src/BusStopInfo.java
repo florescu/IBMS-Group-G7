@@ -255,9 +255,16 @@ public class BusStopInfo
     
     String[] result = new String[min];
     
-    for (int j=0; j<min; j++)
-  	  result[j] = service[j+currentIndex] + " " + time[j+currentIndex];
-    
+    for (int j=0; j<min; j++){
+      String  mins = "" + time[j+currentIndex]%60;
+
+      if(mins.length() < 2) mins = "0" + mins;
+
+  	  result[j] = service[j+currentIndex] + "           " + time[j+currentIndex]/60 + ":" 
+                                          + mins;
+    }
+
+     
     return result;
     
   }//display5Buses
