@@ -26,9 +26,9 @@ class ControllerAckScreen extends JFrame implements ActionListener{
   Color btnBgClr = new Color(245, 245, 245);
   Color btnFgClr = new Color(130, 130, 130);
  
-  public ControllerAckScreen(){
+  public ControllerAckScreen(String paramString){
 
-    this.setTitle("Acknowledge");
+    this.setTitle(paramString);
     
     //Create the menu bar
     mainMenuBar = new JMenuBar();
