@@ -8,7 +8,7 @@ class PassengerScreen extends JFrame implements ActionListener{
   //Declare the components 
   JLabel jLabelWelcome, jLabelChoose, titleLabel, timeLbl1, timeLbl2, timeLbl3, timeLbl4, timeLbl5;
   JLabel[] timeLbls;
-  JButton jBtnDriver, jBtnPassanger, refreshBtn;
+  JButton jBtnDriver, jBtnPassanger, refreshBtn, journeyPlannerBtn;
   JPanel contentPanel, jButtonsPanel;
   JComboBox JComboBoxBusList, JComboBoxRoutesList;
   String[] busStops;
@@ -70,6 +70,13 @@ class PassengerScreen extends JFrame implements ActionListener{
     refreshBtn.setBackground(btnBgClr);
     refreshBtn.setActionCommand("refresh");
     refreshBtn.addActionListener(this);
+    
+    journeyPlannerBtn = new JButton("Plan your journey");
+    journeyPlannerBtn.setForeground(btnFgClr);
+    journeyPlannerBtn.setBackground(btnBgClr);
+    journeyPlannerBtn.setActionCommand("planJourney");
+    journeyPlannerBtn.addActionListener(this);
+    
 
     titleLabel = new JLabel();
     timeLbl1 = new JLabel();
@@ -99,6 +106,7 @@ class PassengerScreen extends JFrame implements ActionListener{
  
     
     contentPanel.add(refreshBtn);
+    contentPanel.add(journeyPlannerBtn);
 
 
     //Resize and position the window
@@ -281,7 +289,14 @@ class PassengerScreen extends JFrame implements ActionListener{
       
       //   new PassengerScreen("G7 - IBMS System | Passenger - Information");
   
-    }else{
+    }
+    else if("planJourney".equals(paramActionEvent.getActionCommand())){
+
+      dispose();
+      new JourneyPlannerScreen("G7 - IBMS System | Passenger - Journey Planner");
+  
+    }
+    else{
        dispose();
        new PassengerScreen("G7 - IBMS System | Passenger - Information");
     }

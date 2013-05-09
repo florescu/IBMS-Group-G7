@@ -164,13 +164,15 @@ class JourneyPlannerScreen extends JFrame implements ActionListener{
 				time = time + Integer.parseInt(min[JComboBoxMinuteList.getSelectedIndex()]);
 				System.out.println(fromStop+" "+toStop+" "+ time);
 				Journey j = new Journey(fromStop, toStop, time);
-				this.messageTextArea.append(j.getMessage());
+				this.messageTextArea.setText(j.getMessage());
+				if (j.getMessage() == null)
+					this.messageTextArea.setText("There is no buses for the time you picked.");
 				System.out.println(j.getMessage());
 				this.pack();
 			}
 			catch(Exception e)
 			{
-				this.messageTextArea.append("There is no buses for the time you picked.");
+				this.messageTextArea.setText("There is no buses for the time you picked.");
 			}
 		}
 	}//actionPerformed
