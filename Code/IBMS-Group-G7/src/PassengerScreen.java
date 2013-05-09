@@ -171,7 +171,7 @@ class PassengerScreen extends JFrame implements ActionListener{
 
         System.out.println("Selected bus stop: " + stopID + " " + stopName);
 
-        titleLabel.setText("Service        Time");
+        titleLabel.setText("Service        Time         Special Message");
         titleLabel.setForeground(this.lblFgClr);
 
         System.out.println("Buses' time:");

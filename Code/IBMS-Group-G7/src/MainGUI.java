@@ -5,13 +5,13 @@ class MainGUI{
   public static void main(String[] paramArrayOfString){
 
     //Run the starting screen
-    //new WelcomeScreen(title);
+    new WelcomeScreen(title);
   
     //new ControllerAckScreen("Acknowledgement");
     //new ControllerCancelServiceViewScreen("");
     //new ControllerDriversViewScreen("");
     //new ControllerIdScreen("");
-    new ControllerProblemsViewScreen("");
+    //new ControllerProblemsViewScreen("");
     //new ControllerReportViewScreen("");
     //new ControllerRequestViewScreen("");
     //new ControllerSetDelayViewScreen("");

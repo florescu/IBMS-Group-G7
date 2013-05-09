@@ -254,14 +254,20 @@ public class BusStopInfo
     	min = 5;
     
     String[] result = new String[min];
+    String[] message = new String[min];
     
     for (int j=0; j<min; j++){
       String  mins = "" + time[j+currentIndex]%60;
 
       if(mins.length() < 2) mins = "0" + mins;
+      
+      if (Service.getMessage(service[j+currentIndex]).equals("nomessage"))
+      	message[j] = " ";
+      else 
+      	message[j] = Service.getMessage(service[j+currentIndex]);
 
   	  result[j] = service[j+currentIndex] + "           " + time[j+currentIndex]/60 + ":" 
-                                          + mins;
+                                          + mins + "           " + message[j];
     }
 
      
