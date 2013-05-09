@@ -214,7 +214,11 @@ public class Service
    */
   public static String getMessage(int service)
   {
-  	return database.busDatabase.get_string("service", service, "message");
+  	String message = database.busDatabase.get_string("service", service, "message");
+    if (message.length() == 0)
+      return "nomessage";
+    else
+      	return message;
   }
   
   /**
