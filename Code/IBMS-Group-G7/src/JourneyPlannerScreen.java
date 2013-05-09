@@ -4,183 +4,226 @@ import java.awt.event.*;
 import javax.swing.*;
 import org.joda.time.*;
 
-class JourneyPlannerScreen extends JFrame implements ActionListener{
+class JourneyPlannerScreen extends JFrame implements ActionListener {
 
-	//Declare the components 
-	JLabel jLabelWelcome, titleLabel, fromLabel, toLabel, atLabel, colonLabel;
-	JButton jBtnDriver, jBtnPassanger, goBtn;
-	JPanel contentPanel, selectPanel, destinationPanel, timePanel, topPanel;
-	JComboBox JComboBoxFromList, JComboBoxToList, JComboBoxHourList, JComboBoxMinuteList;
-	JTextArea messageTextArea;
-	String[] busStops;
-	String[] hour;
-	String[] min;
+    //Declare the components
+    JLabel  titleLabel, fromLabel, toLabel, atLabel, colonLabel, jLabelSelectedView;
+    JButton jBtnDriver, jBtnPassanger, goBtn;
+    JPanel contentPanel, selectPanel, destinationPanel, timePanel, topPanel;
+    JComboBox JComboBoxFromList, JComboBoxToList, JComboBoxHourList, JComboBoxMinuteList;
+    JTextArea messageTextArea;
+    String[] busStops;
+    String[] hour;
+    String[] min;
+    JMenuBar mainMenuBar;
+    JMenu jMenuFile, jMenuView;
+    JMenuItem jMItemSave, jMItemPrint, jMItemExit;
+    JMenuItem jMItemInformation, jMItemJourneyPlanner;
+    //Declare the colors
+    Color layoutBgClr = new Color(255, 255, 255);
+    Color lblFgClr = new Color(150, 150, 150);
+    Color btnBgClr = new Color(245, 245, 245);
+    Color btnFgClr = new Color(130, 130, 130);
 
-	//Declare the colors
-	Color layoutBgClr = new Color(255, 255, 255);
-	Color lblFgClr = new Color(150, 150, 150);
-	Color btnBgClr = new Color(245, 245, 245);
-	Color btnFgClr = new Color(130, 130, 130);
+    public JourneyPlannerScreen(String paramString) {
 
-	public JourneyPlannerScreen(String paramString){
+        this.setTitle(paramString);
 
-		this.setTitle(paramString);
+        database.openBusDatabase();
+        busStops = new String[]{"Stockport, Bus Station", "Stockport, Dialstone Lane/Hillcrest Road", "Stockport, Lower Bents Lane/Stockport Road",
+                    "Stockport, Asda/Sainsbury's", "Marple, Offerton Fold", "Marple, Navigation Hotel", "Marple, Norfolk Arms", "Strines, Royal Oak",
+                    "New Mills, Bus Station", "Low Leighton, Ollerset View Hospital", "Birch Vale, Grouse Hotel", "Hayfield, Bus Station", "Romiley, Corcoran Drive",
+                    "Romiley, Train Station"};
+        hour = new String[]{"00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"};
+        min = new String[]{"00", "15", "30", "45"};
 
-		database.openBusDatabase();
-		busStops = new String[]{"Stockport, Bus Station","Stockport, Dialstone Lane/Hillcrest Road","Stockport, Lower Bents Lane/Stockport Road",
-				"Stockport, Asda/Sainsbury's","Marple, Offerton Fold","Marple, Navigation Hotel","Marple, Norfolk Arms","Strines, Royal Oak",
-				"New Mills, Bus Station","Low Leighton, Ollerset View Hospital","Birch Vale, Grouse Hotel","Hayfield, Bus Station","Romiley, Corcoran Drive",
-		"Romiley, Train Station"};
-		hour = new String[]{"00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23"};
-		min = new String[]{"00","15","30","45"};
-
-		DateTime dt = new DateTime();
-		int theHour = dt.getHourOfDay();
-		int theMin = dt.getMinuteOfHour()/15;
-		
-		JComboBoxFromList = new JComboBox(busStops);
-		JComboBoxFromList.setEditable(false);
-		JComboBoxFromList.addActionListener(this);  
-
-		JComboBoxToList = new JComboBox(busStops);
-		JComboBoxToList.setEditable(false);
-		JComboBoxToList.addActionListener(this); 
-
-		JComboBoxHourList = new JComboBox(hour);
-		JComboBoxHourList.setEditable(false);
-		JComboBoxHourList.addActionListener(this); 
-		JComboBoxHourList.setSelectedIndex(theHour);
-
-		JComboBoxMinuteList = new JComboBox(min);
-		JComboBoxMinuteList.setEditable(false);
-		JComboBoxMinuteList.addActionListener(this); 
-		JComboBoxMinuteList.setSelectedIndex(theMin);
-
-		//Create the message text area
-		messageTextArea = new JTextArea("");
-		messageTextArea.setEditable(false);
-
-		//Create the content panel
-		contentPanel = new JPanel();
-		contentPanel.setPreferredSize(new Dimension(775, 200));
-		contentPanel.setLayout(new GridLayout(0,1));
-		contentPanel.setBackground(this.layoutBgClr);
-
-		//Create the select panel
-		selectPanel = new JPanel();
-		selectPanel.setLayout(new FlowLayout());
-		selectPanel.setBackground(this.layoutBgClr);
-
-		//Create the destination panel
-		destinationPanel = new JPanel();
-		destinationPanel.setLayout(new FlowLayout());
-		destinationPanel.setBackground(this.layoutBgClr);
-
-		//Create the time panel
-		timePanel = new JPanel();
-		timePanel.setLayout(new FlowLayout());
-		timePanel.setBackground(this.layoutBgClr);
-
-		//Create the top panel
-		topPanel = new JPanel();
-		topPanel.setLayout(new GridLayout(3,1));
-		topPanel.setBackground(this.layoutBgClr);
+        DateTime dt = new DateTime();
+        int theHour = dt.getHourOfDay();
+        int theMin = dt.getMinuteOfHour() / 15;
 
 
-		//Create the labels
-		jLabelWelcome = new JLabel("Welcome to G7 - IBMS System");
-		jLabelWelcome.setForeground(this.lblFgClr);
-		fromLabel = new JLabel("From:");
-		fromLabel.setForeground(this.lblFgClr);
-		toLabel = new JLabel("To:");
-		toLabel.setForeground(this.lblFgClr);
-		atLabel = new JLabel("at");
-		atLabel.setForeground(this.lblFgClr);
-		colonLabel = new JLabel(":");
-		colonLabel.setForeground(this.lblFgClr);
+        //Create the main menu bar
+        mainMenuBar = new JMenuBar();
+        mainMenuBar.setBackground(this.layoutBgClr);
 
-		//Align the labels
-		jLabelWelcome.setHorizontalAlignment(0);
+        //Create the two menus
+        jMenuFile = new JMenu("File");
+        jMenuFile.setMnemonic(KeyEvent.VK_F);
+        jMenuView = new JMenu("View");
+        jMenuView.setMnemonic(KeyEvent.VK_V);
 
-		goBtn = new JButton("Go");
-		goBtn.setForeground(btnFgClr);
-		goBtn.setBackground(btnBgClr);
-		goBtn.setActionCommand("go");
-		goBtn.addActionListener(this);
+        jLabelSelectedView = new JLabel("Selected View: Journey Planner");
+        jLabelSelectedView.setForeground(lblFgClr);
 
-		titleLabel = new JLabel();
+        //Add the two menus to the menu bar
+        mainMenuBar.add(jMenuFile);
+        mainMenuBar.add(jMenuView);
+        mainMenuBar.add(Box.createHorizontalGlue());
+        mainMenuBar.add(jLabelSelectedView);
 
-		//Add the components to the content panel
-		topPanel.add(this.jLabelWelcome);
-		destinationPanel.add(this.fromLabel);
-		destinationPanel.add(this.JComboBoxFromList);
-		destinationPanel.add(this.toLabel);
-		destinationPanel.add(this.JComboBoxToList);
-		timePanel.add(this.atLabel);
-		timePanel.add(this.JComboBoxHourList);
-		timePanel.add(this.colonLabel);
-		timePanel.add(this.JComboBoxMinuteList);
-		topPanel.add(this.destinationPanel);
-		selectPanel.add(this.timePanel);
-		selectPanel.add(goBtn);
-		topPanel.add(this.selectPanel);
-		contentPanel.add(this.topPanel);
-		contentPanel.add(this.messageTextArea);
+        //Create the menu items
+        jMItemSave = new JMenuItem("Save");
+        jMItemPrint = new JMenuItem("Print");
+        jMItemExit = new JMenuItem("Exit", KeyEvent.VK_X);
+        jMItemExit.setActionCommand("exit");
+        jMItemExit.addActionListener(this);
+
+        jMItemInformation = new JMenuItem("Information", KeyEvent.VK_I);
+        jMItemInformation.setActionCommand("info");
+        jMItemInformation.addActionListener(this);
+
+        jMItemJourneyPlanner = new JMenuItem("Journey Planner", KeyEvent.VK_J);
+        jMItemJourneyPlanner.setActionCommand("jplanner");
+        jMItemJourneyPlanner.addActionListener(this);
 
 
-		//Resize and position the window
-		Dimension localDimension = Toolkit.getDefaultToolkit().getScreenSize();
+        JComboBoxFromList = new JComboBox(busStops);
+        JComboBoxFromList.setEditable(false);
+        JComboBoxFromList.addActionListener(this);
 
-		int i = getSize().width;
-		int j = getSize().height;
-		int k = (localDimension.width - i) / 2 - 300;
-		int m = (localDimension.height - j) / 2 - 150;
+        JComboBoxToList = new JComboBox(busStops);
+        JComboBoxToList.setEditable(false);
+        JComboBoxToList.addActionListener(this);
 
-		this.setResizable(true);
+        JComboBoxHourList = new JComboBox(hour);
+        JComboBoxHourList.setEditable(false);
+        JComboBoxHourList.addActionListener(this);
+        JComboBoxHourList.setSelectedIndex(theHour);
 
-		//Locate the window
-		this.setLocation(k, m);
+        JComboBoxMinuteList = new JComboBox(min);
+        JComboBoxMinuteList.setEditable(false);
+        JComboBoxMinuteList.addActionListener(this);
+        JComboBoxMinuteList.setSelectedIndex(theMin);
 
-		this.setContentPane(this.contentPanel);
-		this.pack();
-		this.setVisible(true);
+        //Create the message text area
+        messageTextArea = new JTextArea("");
+        messageTextArea.setEditable(false);
 
-		//Define the action on closing the window
-		addWindowListener(new WindowAdapter(){
+        //Create the content panel
+        contentPanel = new JPanel();
+        contentPanel.setPreferredSize(new Dimension(775, 200));
+        contentPanel.setLayout(new GridLayout(0, 1));
+        contentPanel.setBackground(this.layoutBgClr);
 
-			public void windowClosing(WindowEvent paramAnonymousWindowEvent){
-				System.exit(0);
-			}//windowClosing
-		});//addWindowListener
+        //Create the select panel
+        selectPanel = new JPanel();
+        selectPanel.setLayout(new FlowLayout());
+        selectPanel.setBackground(this.layoutBgClr);
 
-	}//constructor
+        //Create the destination panel
+        destinationPanel = new JPanel();
+        destinationPanel.setLayout(new FlowLayout());
+        destinationPanel.setBackground(this.layoutBgClr);
 
-	//Catch the click events
-	public void actionPerformed(ActionEvent paramActionEvent)
-	{
+        //Create the time panel
+        timePanel = new JPanel();
+        timePanel.setLayout(new FlowLayout());
+        timePanel.setBackground(this.layoutBgClr);
 
-		String actionCmd = paramActionEvent.getActionCommand();
-		if(actionCmd.equals("go"))
-		{
-			try
-			{
-				int fromStop = JComboBoxFromList.getSelectedIndex();
-				int toStop = JComboBoxToList.getSelectedIndex();
-				int time = Integer.parseInt(hour[JComboBoxHourList.getSelectedIndex()])*60;
-				time = time + Integer.parseInt(min[JComboBoxMinuteList.getSelectedIndex()]);
-				Journey j = new Journey(fromStop, toStop, time);
-				this.messageTextArea.setText(j.getMessage());
-				if (j.getMessage() == null)
-					this.messageTextArea.setText("There is no buses for the time you picked.");
-				this.pack();
-			}
-			catch(Exception e)
-			{
-				this.messageTextArea.setText("There is no buses for the time you picked.");
-			}
-		}
-	}//actionPerformed
+        //Create the top panel
+        topPanel = new JPanel();
+        topPanel.setLayout(new GridLayout(3, 1));
+        topPanel.setBackground(this.layoutBgClr);
 
 
+        //Create the labels
+        fromLabel = new JLabel("From:");
+        fromLabel.setForeground(this.lblFgClr);
+        toLabel = new JLabel("To:");
+        toLabel.setForeground(this.lblFgClr);
+        atLabel = new JLabel("at");
+        atLabel.setForeground(this.lblFgClr);
+        colonLabel = new JLabel(":");
+        colonLabel.setForeground(this.lblFgClr);
 
+
+        goBtn = new JButton("Go");
+        goBtn.setForeground(btnFgClr);
+        goBtn.setBackground(btnBgClr);
+        goBtn.setActionCommand("go");
+        goBtn.addActionListener(this);
+
+        titleLabel = new JLabel();
+
+        //Add the components to the content panel
+        destinationPanel.add(this.fromLabel);
+        destinationPanel.add(this.JComboBoxFromList);
+        destinationPanel.add(this.toLabel);
+        destinationPanel.add(this.JComboBoxToList);
+        timePanel.add(this.atLabel);
+        timePanel.add(this.JComboBoxHourList);
+        timePanel.add(this.colonLabel);
+        timePanel.add(this.JComboBoxMinuteList);
+        topPanel.add(this.destinationPanel);
+        selectPanel.add(this.timePanel);
+        selectPanel.add(goBtn);
+        topPanel.add(this.selectPanel);
+        contentPanel.add(this.topPanel);
+        contentPanel.add(this.messageTextArea);
+
+
+        //Add the items to the menus
+        jMenuFile.add(this.jMItemSave);
+        jMenuFile.add(this.jMItemPrint);
+        jMenuFile.add(this.jMItemExit);
+
+        jMenuView.add(this.jMItemInformation);
+        jMenuView.add(this.jMItemJourneyPlanner);
+
+        //Resize and position the window
+        Dimension localDimension = Toolkit.getDefaultToolkit().getScreenSize();
+
+        int i = getSize().width;
+        int j = getSize().height;
+        int k = (localDimension.width - i) / 2 - 300;
+        int m = (localDimension.height - j) / 2 - 150;
+
+        this.setResizable(true);
+
+
+        //Locate the window
+        this.setLocation(k, m);
+        this.setJMenuBar(this.mainMenuBar);
+        this.setContentPane(this.contentPanel);
+        this.pack();
+        this.setVisible(true);
+
+        //Define the action on closing the window
+        addWindowListener(new WindowAdapter() {
+
+            public void windowClosing(WindowEvent paramAnonymousWindowEvent) {
+                System.exit(0);
+            }//windowClosing
+        });//addWindowListener
+
+    }//constructor
+
+    //Catch the click events
+    public void actionPerformed(ActionEvent paramActionEvent) {
+
+        String actionCmd = paramActionEvent.getActionCommand();
+        if (actionCmd.equals("go")) {
+            try {
+                int fromStop = JComboBoxFromList.getSelectedIndex();
+                int toStop = JComboBoxToList.getSelectedIndex();
+                int time = Integer.parseInt(hour[JComboBoxHourList.getSelectedIndex()]) * 60;
+                time = time + Integer.parseInt(min[JComboBoxMinuteList.getSelectedIndex()]);
+                Journey j = new Journey(fromStop, toStop, time);
+                this.messageTextArea.setText(j.getMessage());
+                if (j.getMessage() == null) {
+                    this.messageTextArea.setText("There is no buses for the time you picked.");
+                }
+                this.pack();
+            } catch (Exception e) {
+                this.messageTextArea.setText("There is no buses for the time you picked.");
+            }
+        } else if ("jplanner".equals(paramActionEvent.getActionCommand())) {
+            dispose();
+            new JourneyPlannerScreen("G7 - IBMS System | Passenger - Journey Planner");
+
+        } else if ("info".equals(paramActionEvent.getActionCommand())) {
+            dispose();
+            new PassengerScreen("G7 - IBMS System | Passenger - Information");
+        }
+    }//actionPerformed
 }
