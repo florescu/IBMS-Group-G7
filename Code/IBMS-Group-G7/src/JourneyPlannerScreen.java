@@ -1,8 +1,8 @@
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
 import javax.swing.*;
+import org.joda.time.*;
 
 class JourneyPlannerScreen extends JFrame implements ActionListener{
 
@@ -34,6 +34,10 @@ class JourneyPlannerScreen extends JFrame implements ActionListener{
 		hour = new String[]{"00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23"};
 		min = new String[]{"00","15","30","45"};
 
+		DateTime dt = new DateTime();
+		int theHour = dt.getHourOfDay();
+		int theMin = dt.getMinuteOfHour()/15;
+		
 		JComboBoxFromList = new JComboBox(busStops);
 		JComboBoxFromList.setEditable(false);
 		JComboBoxFromList.addActionListener(this);  
@@ -44,11 +48,13 @@ class JourneyPlannerScreen extends JFrame implements ActionListener{
 
 		JComboBoxHourList = new JComboBox(hour);
 		JComboBoxHourList.setEditable(false);
-		JComboBoxHourList.addActionListener(this);  
+		JComboBoxHourList.addActionListener(this); 
+		JComboBoxHourList.setSelectedIndex(theHour);
 
 		JComboBoxMinuteList = new JComboBox(min);
 		JComboBoxMinuteList.setEditable(false);
 		JComboBoxMinuteList.addActionListener(this); 
+		JComboBoxMinuteList.setSelectedIndex(theMin);
 
 		//Create the message text area
 		messageTextArea = new JTextArea("");
@@ -162,12 +168,10 @@ class JourneyPlannerScreen extends JFrame implements ActionListener{
 				int toStop = JComboBoxToList.getSelectedIndex();
 				int time = Integer.parseInt(hour[JComboBoxHourList.getSelectedIndex()])*60;
 				time = time + Integer.parseInt(min[JComboBoxMinuteList.getSelectedIndex()]);
-				System.out.println(fromStop+" "+toStop+" "+ time);
 				Journey j = new Journey(fromStop, toStop, time);
 				this.messageTextArea.setText(j.getMessage());
 				if (j.getMessage() == null)
 					this.messageTextArea.setText("There is no buses for the time you picked.");
-				System.out.println(j.getMessage());
 				this.pack();
 			}
 			catch(Exception e)
